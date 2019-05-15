@@ -89,8 +89,8 @@
 		A03E2D3D2289A80900CD9DF6 /* models */ = {
 			isa = PBXGroup;
 			children = (
-				A03E2D2422896D1E00CD9DF6 /* ListOfGalleries.m */,
 				A03E2D2322896D1E00CD9DF6 /* ListOfGalleries.h */,
+				A03E2D2422896D1E00CD9DF6 /* ListOfGalleries.m */,
 				A0147FF122817D4F00A4D94F /* Gallery.h */,
 				A0147FF222817D4F00A4D94F /* Gallery.m */,
 				A0147FF42282B21C00A4D94F /* Photo.h */,

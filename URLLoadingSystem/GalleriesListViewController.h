@@ -14,10 +14,8 @@
 
 @interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
-
 @property (strong, nonatomic) ListOfGalleries *listOfGalleries;
-@property (strong, nonatomic) Gallery *selectedGallery;
+
 
 @end
 

@@ -16,7 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) Gallery *gallery;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
 
 NS_ASSUME_NONNULL_END

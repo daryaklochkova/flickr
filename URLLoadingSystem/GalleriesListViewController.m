@@ -9,7 +9,8 @@
 #import "GalleriesListViewController.h"
 
 @interface GalleriesListViewController ()
-
+@property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
+@property (strong, nonatomic) Gallery *selectedGallery;
 @end
 
 @implementation GalleriesListViewController
@@ -51,7 +52,7 @@
     
     if (cell && [cell isKindOfClass:[GalleryCell class]]){
         GalleryCell * galleryCell = (GalleryCell *)cell;
-        Gallery *gallery = [self.listOfGalleries.galleries objectAtIndex:[indexPath indexAtPosition:1]];
+        Gallery *gallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
         UIImage *image = [[UIImage alloc] initWithContentsOfFile:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
         
         if (image) {
@@ -66,7 +67,7 @@
     
     GalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GalleryCell" forIndexPath:indexPath];
     
-    Gallery *gallery = [self.listOfGalleries.galleries objectAtIndex:[indexPath indexAtPosition:1]];
+    Gallery *gallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
     
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
     
@@ -82,7 +83,7 @@
 
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.listOfGalleries.galleries.count;
+    return [self.listOfGalleries countOfGalleries];
 }
 
 
@@ -96,7 +97,7 @@
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
-    self.selectedGallery = [self.listOfGalleries.galleries objectAtIndex:[indexPath indexAtPosition:1]];
+    self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
 }
 
 

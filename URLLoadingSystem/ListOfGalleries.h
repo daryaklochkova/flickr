@@ -16,13 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 extern NSNotificationName const primaryPhotoDownloadComplite;
 extern NSString *const galleryIndex;
 
-@interface ListOfGalleries : NSObject 
-
-@property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
-
-@property (strong, nonatomic) GetListOfGalleriesRequest *request;
+@interface ListOfGalleries : NSObject // TODO impliment protocol <NSFastEnumeration>
 
 - (void)getListOfGalleries;
+- (void)addGallery:(Gallery *)gallery;
+- (Gallery *)getGalleryAtIndex:(NSInteger) index;
+- (NSInteger)countOfGalleries;
 
 @end
 

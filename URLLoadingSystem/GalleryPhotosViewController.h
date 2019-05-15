@@ -17,10 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) Gallery *gallery;
 
-@property (weak, nonatomic) IBOutlet UICollectionView *galleryCollectionView;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UINavigationItem *galleryTitle;
-
 @end
 
 NS_ASSUME_NONNULL_END

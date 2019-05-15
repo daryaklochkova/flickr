@@ -11,6 +11,14 @@
 NSNotificationName const primaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
 NSString *const galleryIndex = @"galleryIndex";
 
+
+@interface ListOfGalleries ()
+
+@property (strong, nonatomic) GetListOfGalleriesRequest *request;
+@property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
+
+@end
+
 @implementation ListOfGalleries
 
 - (instancetype)init{
@@ -43,6 +51,7 @@ NSString *const galleryIndex = @"galleryIndex";
     });
 }
 
+
 - (void)downloadPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger) index{
     NSDictionary *dictionary = @{locationKey:[gallery getLocalPathForPrimaryPhoto], galleryIndex:[NSNumber numberWithInteger:index]};
     
@@ -71,5 +80,20 @@ NSString *const galleryIndex = @"galleryIndex";
     [networkManager fetchDataFromURL:url using:completionHandler];
 }
 
+#pragma MARK - work with galleries
+
+- (void)addGallery:(Gallery *)gallery{
+    @synchronized (self) {
+        [self.galleries addObject:gallery];
+    }
+}
+
+- (NSInteger)countOfGalleries{
+    return self.galleries.count;
+}
+
+- (Gallery *)getGalleryAtIndex:(NSInteger) index{
+    return [self.galleries objectAtIndex:index];
+}
 
 @end

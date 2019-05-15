@@ -24,14 +24,12 @@ extern NSNotificationName const PhotosInformationReceived;
 
 @property (strong, nonatomic) NSArray<Photo *> *photos;
 
+@property (strong, nonatomic) Photo *primaryPhoto;
+@property (strong, nonatomic) NSString *title;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) NSInteger selectedImageIndex;
 @property (strong, nonatomic, readonly) NSString *galleryID;
-@property (strong, nonatomic) Photo *primaryPhoto;
-@property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic, readonly) NSString *folderPath;
-
-@property (strong, nonatomic, readonly) GetPhotosFromGalleryRequest *request;
 
 - (void)getPhotos;
 - (instancetype)initWithGalleryID:(NSString *) galleryID;

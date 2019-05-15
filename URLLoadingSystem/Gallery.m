@@ -12,6 +12,8 @@
 
 @property (strong, nonatomic) NSMutableArray<Photo *> *mutablePhotos;
 
+@property (strong, nonatomic, readonly) GetPhotosFromGalleryRequest *request;
+
 @end
 
 @implementation Gallery

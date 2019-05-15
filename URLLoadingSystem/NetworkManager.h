@@ -12,9 +12,9 @@
 typedef void(^SessionDataTaskCallBack)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 typedef void(^SessionDownloadTaskCallBack)(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error);
 
+
+
 NS_ASSUME_NONNULL_BEGIN
-
-
 
 @interface NetworkManager : NSObject <NSURLSessionDelegate>
 
@@ -25,7 +25,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)createConnection;
 - (void)fetchDataFromURL:(NSURL *) url using:(SessionDataTaskCallBack) completionHandler;
 - (void) downloadData:(NSURL *) url using:(SessionDownloadTaskCallBack) completionHandler;
+
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
++ (instancetype)new UNAVAILABLE_ATTRIBUTE;
 
 @end
 

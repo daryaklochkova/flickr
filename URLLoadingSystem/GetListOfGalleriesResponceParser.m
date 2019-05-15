@@ -29,7 +29,7 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesIsReciewed";
     if ([elementName isEqualToString:@"gallery"]){
         self.currentGallery = [[Gallery alloc] initWithGalleryID:[attributeDict objectForKey:@"gallery_id"]];
         self.currentGallery.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:attributeDict];
-        [self.listOfGalleries.galleries addObject:self.currentGallery];
+        [self.listOfGalleries addGallery:self.currentGallery];
     }
     
     if ([elementName isEqualToString:@"title"]){
