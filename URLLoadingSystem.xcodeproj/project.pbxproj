@@ -29,7 +29,6 @@
 		A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A20228D379A009BF7BA /* JSONParser.m */; };
 		A05C2A24228D3FD7009BF7BA /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A23228D3FD7009BF7BA /* XMLParser.m */; };
 		A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */; };
-		A05C2A31228D6789009BF7BA /* FlickrRemoteDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A30228D6789009BF7BA /* FlickrRemoteDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,8 +76,6 @@
 		A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetPhotosResponseParser.m; sourceTree = "<group>"; };
 		A05C2A2C228D5215009BF7BA /* ResponseParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseParser.h; sourceTree = "<group>"; };
 		A05C2A2D228D542C009BF7BA /* ResponseDataHandler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseDataHandler.h; sourceTree = "<group>"; };
-		A05C2A2F228D6789009BF7BA /* FlickrRemoteDataManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrRemoteDataManager.h; sourceTree = "<group>"; };
-		A05C2A30228D6789009BF7BA /* FlickrRemoteDataManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrRemoteDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,8 +116,6 @@
 				A0147FF222817D4F00A4D94F /* Gallery.m */,
 				A0147FF42282B21C00A4D94F /* Photo.h */,
 				A0147FF52282B21C00A4D94F /* Photo.m */,
-				A05C2A2F228D6789009BF7BA /* FlickrRemoteDataManager.h */,
-				A05C2A30228D6789009BF7BA /* FlickrRemoteDataManager.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -270,7 +265,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A05C2A31228D6789009BF7BA /* FlickrRemoteDataManager.m in Sources */,
 				A0147FF62282B21D00A4D94F /* Photo.m in Sources */,
 				A03E2D2822896E6200CD9DF6 /* FlickrRequest.m in Sources */,
 				A055BEF722801A2F00400256 /* NetworkManager.m in Sources */,
