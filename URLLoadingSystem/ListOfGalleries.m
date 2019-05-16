@@ -64,7 +64,7 @@ NSString *const galleryIndex = @"galleryIndex";
 - (void)getListOfGalleries{
     NSURL *url = [self.request createRequest];
     NetworkManager *networkManager = [NetworkManager defaultNetworkManager];
-    GetListOfGalleriesResponceParser *parser = [[GetListOfGalleriesResponceParser alloc] initWithListOfGalleries:self];
+    GetListOfGalleriesResponseParser *parser = [[GetListOfGalleriesResponseParser alloc] initWithListOfGalleries:self];
     
     SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         

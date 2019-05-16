@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 extern NSNotificationName const ListOfGalleriesRecieved;
 
-@interface GetListOfGalleriesResponceParser : NSObject <NSXMLParserDelegate>
+@interface GetListOfGalleriesResponseParser : NSObject <NSXMLParserDelegate>
 
 @property (weak, nonatomic) ListOfGalleries *listOfGalleries;
 

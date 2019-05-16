@@ -6,11 +6,11 @@
 //  Copyright © 2019 Darya Klochkova. All rights reserved.
 //
 
-#import "GetListOfGalleriesResponceParser.h"
+#import "GetListOfGalleriesResponseParser.h"
 
 NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesIsReciewed";
 
-@implementation GetListOfGalleriesResponceParser
+@implementation GetListOfGalleriesResponseParser
 
 - (instancetype)initWithListOfGalleries:(ListOfGalleries *)listOfGalleries{
     self = [super init];
@@ -22,10 +22,8 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesIsReciewed";
     return self;
 }
 
-#pragma mark - NSXMLParser Delegate
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
-{
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
     if ([elementName isEqualToString:@"gallery"]){
         self.currentGallery = [[Gallery alloc] initWithGalleryID:[attributeDict objectForKey:@"gallery_id"]];
         self.currentGallery.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:attributeDict];

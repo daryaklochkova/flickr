@@ -17,6 +17,7 @@
         _serverURL = [NSURL URLWithString:@"https://www.flickr.com/services/rest/"];
         _apiKey = @"85974c3f3e4f62fd98efb4422277c008";
         _method = method;
+        _format = @"rest";
     }
     
     return self;

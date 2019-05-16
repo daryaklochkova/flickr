@@ -10,6 +10,10 @@
 #import "NetworkManager.h"
 #import "Photo.h"
 #import "GetPhotosFromGalleryRequest.h"
+#import "ResponseDataHandler.h"
+#import "XMLParser.h"
+#import "GetPhotosResponseParser.h"
+#import "ResponseParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,7 +24,9 @@ extern NSString * const photoIndex;
 extern NSNotificationName const GalleryWasUpdateNotification;
 extern NSNotificationName const PhotosInformationReceived;
 
-@interface Gallery : NSObject <NSXMLParserDelegate>
+
+
+@interface Gallery : NSObject <GetPhotoResponseDataHandler>
 
 @property (strong, nonatomic) NSArray<Photo *> *photos;
 

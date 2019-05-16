@@ -11,9 +11,9 @@
 @implementation NetworkManager
 
 + (instancetype) defaultNetworkManager {
-    static dispatch_once_t pred = 0;
+    static dispatch_once_t once = 0;
     static id _sharedObject = nil;
-    dispatch_once(&pred, ^{
+    dispatch_once(&once, ^{
         _sharedObject = [[self alloc] init];
     });
     return _sharedObject;

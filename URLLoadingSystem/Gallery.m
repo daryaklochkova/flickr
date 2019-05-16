@@ -104,16 +104,20 @@ NSString * const photoIndex = @"photoIndex";
     @synchronized (self) {
         self.mutablePhotos = [NSMutableArray array];
     }
-
+    
     NSURL *url = [self.request createRequest];
     NetworkManager *networkManager = [NetworkManager defaultNetworkManager];
     
-    SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
-        [nsXmlParser setDelegate:self];
+    SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {        
+        
+        XMLParser *xmlParser = [[XMLParser alloc] init];
+        GetPhotosResponseParser *getPhotoResponse = [[GetPhotosResponseParser alloc] init];
+        getPhotoResponse.dataHandler = self;
+        
+        xmlParser.response = getPhotoResponse;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [nsXmlParser parse];
+            [xmlParser parse:data];
         });
     };
     
@@ -121,20 +125,17 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-#pragma mark - NSXMLParser Delegate
+#pragma mark - GetPhotoResponseDataHandler Protocol
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict
-{
+- (void)addPhoto:(NSDictionary *)photoAttributes{
     @synchronized (self) {
-        if ([elementName isEqualToString:@"photo"]){
-            Photo *photo = [[Photo alloc] initWithDictionary:attributeDict];
-            [self.mutablePhotos addObject:photo];
-        }
+        Photo *photo = [[Photo alloc] initWithDictionary:photoAttributes];
+        [self.mutablePhotos addObject:photo];
     }
 }
 
 
-- (void)parserDidEndDocument:(NSXMLParser *)parser{
+- (void)allElementsParsed{
     
     self.photos = [self.mutablePhotos copy];
     

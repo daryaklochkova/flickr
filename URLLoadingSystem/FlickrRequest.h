@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSURL *serverURL;
 @property (strong, nonatomic, readonly) NSString *apiKey;
 @property (strong, nonatomic, readonly) NSString *method;
+@property (strong, nonatomic, readonly) NSString *format;
 
 
 - (instancetype)initWithMethod:(NSString *)method;

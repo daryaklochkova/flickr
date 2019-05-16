@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Gallery.h"
 #import "GetListOfGalleriesRequest.h"
-#import "GetListOfGalleriesResponceParser.h"
+#import "GetListOfGalleriesResponseParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
