@@ -8,16 +8,17 @@
 
 #import "FlickrRequest.h"
 
+
 @implementation FlickrRequest
 
-- (instancetype)initWithMethod:(NSString *)method and:(Format)format{
+- (instancetype)initWithMethod:(NSString *)method{
     self = [super init];
     
     if (self) {
         _serverURL = [NSURL URLWithString:@"https://www.flickr.com/services/rest/"];
         _apiKey = @"85974c3f3e4f62fd98efb4422277c008";
         _method = method;
-        _format = format;
+        _format = JSONFormat;
     }
     
     return self;
@@ -46,6 +47,39 @@
             break;
         case XMLFormat:
             return @"rest";
+            break;
+        default:
+            return nil;
+            break;
+    }
+}
+
+
+- (void)sendRequest{
+    NSURL *url = [self createRequest];
+    NetworkManager *networkManager = [NetworkManager defaultNetworkManager];
+
+    SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+
+        id<Parser> parser = [self getParser];
+        parser.responseParser = self.responseParser;
+
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+           [parser parse:data];
+        });
+    };
+
+    [networkManager fetchDataFromURL:url using:completionHandler];
+}
+
+
+- (id<Parser>)getParser{
+    switch (self.format) {
+        case JSONFormat:
+            return [[JSONParser alloc] init];
+            break;
+        case XMLFormat:
+            return [[XMLParser alloc] init];
             break;
         default:
             return nil;

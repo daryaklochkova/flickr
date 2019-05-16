@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Gallery.h"
 
 typedef void(^SessionDataTaskCallBack)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
 typedef void(^SessionDownloadTaskCallBack)(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error);

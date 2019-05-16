@@ -10,11 +10,13 @@
 
 @implementation GetPhotosFromGalleryRequest
 
-- (instancetype)initWithGalleryID:(NSString *) galleryID and:(Format) format{
-    self = [super initWithMethod:@"flickr.galleries.getPhotos" and:format];
+- (instancetype)initWithGalleryID:(NSString *) galleryID and:(id <ResponseDataHandler>) dataHandler{
+    self = [super initWithMethod:@"flickr.galleries.getPhotos"];
     
     if (self) {
         _galleryID = galleryID;
+        self.responseParser = [[GetPhotosResponseParser alloc] init];
+        self.responseParser.dataHandler = dataHandler;
     }
     
     return self;

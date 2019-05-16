@@ -7,6 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NetworkManager.h"
+#import "JSONParser.h"
+#import "XMLParser.h"
+#import "ResponseParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,12 +24,13 @@ typedef enum{
 @property (strong, nonatomic, readonly) NSURL *serverURL;
 @property (strong, nonatomic, readonly) NSString *apiKey;
 @property (strong, nonatomic, readonly) NSString *method;
-@property (assign, nonatomic, readonly) Format *format;
+@property (assign, nonatomic, readonly) Format format;
+@property (strong, nonatomic) id<ResponseParser> responseParser;
 
 
-- (instancetype)initWithMethod:(NSString *)method and:(Format) format;
+- (instancetype)initWithMethod:(NSString *)method;
 - (NSURL *)createRequest;
-
+- (void)sendRequest;
 @end
 
 NS_ASSUME_NONNULL_END

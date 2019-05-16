@@ -7,6 +7,8 @@
 //
 
 #import "FlickrRequest.h"
+#import "GetPhotosResponseParser.h"
+#import "ResponseDataHandler.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) NSString *galleryID;
 
-- (instancetype)initWithGalleryID:(NSString *) galleryID and:(Format) format;
+- (instancetype)initWithGalleryID:(NSString *) galleryID and:(id<ResponseDataHandler>) dataHandler;
 @end
 
 NS_ASSUME_NONNULL_END

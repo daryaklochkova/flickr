@@ -103,6 +103,7 @@
 				A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */,
 				A05C2A2C228D5215009BF7BA /* ResponseParser.h */,
 				A05C2A2D228D542C009BF7BA /* ResponseDataHandler.h */,
+				A03E2D452289C7CB00CD9DF6 /* View */,
 			);
 			name = Parsers;
 			sourceTree = "<group>";
@@ -179,7 +180,6 @@
 			isa = PBXGroup;
 			children = (
 				A0109EF8228BFF280055F946 /* Parsers */,
-				A03E2D452289C7CB00CD9DF6 /* View */,
 				A03E2D402289A84800CD9DF6 /* controllers */,
 				A03E2D3F2289A83000CD9DF6 /* network */,
 				A03E2D3D2289A80900CD9DF6 /* models */,
