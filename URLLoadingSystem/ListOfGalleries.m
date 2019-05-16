@@ -26,7 +26,7 @@ NSString *const galleryIndex = @"galleryIndex";
     
     if (self) {
         self.galleries = [[NSMutableArray alloc] init];
-        self.request = [[GetListOfGalleriesRequest alloc] initWithUserID:@"66956608@N06"]; //26144115@N06
+        self.request = [[GetListOfGalleriesRequest alloc] initWithUserID:@"66956608@N06" and:XMLFormat]; //26144115@N06
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startDownloadPrimaryPhotos:) name:ListOfGalleriesRecieved object:nil];
     }

@@ -19,7 +19,7 @@
 #pragma mark - NSXMLParser Delegate
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
-    [self.response didStartElement:elementName attributes:attributeDict];
+    [self.responseParser didStartElement:elementName attributes:attributeDict];
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
@@ -30,11 +30,11 @@
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser{
-    [self.response didEndDocument];
+    [self.responseParser didEndDocument];
 }
 
 
 
-@synthesize response;
+@synthesize responseParser;
 
 @end

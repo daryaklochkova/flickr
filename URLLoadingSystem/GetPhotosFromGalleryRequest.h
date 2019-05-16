@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic, readonly) NSString *galleryID;
 
-- (instancetype)initWithGalleryID:(NSString *) galleryID;
+- (instancetype)initWithGalleryID:(NSString *) galleryID and:(Format) format;
 @end
 
 NS_ASSUME_NONNULL_END

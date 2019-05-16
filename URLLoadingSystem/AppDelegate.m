@@ -18,12 +18,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-//    NSURL *url = [NSURL URLWithString:@"https://api.flickr.com/services/rest/?method=flickr.galleries.getPhotos&api_key=85974c3f3e4f62fd98efb4422277c008&gallery_id=66911286-72157647277042064&format=json&nojsoncallback=1"];
-//    [[NetworkManager defaultNetworkManager] fetchDataFromURL:url using:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-//        JSONParser *parser = [[JSONParser alloc] init];
-//        [parser parse:data];
-//    }];
-    
     // Override point for customization after application launch.
     return YES;
 }

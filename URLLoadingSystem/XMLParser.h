@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface XMLParser : NSObject <Parser, NSXMLParserDelegate>
 
+
 @end
 
 NS_ASSUME_NONNULL_END

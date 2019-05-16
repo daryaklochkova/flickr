@@ -10,8 +10,8 @@
 
 @implementation GetListOfGalleriesRequest
 
-- (instancetype)initWithUserID:(NSString *) userID{
-    self = [super initWithMethod:@"flickr.galleries.getList"];
+- (instancetype)initWithUserID:(NSString *)userID and:(Format) format{
+    self = [super initWithMethod:@"flickr.galleries.getList" and:format];
     
     if (self) {
         _userID = userID;

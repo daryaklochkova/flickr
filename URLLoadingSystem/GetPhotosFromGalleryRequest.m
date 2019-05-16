@@ -10,8 +10,8 @@
 
 @implementation GetPhotosFromGalleryRequest
 
-- (instancetype)initWithGalleryID:(NSString *) galleryID{
-    self = [super initWithMethod:@"flickr.galleries.getPhotos"];
+- (instancetype)initWithGalleryID:(NSString *) galleryID and:(Format) format{
+    self = [super initWithMethod:@"flickr.galleries.getPhotos" and:format];
     
     if (self) {
         _galleryID = galleryID;

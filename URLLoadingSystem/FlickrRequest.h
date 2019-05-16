@@ -10,15 +10,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef enum{
+    JSONFormat,
+    XMLFormat
+} Format;
+
 @interface FlickrRequest : NSObject
 
 @property (strong, nonatomic, readonly) NSURL *serverURL;
 @property (strong, nonatomic, readonly) NSString *apiKey;
 @property (strong, nonatomic, readonly) NSString *method;
-@property (strong, nonatomic, readonly) NSString *format;
+@property (assign, nonatomic, readonly) Format *format;
 
 
-- (instancetype)initWithMethod:(NSString *)method;
+- (instancetype)initWithMethod:(NSString *)method and:(Format) format;
 - (NSURL *)createRequest;
 
 @end

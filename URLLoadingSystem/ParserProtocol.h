@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol Parser <NSObject>
 
-@property (strong, nonatomic) id<ResponseParser> response;
+@property (strong, nonatomic) id<ResponseParser> responseParser;
 
 - (void)parse:(NSData *) data;
 

@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSString *continuation;
 @property (strong, nonatomic, readonly) NSString *shortLimit;
 
-- (instancetype)initWithUserID:(NSString *) userID;
+- (instancetype)initWithUserID:(NSString *) userID and:(Format) format;
 @end
 
 NS_ASSUME_NONNULL_END

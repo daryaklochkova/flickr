@@ -14,6 +14,7 @@
 #import "XMLParser.h"
 #import "GetPhotosResponseParser.h"
 #import "ResponseParser.h"
+#import "JSONParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

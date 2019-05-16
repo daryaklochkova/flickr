@@ -29,7 +29,7 @@ NSString * const photoIndex = @"photoIndex";
     self = [super init];
     
     if (self) {
-        _request = [[GetPhotosFromGalleryRequest alloc] initWithGalleryID:galleryID];
+        _request = [[GetPhotosFromGalleryRequest alloc] initWithGalleryID:galleryID and:JSONFormat];
         _galleryID = galleryID;
         _folderPath = [self createGalleryFolder];
         self.mutablePhotos = [NSMutableArray array];
@@ -109,15 +109,16 @@ NSString * const photoIndex = @"photoIndex";
     NetworkManager *networkManager = [NetworkManager defaultNetworkManager];
     
     SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {        
-        
-        XMLParser *xmlParser = [[XMLParser alloc] init];
+
+        //XMLParser *parser = [[XMLParser alloc] init];
+        JSONParser *parser = [[JSONParser alloc] init];
         GetPhotosResponseParser *getPhotoResponse = [[GetPhotosResponseParser alloc] init];
         getPhotoResponse.dataHandler = self;
-        
-        xmlParser.response = getPhotoResponse;
-        
+
+        parser.responseParser = getPhotoResponse;
+                
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [xmlParser parse:data];
+            [parser parse:data];
         });
     };
     
