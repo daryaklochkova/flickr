@@ -1,5 +1,5 @@
 //
-//  PhotoProvider.h
+//  DataProvider.h
 //  URLLoadingSystem
 //
 //  Created by Darya Klochkova on 17/05/2019.

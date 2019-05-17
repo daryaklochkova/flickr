@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A009EFD1228E8EB800839F5D /* DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFD0228E8EB800839F5D /* DataProvider.m */; };
+		A009EFD3228ED83A00839F5D /* DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFD2228ED83A00839F5D /* DataProvider.m */; };
 		A0147FF322817D4F00A4D94F /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF222817D4F00A4D94F /* Gallery.m */; };
 		A0147FF62282B21D00A4D94F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF52282B21C00A4D94F /* Photo.m */; };
 		A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */; };
@@ -32,7 +32,7 @@
 
 /* Begin PBXFileReference section */
 		A009EFCF228E8EB800839F5D /* DataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataProvider.h; sourceTree = "<group>"; };
-		A009EFD0228E8EB800839F5D /* DataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataProvider.m; sourceTree = "<group>"; };
+		A009EFD2228ED83A00839F5D /* DataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataProvider.m; sourceTree = "<group>"; };
 		A0147FF122817D4F00A4D94F /* Gallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gallery.h; sourceTree = "<group>"; };
 		A0147FF222817D4F00A4D94F /* Gallery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Gallery.m; sourceTree = "<group>"; };
 		A0147FF42282B21C00A4D94F /* Photo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -112,7 +112,7 @@
 				A0147FF42282B21C00A4D94F /* Photo.h */,
 				A0147FF52282B21C00A4D94F /* Photo.m */,
 				A009EFCF228E8EB800839F5D /* DataProvider.h */,
-				A009EFD0228E8EB800839F5D /* DataProvider.m */,
+				A009EFD2228ED83A00839F5D /* DataProvider.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -266,10 +266,10 @@
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
 				A055BEDE228019ED00400256 /* AppDelegate.m in Sources */,
 				A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */,
+				A009EFD3228ED83A00839F5D /* DataProvider.m in Sources */,
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
 				A03E2D4E228B0F4300CD9DF6 /* AnimationControllers.m in Sources */,
 				A0147FF322817D4F00A4D94F /* Gallery.m in Sources */,
-				A009EFD1228E8EB800839F5D /* DataProvider.m in Sources */,
 				A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */,
 				A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */,
 				A055BEEF228019F100400256 /* main.m in Sources */,
