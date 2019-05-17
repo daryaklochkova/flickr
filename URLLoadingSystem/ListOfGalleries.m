@@ -8,39 +8,29 @@
 
 #import "ListOfGalleries.h"
 
-NSNotificationName const primaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
+NSNotificationName const PrimaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
 NSString *const galleryIndex = @"galleryIndex";
 
+NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 
 @interface ListOfGalleries ()
-
-@property (strong, nonatomic) GetListOfGalleriesRequest *request;
 @property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
-
 @end
 
 @implementation ListOfGalleries
 
-- (instancetype)init{
+- (instancetype)initWithUserID:(NSString *) userID{  
     self = [super init];
     
     if (self) {
         self.galleries = [[NSMutableArray alloc] init];
-        self.request = [[GetListOfGalleriesRequest alloc] initWithUserID:@"66956608@N06" and:self]; //26144115@N06
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startDownloadPrimaryPhotos:) name:ListOfGalleriesRecieved object:nil];
+        _userID = userID;
     }
     return self;
 }
 
 
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-
-- (void)startDownloadPrimaryPhotos:(NSNotification *) notification{
+- (void)startDownloadPrimaryPhotos{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
@@ -55,30 +45,25 @@ NSString *const galleryIndex = @"galleryIndex";
 - (void)downloadPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger) index{
     NSDictionary *dictionary = @{locationKey:[gallery getLocalPathForPrimaryPhoto], galleryIndex:[NSNumber numberWithInteger:index]};
     
-    NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:primaryPhotoDownloadComplite object:dictionary];
+    NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:PrimaryPhotoDownloadComplite object:dictionary];
     
     [gallery downloadPhoto:gallery.primaryPhoto sucsessNotification:fileDownloadCompliteNotification];
 }
 
 
-- (void)getListOfGalleries{
-    NSURL *url = [self.request createRequest];
-    NetworkManager *networkManager = [NetworkManager defaultNetworkManager];
-    GetListOfGalleriesResponseParser *parser = [[GetListOfGalleriesResponseParser alloc] initWithListOfGalleries:self];
+- (void)getListOfGalleriesUsing:(id<DataProviderProtocol>) dataProvider{
     
-    SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [dataProvider getGalleriesForUser:self.userID use:^(NSArray * _Nullable result) {
+        self.galleries = [NSMutableArray arrayWithArray:result];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:PhotosInformationReceived object:nil];
-            
-            NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
-            [nsXmlParser setDelegate:parser];
-            [nsXmlParser parse];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesRecieved object:nil];
         });
-    };
-    
-    [networkManager fetchDataFromURL:url using:completionHandler];
+        
+        [self startDownloadPrimaryPhotos];
+    }];
 }
+
 
 #pragma MARK - work with galleries
 
@@ -88,9 +73,11 @@ NSString *const galleryIndex = @"galleryIndex";
     }
 }
 
+
 - (NSInteger)countOfGalleries{
     return self.galleries.count;
 }
+
 
 - (Gallery *)getGalleryAtIndex:(NSInteger) index{
     return [self.galleries objectAtIndex:index];

@@ -7,49 +7,58 @@
 //
 
 #import "GetListOfGalleriesResponseParser.h"
+#import "Gallery.h"
 
-NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesIsReciewed";
+@interface GetListOfGalleriesResponseParser()
+
+@property (strong, nonatomic) NSMutableArray *galleries;
+
+@property (strong, nonatomic) NSString *currentElement;
+@property (strong, nonatomic) Gallery *currentGallery;
+
+@property (strong, nonatomic) ReturnResult completionHandler;
+@end
 
 @implementation GetListOfGalleriesResponseParser
 
-- (instancetype)initWithListOfGalleries:(ListOfGalleries *)listOfGalleries{
+- (instancetype)initWith:(ReturnResult) completionHandler;{
     self = [super init];
     
     if (self){
-        self.listOfGalleries = listOfGalleries;
+        self.completionHandler = completionHandler;
+        self.galleries = [NSMutableArray array];
     }
     
     return self;
 }
 
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
-    if ([elementName isEqualToString:@"gallery"]){
-        self.currentGallery = [[Gallery alloc] initWithGalleryID:[attributeDict objectForKey:@"gallery_id"]];
-        self.currentGallery.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:attributeDict];
-        [self.listOfGalleries addGallery:self.currentGallery];
-    }
-    
-    if ([elementName isEqualToString:@"title"]){
-        self.currentElement = elementName;
-    }
-}
-
-- (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
+- (void)foundCharacters:(NSString *)string{
     if ([self.currentElement isEqualToString:@"title"]){
         NSString *tmpString = [self.currentGallery.title stringByAppendingString:string];
         self.currentGallery.title = tmpString;
     }
 }
 
-- (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName namespaceURI:(nullable NSString *)namespaceURI qualifiedName:(nullable NSString *)qName{
+
+- (void)didEndElement:(NSString *)elementName{
     self.currentElement = @"";
 }
 
-- (void)parserDidEndDocument:(NSXMLParser *)parser{
-    dispatch_async(dispatch_get_main_queue(), ^{
-         [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesRecieved object:nil];
-    });
+
+- (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
+    if ([elementName isEqualToString:@"gallery"]){
+        self.currentGallery = [[Gallery alloc] initWithGalleryID:[attributeDict objectForKey:@"gallery_id"]];
+        self.currentGallery.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:attributeDict];
+        [self.galleries addObject:self.currentGallery];
+    }
+    
+    self.currentElement = elementName;
+}
+
+
+- (void)didEndDocument{
+    self.completionHandler(self.galleries);
 }
 
 @end

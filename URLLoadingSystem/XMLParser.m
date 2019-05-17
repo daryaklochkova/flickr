@@ -23,17 +23,24 @@
 }
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string{
-
+    if ([self.responseParser respondsToSelector:@selector(foundCharacters:)]){
+        [self.responseParser foundCharacters:string];
+    }
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName{
+    if ([self.responseParser respondsToSelector:@selector(didEndElement:)]){
+        [self.responseParser didEndElement:elementName];
+    }
 }
 
 - (void)parserDidEndDocument:(NSXMLParser *)parser{
     [self.responseParser didEndDocument];
 }
 
-
+- (Format)getFormatType{
+    return XMLFormat;
+}
 
 @synthesize responseParser;
 

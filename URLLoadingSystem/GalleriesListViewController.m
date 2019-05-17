@@ -22,9 +22,9 @@
 }
 
 - (void)loadListOfGalleries{
-    self.listOfGalleries = [[ListOfGalleries alloc] init];
+    self.listOfGalleries = [[ListOfGalleries alloc] initWithUserID:@"66956608@N06"];//26144115@N06 @"66956608@N06"
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.listOfGalleries getListOfGalleries];
+        [self.listOfGalleries getListOfGalleriesUsing:[[DataProvider alloc] initWithParser:[[JSONParser alloc]init]]];
     });
 }
 
@@ -33,7 +33,7 @@
                                                  name:ListOfGalleriesRecieved object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:)
-                                                 name:primaryPhotoDownloadComplite object:nil];    
+                                                 name:PrimaryPhotoDownloadComplite object:nil];    
 }
 
 - (void)dealloc{

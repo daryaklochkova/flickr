@@ -16,7 +16,6 @@
 
 @property (readonly, strong) NSPersistentContainer *persistentContainer;
 
-@property (strong, nonatomic) Gallery *gallery;
 
 - (void)saveContext;
 

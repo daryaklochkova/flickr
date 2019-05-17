@@ -18,15 +18,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Launch screen" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8cB-Bm-9gM">
-                                <rect key="frame" x="88" y="259" width="113" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="flickerLogo" translatesAutoresizingMaskIntoConstraints="NO" id="1dE-pE-gJz">
+                                <rect key="frame" x="98.666666666666686" y="376" width="217" height="154"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="154" id="4J6-qG-aMm"/>
+                                    <constraint firstAttribute="width" secondItem="1dE-pE-gJz" secondAttribute="height" multiplier="31:22" id="e0h-zp-e6p"/>
+                                    <constraint firstAttribute="width" constant="217" id="krO-0l-Euw"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="1dE-pE-gJz" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="1ma-TE-KTd"/>
+                            <constraint firstItem="1dE-pE-gJz" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="Arr-6n-ueV"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>
@@ -35,4 +40,7 @@
             <point key="canvasLocation" x="52.173913043478265" y="375"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="flickerLogo" width="770" height="646"/>
+    </resources>
 </document>

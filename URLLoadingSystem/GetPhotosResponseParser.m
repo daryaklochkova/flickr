@@ -7,24 +7,38 @@
 //
 
 #import "GetPhotosResponseParser.h"
+#import "Photo.h"
+
+@interface GetPhotosResponseParser()
+
+@property (strong, nonatomic) NSMutableArray<Photo *> *photos;
+@property (strong, nonatomic) ReturnResult completionHandler;
+
+@end
 
 @implementation GetPhotosResponseParser
 
 - (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
     if ([elementName isEqualToString:@"photo"]){
-        if ([self.dataHandler conformsToProtocol:@protocol(GetPhotoResponseDataHandler)]){
-            id <GetPhotoResponseDataHandler> getPhotoResponseDataHandler = (id <GetPhotoResponseDataHandler>)self.dataHandler;
-            [getPhotoResponseDataHandler addPhoto:attributeDict];
-        }
+        Photo *photo = [[Photo alloc] initWithDictionary:attributeDict];
+        [self.photos addObject:photo];
     }
 }
 
 - (void)didEndDocument {
-    [self.dataHandler allElementsParsed];
+    self.completionHandler(self.photos);
 }
 
+- (nonnull instancetype)initWith:(nonnull ReturnResult)completionHandler {
+    self = [super init];
+    
+    if(self){
+        self.completionHandler = completionHandler;
+        self.photos = [NSMutableArray array];
+    }
+    
+    return self;
+}
 
-
-@synthesize dataHandler;
 
 @end

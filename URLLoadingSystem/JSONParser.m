@@ -7,7 +7,6 @@
 //
 
 #import "JSONParser.h"
-
 @implementation JSONParser
 
 @synthesize responseParser;
@@ -29,6 +28,10 @@
         if ([obj isKindOfClass:[NSArray class]]){
             for (id elem in obj) {
                 [self.responseParser didStartElement:key attributes:elem];
+                
+                if ([elem isKindOfClass:[NSDictionary class]]){
+                    [self parseDictionary:elem];
+                }
             }
         }
         else {
@@ -36,12 +39,21 @@
         }
         
         if ([obj isKindOfClass:[NSDictionary class]]){
+            NSString * content = [(NSDictionary *)obj objectForKey:@"_content"];
+            if (content){
+                if ([self.responseParser respondsToSelector:@selector(foundCharacters:)]){
+                    [self.responseParser foundCharacters:content];
+                }
+            }
+            
             [self parseDictionary:obj];
         }
     }
 }
 
-
+- (Format)getFormatType{
+    return JSONFormat;
+}
 
 
 @end

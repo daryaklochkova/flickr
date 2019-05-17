@@ -9,6 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "ResponseParser.h"
 
+typedef enum{
+    JSONFormat,
+    XMLFormat
+} Format;
+
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol Parser <NSObject>
@@ -16,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<ResponseParser> responseParser;
 
 - (void)parse:(NSData *) data;
+- (Format)getFormatType;
 
 @end
 

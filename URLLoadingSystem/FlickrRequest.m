@@ -11,33 +11,45 @@
 
 @implementation FlickrRequest
 
-- (instancetype)initWithMethod:(NSString *)method{
+- (instancetype)initWithMethod:(NSString *)method andFormat:(Format) format{
     self = [super init];
     
     if (self) {
         _serverURL = [NSURL URLWithString:@"https://www.flickr.com/services/rest/"];
         _apiKey = @"85974c3f3e4f62fd98efb4422277c008";
         _method = method;
-        _format = JSONFormat;
+        _URL = [self createRequestWithFormat:format];
     }
     
     return self;
 }
 
-- (NSURL *)createRequest{
+- (NSURL *)createRequestWithFormat:(Format) format{
     NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:self.serverURL resolvingAgainstBaseURL:NO];
     NSURLQueryItem *method = [NSURLQueryItem queryItemWithName:@"method" value:self.method];
     NSURLQueryItem *apiKey = [NSURLQueryItem queryItemWithName:@"api_key" value:self.apiKey];
-    NSURLQueryItem *format = [NSURLQueryItem queryItemWithName:@"format" value: [self formatToNSString:self.format]];
+    NSURLQueryItem *formatItem = [NSURLQueryItem queryItemWithName:@"format" value: [self formatToNSString:format]];
     
     NSURLQueryItem *nojsoncallback = [[NSURLQueryItem alloc] init];
-    if (self.format == JSONFormat){
+    if (format == JSONFormat){
         nojsoncallback = [NSURLQueryItem queryItemWithName:@"nojsoncallback" value:@"1"];
     }
     
-    urlComponents.queryItems = @[method, apiKey, format, nojsoncallback];
+    urlComponents.queryItems = @[method, apiKey, formatItem, nojsoncallback];
     
     return urlComponents.URL;
+}
+
+- (void)addQueryItem:(NSString *) name value:(NSString *) value{
+    NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:self.URL resolvingAgainstBaseURL:NO];
+    NSURLQueryItem *item = [NSURLQueryItem queryItemWithName:name value:value];
+
+    NSMutableArray *queryItems = [NSMutableArray arrayWithArray:urlComponents.queryItems];
+    [queryItems addObject:item];
+    
+    urlComponents.queryItems = queryItems;
+    
+    _URL = urlComponents.URL;
 }
 
 - (NSString *)formatToNSString:(Format) format{
@@ -47,39 +59,6 @@
             break;
         case XMLFormat:
             return @"rest";
-            break;
-        default:
-            return nil;
-            break;
-    }
-}
-
-
-- (void)sendRequest{
-    NSURL *url = [self createRequest];
-    NetworkManager *networkManager = [NetworkManager defaultNetworkManager];
-
-    SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-
-        id<Parser> parser = [self getParser];
-        parser.responseParser = self.responseParser;
-
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-           [parser parse:data];
-        });
-    };
-
-    [networkManager fetchDataFromURL:url using:completionHandler];
-}
-
-
-- (id<Parser>)getParser{
-    switch (self.format) {
-        case JSONFormat:
-            return [[JSONParser alloc] init];
-            break;
-        case XMLFormat:
-            return [[XMLParser alloc] init];
             break;
         default:
             return nil;

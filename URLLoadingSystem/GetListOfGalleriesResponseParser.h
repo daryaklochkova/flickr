@@ -7,21 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ListOfGalleries.h"
+#import "ResponseParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@class ListOfGalleries;
 
-extern NSNotificationName const ListOfGalleriesRecieved;
 
-@interface GetListOfGalleriesResponseParser : NSObject <NSXMLParserDelegate>
-
-@property (weak, nonatomic) ListOfGalleries *listOfGalleries;
-
-@property (strong, nonatomic) NSString *currentElement;
-@property (strong, nonatomic) Gallery *currentGallery;
-
-- (instancetype)initWithListOfGalleries:(ListOfGalleries *)listOfGalleries;
+@interface GetListOfGalleriesResponseParser : NSObject <ResponseParser>
 
 @end
 

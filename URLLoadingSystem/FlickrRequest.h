@@ -8,29 +8,24 @@
 
 #import <Foundation/Foundation.h>
 #import "NetworkManager.h"
-#import "JSONParser.h"
-#import "XMLParser.h"
+#import "ParserProtocol.h"
 #import "ResponseParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum{
-    JSONFormat,
-    XMLFormat
-} Format;
 
 @interface FlickrRequest : NSObject
 
 @property (strong, nonatomic, readonly) NSURL *serverURL;
 @property (strong, nonatomic, readonly) NSString *apiKey;
 @property (strong, nonatomic, readonly) NSString *method;
-@property (assign, nonatomic, readonly) Format format;
-@property (strong, nonatomic) id<ResponseParser> responseParser;
+
+@property (strong, nonatomic, readonly) NSURL *URL;
 
 
-- (instancetype)initWithMethod:(NSString *)method;
-- (NSURL *)createRequest;
-- (void)sendRequest;
+- (instancetype)initWithMethod:(NSString *)method andFormat:(Format) format;
+- (void)addQueryItem:(NSString *) name value:(NSString *) value;
+
 @end
 
 NS_ASSUME_NONNULL_END

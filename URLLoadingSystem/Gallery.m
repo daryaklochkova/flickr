@@ -8,13 +8,6 @@
 
 #import "Gallery.h"
 
-@interface Gallery()
-
-@property (strong, nonatomic) NSMutableArray<Photo *> *mutablePhotos;
-
-@property (strong, nonatomic, readonly) GetPhotosFromGalleryRequest *request;
-
-@end
 
 @implementation Gallery
 
@@ -29,10 +22,8 @@ NSString * const photoIndex = @"photoIndex";
     self = [super init];
     
     if (self) {
-        _request = [[GetPhotosFromGalleryRequest alloc] initWithGalleryID:galleryID and:self];
         _galleryID = galleryID;
         _folderPath = [self createGalleryFolder];
-        self.mutablePhotos = [NSMutableArray array];
         self.currentPage = 0;
         self.title = [[NSString alloc] init];
     }
@@ -42,9 +33,20 @@ NSString * const photoIndex = @"photoIndex";
 
 
 - (NSString *)nextImage{
-    NSInteger newImageIndex = self.selectedImageIndex + 1;
     
+    NSInteger newImageIndex = self.selectedImageIndex + 1;
     if (newImageIndex  < self.photos.count){
+        self.selectedImageIndex = newImageIndex;
+    }
+    
+    Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
+    return [self getLocalPathForPhoto:selectedPhoto];
+}
+
+- (NSString *)previousImage{
+    
+    NSInteger newImageIndex = self.selectedImageIndex - 1;
+    if (newImageIndex >= 0){
         self.selectedImageIndex = newImageIndex;
     }
     
@@ -57,26 +59,17 @@ NSString * const photoIndex = @"photoIndex";
     return self.photos.count;
 }
 
-- (NSString *)previousImage{
-    NSInteger newImageIndex = self.selectedImageIndex - 1;
-    
-    if (newImageIndex >= 0){
-        self.selectedImageIndex = newImageIndex;
-    }
-    
-    Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
-    return [self getLocalPathForPhoto:selectedPhoto];
-}
-
 
 - (NSString *)getLocalPathForPhoto:(Photo *)photo{
     NSString *localPath = [self.folderPath stringByAppendingPathComponent:photo.name];
     return localPath;
 }
 
+
 - (NSString *)getLocalPathForPrimaryPhoto{
     return [self getLocalPathForPhoto:self.primaryPhoto];
 }
+
 
 - (NSString *)createGalleryFolder{
  
@@ -95,34 +88,19 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (NSInteger)nextPage{
-    return self.currentPage + 1;
-}
-
-
-- (void)getPhotos{
-    @synchronized (self) {
-        self.mutablePhotos = [NSMutableArray array];
-    }
+- (void)getPhotosUsing:(id<DataProviderProtocol>) dataProvider{
     
-    [self.request sendRequest];
-
-}
-
-
-#pragma mark - GetPhotoResponseDataHandler Protocol
-
-- (void)addPhoto:(NSDictionary *)photoAttributes{
-    @synchronized (self) {
-        Photo *photo = [[Photo alloc] initWithDictionary:photoAttributes];
-        [self.mutablePhotos addObject:photo];
-    }
+    [dataProvider getPhotosForGallery:self.galleryID use:^(NSArray * _Nullable result) {
+        @synchronized (self) {
+            self.photos = result;
+        }
+        [self allElementsParsed];
+    }];
+    
 }
 
 
 - (void)allElementsParsed{
-    
-    self.photos = [self.mutablePhotos copy];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:PhotosInformationReceived object:nil];
@@ -135,8 +113,7 @@ NSString * const photoIndex = @"photoIndex";
         
         NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:fileDownloadComplite object:dictionary];
         
-        [self downloadPhoto:photo sucsessNotification:fileDownloadCompliteNotification];
-        
+        [self downloadPhoto:photo sucsessNotification:fileDownloadCompliteNotification]; 
     }
 }
 

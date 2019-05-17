@@ -7,16 +7,23 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ResponseDataHandler.h"
+
+typedef void(^ReturnResult)(NSArray * _Nullable result);
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ResponseParser <NSObject>
 
-@property (weak, nonatomic) id<ResponseDataHandler> dataHandler;
+- (instancetype)initWith:(ReturnResult) completionHandler;
 
 - (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict;
 - (void)didEndDocument;
+
+
+@optional
+
+- (void)didEndElement:(NSString *)elementName;
+- (void)foundCharacters:(NSString *)string;
 
 @end
 
