@@ -7,13 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkManager.h"
 #import "Photo.h"
-#import "XMLParser.h"
-#import "GetPhotosResponseParser.h"
-#import "ResponseParser.h"
-#import "JSONParser.h"
-#import "DataProvider.h"
+#import "PhotoProvider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,7 +32,7 @@ extern NSNotificationName const PhotosInformationReceived;
 @property (strong, nonatomic, readonly) NSString *galleryID;
 @property (strong, nonatomic, readonly) NSString *folderPath;
 
-- (void)getPhotosUsing:(id<DataProviderProtocol>) dataProvider;
+- (void)getPhotosUsing:(id<PhotoProviderProtocol>) dataProvider;
 - (instancetype)initWithGalleryID:(NSString *) galleryID;
 - (NSString *)nextImage;
 - (NSString *)previousImage;

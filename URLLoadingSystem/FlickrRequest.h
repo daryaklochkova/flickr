@@ -13,14 +13,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@protocol Request <NSObject>
 
-@interface FlickrRequest : NSObject
-
-@property (strong, nonatomic, readonly) NSURL *serverURL;
-@property (strong, nonatomic, readonly) NSString *apiKey;
+@property (strong, nonatomic, readonly) NSURL *URL;//readonly
 @property (strong, nonatomic, readonly) NSString *method;
+@property (strong, nonatomic, readonly) NSURL *serverURL;
 
-@property (strong, nonatomic, readonly) NSURL *URL;
+//dictionary parametrs 
+@end
+
+
+@interface FlickrRequest : NSObject <Request>
+
+
+@property (strong, nonatomic, readonly) NSString *apiKey;
 
 
 - (instancetype)initWithMethod:(NSString *)method andFormat:(Format) format;

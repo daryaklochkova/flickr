@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSURLSession *defaultSession;
 
-+ (instancetype) defaultNetworkManager;
++ (instancetype) defaultManager;
 
 - (void)createConnection;
 - (void)fetchDataFromURL:(NSURL *) url using:(SessionDataTaskCallBack) completionHandler;
@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 + (instancetype)new UNAVAILABLE_ATTRIBUTE;
 
+- (void)cancelDownloadTasksWithUrl:(NSURL *)url;
+- (void)cancelDataTasksWithUrl:(NSURL *)url;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A009EFD3228ED83A00839F5D /* DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFD2228ED83A00839F5D /* DataProvider.m */; };
+		A009EFD6228EF8D900839F5D /* DataProviderNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */; };
+		A009EFD9228EF94400839F5D /* PhotoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFD8228EF94400839F5D /* PhotoProvider.m */; };
+		A009EFDE228F015700839F5D /* GalleryProviderProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFDD228F015700839F5D /* GalleryProviderProtocol.m */; };
 		A0147FF322817D4F00A4D94F /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF222817D4F00A4D94F /* Gallery.m */; };
 		A0147FF62282B21D00A4D94F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF52282B21C00A4D94F /* Photo.m */; };
 		A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */; };
@@ -31,8 +33,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A009EFCF228E8EB800839F5D /* DataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataProvider.h; sourceTree = "<group>"; };
-		A009EFD2228ED83A00839F5D /* DataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataProvider.m; sourceTree = "<group>"; };
+		A009EFD4228EF8D900839F5D /* DataProviderNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataProviderNetwork.h; sourceTree = "<group>"; };
+		A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataProviderNetwork.m; sourceTree = "<group>"; };
+		A009EFD7228EF94400839F5D /* PhotoProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoProvider.h; sourceTree = "<group>"; };
+		A009EFD8228EF94400839F5D /* PhotoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoProvider.m; sourceTree = "<group>"; };
+		A009EFDC228F015700839F5D /* GalleryProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryProviderProtocol.h; sourceTree = "<group>"; };
+		A009EFDD228F015700839F5D /* GalleryProviderProtocol.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryProviderProtocol.m; sourceTree = "<group>"; };
 		A0147FF122817D4F00A4D94F /* Gallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gallery.h; sourceTree = "<group>"; };
 		A0147FF222817D4F00A4D94F /* Gallery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Gallery.m; sourceTree = "<group>"; };
 		A0147FF42282B21C00A4D94F /* Photo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -111,8 +117,12 @@
 				A0147FF222817D4F00A4D94F /* Gallery.m */,
 				A0147FF42282B21C00A4D94F /* Photo.h */,
 				A0147FF52282B21C00A4D94F /* Photo.m */,
-				A009EFCF228E8EB800839F5D /* DataProvider.h */,
-				A009EFD2228ED83A00839F5D /* DataProvider.m */,
+				A009EFD4228EF8D900839F5D /* DataProviderNetwork.h */,
+				A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */,
+				A009EFD7228EF94400839F5D /* PhotoProvider.h */,
+				A009EFD8228EF94400839F5D /* PhotoProvider.m */,
+				A009EFDC228F015700839F5D /* GalleryProviderProtocol.h */,
+				A009EFDD228F015700839F5D /* GalleryProviderProtocol.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -266,11 +276,13 @@
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
 				A055BEDE228019ED00400256 /* AppDelegate.m in Sources */,
 				A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */,
-				A009EFD3228ED83A00839F5D /* DataProvider.m in Sources */,
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
 				A03E2D4E228B0F4300CD9DF6 /* AnimationControllers.m in Sources */,
+				A009EFD9228EF94400839F5D /* PhotoProvider.m in Sources */,
+				A009EFD6228EF8D900839F5D /* DataProviderNetwork.m in Sources */,
 				A0147FF322817D4F00A4D94F /* Gallery.m in Sources */,
 				A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */,
+				A009EFDE228F015700839F5D /* GalleryProviderProtocol.m in Sources */,
 				A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */,
 				A055BEEF228019F100400256 /* main.m in Sources */,
 				A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */,

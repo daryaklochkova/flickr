@@ -24,7 +24,7 @@
 - (void)loadListOfGalleries{
     self.listOfGalleries = [[ListOfGalleries alloc] initWithUserID:@"66956608@N06"];//26144115@N06 @"66956608@N06"
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.listOfGalleries getListOfGalleriesUsing:[[DataProvider alloc] initWithParser:[[JSONParser alloc]init]]];
+        [self.listOfGalleries getListOfGalleriesUsing:[[GalleryProvider alloc] initWithParser:[[JSONParser alloc]init]]];
     });
 }
 

@@ -35,7 +35,7 @@
     self.galleryTitle.title = self.gallery.title;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.gallery getPhotosUsing:[[DataProvider alloc] initWithParser:[[JSONParser alloc] init]]];
+        [self.gallery getPhotosUsing:[[PhotoProvider alloc] initWithParser:[[JSONParser alloc] init]]];
     });
 }
 

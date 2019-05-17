@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Gallery.h"
-#import "GetListOfGalleriesResponseParser.h"
+#import "GalleryProviderProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -23,7 +23,7 @@ extern NSNotificationName const ListOfGalleriesRecieved;
 
 - (instancetype)initWithUserID:(NSString *) userID;
 
-- (void)getListOfGalleriesUsing:(id<DataProviderProtocol>) dataProvider;
+- (void)getListOfGalleriesUsing:(id<GalleryProviderProtocol>) dataProvider;
 - (void)addGallery:(Gallery *)gallery;
 - (Gallery *)getGalleryAtIndex:(NSInteger)index;
 - (NSInteger)countOfGalleries;

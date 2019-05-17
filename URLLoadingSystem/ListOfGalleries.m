@@ -15,6 +15,7 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 
 @interface ListOfGalleries ()
 @property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
+@property (strong, nonatomic) id<GalleryProviderProtocol> dataProvider;
 @end
 
 @implementation ListOfGalleries
@@ -51,7 +52,8 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 }
 
 
-- (void)getListOfGalleriesUsing:(id<DataProviderProtocol>) dataProvider{
+- (void)getListOfGalleriesUsing:(id<GalleryProviderProtocol>) dataProvider{
+    self.dataProvider = dataProvider;
     
     [dataProvider getGalleriesForUser:self.userID use:^(NSArray * _Nullable result) {
         self.galleries = [NSMutableArray arrayWithArray:result];
@@ -64,10 +66,13 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
     }];
 }
 
+- (void)cancelGetListOfGalleriesTask{
+    [self.dataProvider cancelTaskForUser:self.userID];
+}
 
 #pragma MARK - work with galleries
 
-- (void)addGallery:(Gallery *)gallery{
+- (void)addGallery:(Gallery *) gallery{
     @synchronized (self) {
         [self.galleries addObject:gallery];
     }

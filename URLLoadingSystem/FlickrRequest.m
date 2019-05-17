@@ -8,8 +8,15 @@
 
 #import "FlickrRequest.h"
 
+@interface FlickrRequest()
+@property (strong, nonatomic) NSURL *URL;//readonly
+@property (strong, nonatomic) NSString *method;
+@property (strong, nonatomic) NSURL *serverURL;
+
+@end
 
 @implementation FlickrRequest
+@synthesize URL;
 
 - (instancetype)initWithMethod:(NSString *)method andFormat:(Format) format{
     self = [super init];
@@ -18,7 +25,7 @@
         _serverURL = [NSURL URLWithString:@"https://www.flickr.com/services/rest/"];
         _apiKey = @"85974c3f3e4f62fd98efb4422277c008";
         _method = method;
-        _URL = [self createRequestWithFormat:format];
+        self.URL = [self createRequestWithFormat:format];
     }
     
     return self;
@@ -49,7 +56,7 @@
     
     urlComponents.queryItems = queryItems;
     
-    _URL = urlComponents.URL;
+    self.URL = urlComponents.URL;
 }
 
 - (NSString *)formatToNSString:(Format) format{

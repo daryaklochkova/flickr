@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "Gallery.h"
 #import "PhotoViewController.h"
+#import "JSONParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

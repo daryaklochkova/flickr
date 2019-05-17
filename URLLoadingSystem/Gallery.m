@@ -88,7 +88,7 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (void)getPhotosUsing:(id<DataProviderProtocol>) dataProvider{
+- (void)getPhotosUsing:(id<PhotoProviderProtocol>) dataProvider{
     
     [dataProvider getPhotosForGallery:self.galleryID use:^(NSArray * _Nullable result) {
         @synchronized (self) {
@@ -137,7 +137,7 @@ NSString * const photoIndex = @"photoIndex";
     };
     
     NSURL *url = [photo remoteURL];
-    [[NetworkManager defaultNetworkManager] downloadData:url using:completionHandler];
+    [[NetworkManager defaultManager] downloadData:url using:completionHandler];
 }
 
 @end

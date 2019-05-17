@@ -10,7 +10,7 @@
 
 @implementation NetworkManager
 
-+ (instancetype) defaultNetworkManager {
++ (instancetype) defaultManager {
     static dispatch_once_t once = 0;
     static id _sharedObject = nil;
     dispatch_once(&once, ^{
@@ -54,6 +54,29 @@
 
 - (void) downloadData:(NSURL *) url using:(SessionDownloadTaskCallBack) completionHandler{
     [[self.defaultSession downloadTaskWithURL:url completionHandler:completionHandler] resume];
+}
+
+
+- (void)cancelDownloadTasksWithUrl:(NSURL *)url{
+    [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+        
+        for (NSURLSessionDownloadTask *downloadTask in downloadTasks) {
+            if ([downloadTask.originalRequest.URL isEqual:url]){
+                [downloadTask cancel];
+            }
+        }
+    }];
+}
+
+- (void)cancelDataTasksWithUrl:(NSURL *)url{
+    [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+        
+        for (NSURLSessionDataTask *task in dataTasks) {
+            if ([task.originalRequest.URL isEqual:url]){
+                [task cancel];
+            }
+        }
+    }];
 }
 
 
