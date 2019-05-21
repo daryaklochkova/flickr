@@ -10,6 +10,8 @@
 #import "NetworkManager.h"
 #import "ParserProtocol.h"
 #import "FlickrRequest.h"
+#import "Photo.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) id<Parser> parser;
 
 - (void)sendRequest:(NSURL *) url;
+- (void)cancelDownloadTasksByURL:(NSURL *) url;
+- (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification;
 
 @end
 

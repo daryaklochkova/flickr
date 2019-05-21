@@ -10,7 +10,7 @@
 #import "ListOfGalleries.h"
 #import "GalleryCell.h"
 #import "GalleryPhotosViewController.h"
-#import "AnimationControllers.h"
+#import "DataProvider.h"
 
 @interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 

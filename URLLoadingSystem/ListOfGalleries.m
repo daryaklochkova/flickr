@@ -15,12 +15,12 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 
 @interface ListOfGalleries ()
 @property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
-@property (strong, nonatomic) id<GalleryProviderProtocol> dataProvider;
+@property (strong, nonatomic) id<DataProviderProtocol> dataProvider;
 @end
 
 @implementation ListOfGalleries
 
-- (instancetype)initWithUserID:(NSString *) userID{  
+- (instancetype)initWithUserID:(NSString *) userID{
     self = [super init];
     
     if (self) {
@@ -31,44 +31,64 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 }
 
 
-- (void)startDownloadPrimaryPhotos{
+- (void)getPrimaryPhotos{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         for (NSInteger i = 0; i < self.galleries.count; i++) {
             Gallery *gallery = [self.galleries objectAtIndex:i];
-            [self downloadPrimaryPhotoFor:gallery galleryIndex:i];
+            [self getPrimaryPhotoFor:gallery galleryIndex:i];
         }
     });
 }
 
 
-- (void)downloadPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger) index{
+- (void)getPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger) index{
     NSDictionary *dictionary = @{locationKey:[gallery getLocalPathForPrimaryPhoto], galleryIndex:[NSNumber numberWithInteger:index]};
     
     NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:PrimaryPhotoDownloadComplite object:dictionary];
     
-    [gallery downloadPhoto:gallery.primaryPhoto sucsessNotification:fileDownloadCompliteNotification];
+    [gallery getPhoto:gallery.primaryPhoto sucsessNotification:fileDownloadCompliteNotification];
 }
 
 
-- (void)getListOfGalleriesUsing:(id<GalleryProviderProtocol>) dataProvider{
-    self.dataProvider = dataProvider;
+- (void)setDataProvider:(id<DataProviderProtocol>)dataProvider{
+    if (self.dataProvider){
+        [self cancelGetListOfGalleriesTask];
+    }
     
-    [dataProvider getGalleriesForUser:self.userID use:^(NSArray * _Nullable result) {
+    _dataProvider = dataProvider;
+}
+
+
+- (void)updateContent{
+    [self.dataProvider getGalleriesForUser:self.userID use:^(NSArray * _Nullable result) {
         self.galleries = [NSMutableArray arrayWithArray:result];
+        
+        [self setDataProviderToGalleries];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesRecieved object:nil];
         });
         
-        [self startDownloadPrimaryPhotos];
+        [self getPrimaryPhotos];
     }];
 }
 
-- (void)cancelGetListOfGalleriesTask{
-    [self.dataProvider cancelTaskForUser:self.userID];
+
+- (void)setDataProviderToGalleries{
+    for (Gallery *gallery in self.galleries) {
+        [gallery setDataProvider:self.dataProvider];
+    }
 }
+
+
+- (void)cancelGetListOfGalleriesTask{
+    for (Gallery *gallery in self.galleries) {
+        [gallery cancelGetData];
+    }
+}
+
 
 #pragma MARK - work with galleries
 

@@ -47,13 +47,17 @@
 }
 
 
-- (void)fetchDataFromURL:(NSURL *) url using:(SessionDataTaskCallBack) completionHandler{
-    [[self.defaultSession dataTaskWithURL:url completionHandler:completionHandler] resume];
+- (NSURLSessionTask *)fetchDataFromURL:(NSURL *) url using:(SessionDataTaskCallBack) completionHandler{
+    NSURLSessionTask *task = [self.defaultSession dataTaskWithURL:url completionHandler:completionHandler];
+    [task resume];
+    return task;
 }
 
 
-- (void) downloadData:(NSURL *) url using:(SessionDownloadTaskCallBack) completionHandler{
-    [[self.defaultSession downloadTaskWithURL:url completionHandler:completionHandler] resume];
+- (NSURLSessionTask *)downloadData:(NSURL *) url using:(SessionDownloadTaskCallBack) completionHandler{
+    NSURLSessionTask *task = [self.defaultSession downloadTaskWithURL:url completionHandler:completionHandler];
+    [task resume];
+    return task;
 }
 
 
@@ -68,7 +72,7 @@
     }];
 }
 
-- (void)cancelDataTasksWithUrl:(NSURL *)url{
+- (void)cancelDataTask:(NSURL *)url{
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         
         for (NSURLSessionDataTask *task in dataTasks) {

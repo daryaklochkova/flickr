@@ -8,6 +8,10 @@
 
 #import "Gallery.h"
 
+@interface Gallery()
+@property (assign, nonatomic) BOOL isUpdateCanceld;
+
+@end
 
 @implementation Gallery
 
@@ -18,6 +22,8 @@ NSNotificationName const fileDownloadComplite = @"fileDownloadComplite";
 NSString * const locationKey = @"locationKey";
 NSString * const photoIndex = @"photoIndex";
 
+
+
 - (instancetype)initWithGalleryID:(NSString *) galleryID{
     self = [super init];
     
@@ -26,9 +32,19 @@ NSString * const photoIndex = @"photoIndex";
         _folderPath = [self createGalleryFolder];
         self.currentPage = 0;
         self.title = [[NSString alloc] init];
+        self.isUpdateCanceld = NO;
     }
     
     return self;
+}
+
+
+- (void)setDataProvider:(id<DataProviderProtocol>)dataProvider{
+    if (self.dataProvider){
+       [self cancelGetData];
+    }
+    
+    _dataProvider = dataProvider;
 }
 
 
@@ -42,6 +58,7 @@ NSString * const photoIndex = @"photoIndex";
     Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
     return [self getLocalPathForPhoto:selectedPhoto];
 }
+
 
 - (NSString *)previousImage{
     
@@ -88,15 +105,30 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (void)getPhotosUsing:(id<PhotoProviderProtocol>) dataProvider{
+- (void)updateContent{
+   [self cancelGetData];
     
-    [dataProvider getPhotosForGallery:self.galleryID use:^(NSArray * _Nullable result) {
+    @synchronized (self) {
+        self.isUpdateCanceld = NO;
+    }
+    
+    [self.dataProvider getPhotosForGallery:self.galleryID use:^(NSArray * _Nullable result) {
         @synchronized (self) {
             self.photos = result;
         }
         [self allElementsParsed];
     }];
+}
+
+
+- (void)cancelGetData{
+    @synchronized (self) {
+        self.isUpdateCanceld = YES;
+    }
     
+    for (Photo *photo in self.photos) {
+        [self.dataProvider cancelDownloadTasksByURL:photo.remoteURL];
+    }
 }
 
 
@@ -107,37 +139,26 @@ NSString * const photoIndex = @"photoIndex";
     });
     
     for (NSInteger i = 0; i < self.photos.count; i++) {
-        Photo * photo = [self.photos objectAtIndex:i];
-        
-        NSDictionary *dictionary = @{locationKey:[self getLocalPathForPhoto:photo], photoIndex:[NSNumber numberWithInteger:i]};
-        
-        NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:fileDownloadComplite object:dictionary];
-        
-        [self downloadPhoto:photo sucsessNotification:fileDownloadCompliteNotification]; 
+        if (!self.isUpdateCanceld){
+            Photo * photo = [self.photos objectAtIndex:i];
+            
+            NSDictionary *dictionary = @{locationKey:[self getLocalPathForPhoto:photo], photoIndex:[NSNumber numberWithInteger:i]};
+            
+            NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:fileDownloadComplite object:dictionary];
+            
+            [self getPhoto:photo sucsessNotification:fileDownloadCompliteNotification];
+        }
     }
 }
 
 
-- (void)downloadPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification{
+- (void)getPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification{
     
     NSURL *fileURL = [NSURL fileURLWithPath:[self getLocalPathForPhoto:photo]];
+    NSURL *remoteURL = [photo remoteURL];
     
-    SessionDownloadTaskCallBack completionHandler = ^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error){
-        NSError *err = nil;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        
-        if ([fileManager copyItemAtURL: location toURL: fileURL error: &err]) {
-            dispatch_async(dispatch_get_main_queue(),^{
-                [[NSNotificationCenter defaultCenter] postNotification:notification];
-            });
-        }
-        else {
-            NSLog(@"error - %@", err);
-        }
-    };
-    
-    NSURL *url = [photo remoteURL];
-    [[NetworkManager defaultManager] downloadData:url using:completionHandler];
+    [self.dataProvider getFileFrom:remoteURL saveIn:fileURL sucsessNotification:notification];
 }
+
 
 @end

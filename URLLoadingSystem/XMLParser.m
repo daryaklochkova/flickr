@@ -16,6 +16,7 @@
     [nsXmlParser parse];
 }
 
+
 #pragma mark - NSXMLParser Delegate
 
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
@@ -41,6 +42,7 @@
 - (Format)getFormatType{
     return XMLFormat;
 }
+
 
 @synthesize responseParser;
 

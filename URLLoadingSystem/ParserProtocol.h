@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)parse:(NSData *) data;
 - (Format)getFormatType;
 
+
 @end
 
 NS_ASSUME_NONNULL_END

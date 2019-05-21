@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Photo.h"
-#import "PhotoProvider.h"
+#import "DataProviderProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,10 +20,10 @@ extern NSNotificationName const GalleryWasUpdateNotification;
 extern NSNotificationName const PhotosInformationReceived;
 
 
-
 @interface Gallery : NSObject 
 
 @property (strong, nonatomic) NSArray<Photo *> *photos;
+@property (strong, nonatomic) id<DataProviderProtocol> dataProvider;
 
 @property (strong, nonatomic) Photo *primaryPhoto;
 @property (strong, nonatomic) NSString *title;
@@ -32,15 +32,17 @@ extern NSNotificationName const PhotosInformationReceived;
 @property (strong, nonatomic, readonly) NSString *galleryID;
 @property (strong, nonatomic, readonly) NSString *folderPath;
 
-- (void)getPhotosUsing:(id<PhotoProviderProtocol>) dataProvider;
+- (void)updateContent;
 - (instancetype)initWithGalleryID:(NSString *) galleryID;
 - (NSString *)nextImage;
 - (NSString *)previousImage;
 - (NSString *)getLocalPathForPhoto:(Photo *)photo;
 - (NSString *)getLocalPathForPrimaryPhoto;
 - (NSInteger)getPhotosCount;
-- (void)downloadPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification;
+- (void)getPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification;
+- (void)cancelGetData;
 
+- (void)setDataProvider:(id<DataProviderProtocol>)dataProvider;
 @end
 
 NS_ASSUME_NONNULL_END

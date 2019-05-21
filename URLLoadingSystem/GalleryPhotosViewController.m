@@ -35,10 +35,20 @@
     self.galleryTitle.title = self.gallery.title;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.gallery getPhotosUsing:[[PhotoProvider alloc] initWithParser:[[JSONParser alloc] init]]];
+        [self.gallery updateContent];
     });
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    // check if the back button was pressed
+    if (self.isMovingFromParentViewController) {
+        [self.gallery cancelGetData];
+    }
+}
+        
 
 - (void)subscribeToNotifications{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:) name:fileDownloadComplite object:nil];
