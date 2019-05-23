@@ -56,5 +56,8 @@
     return JSONFormat;
 }
 
+- (NSString *)getStringFormatType{
+    return @"json";
+}
 
 @end

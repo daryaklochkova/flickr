@@ -37,9 +37,9 @@ NSString * const photoIndex = @"photoIndex";
     
     return self;
 }
+//chacheRequest
 
-
-- (void)setDataProvider:(id<DataProviderProtocol>)dataProvider{
+- (void)setDataProvider:(id<PhotoProviderProtocol>)dataProvider{
     if (self.dataProvider){
        [self cancelGetData];
     }
@@ -48,7 +48,7 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (NSString *)nextImage{
+- (Photo *)nextPhoto{
     
     NSInteger newImageIndex = self.selectedImageIndex + 1;
     if (newImageIndex  < self.photos.count){
@@ -56,11 +56,11 @@ NSString * const photoIndex = @"photoIndex";
     }
     
     Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
-    return [self getLocalPathForPhoto:selectedPhoto];
+    return selectedPhoto;
 }
 
 
-- (NSString *)previousImage{
+- (Photo *)previousPhoto{
     
     NSInteger newImageIndex = self.selectedImageIndex - 1;
     if (newImageIndex >= 0){
@@ -68,9 +68,13 @@ NSString * const photoIndex = @"photoIndex";
     }
     
     Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
-    return [self getLocalPathForPhoto:selectedPhoto];
+    return selectedPhoto;
 }
 
+- (Photo *)currentPhoto{
+    Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
+    return selectedPhoto;
+}
 
 - (NSInteger)getPhotosCount{
     return self.photos.count;
@@ -127,7 +131,7 @@ NSString * const photoIndex = @"photoIndex";
     }
     
     for (Photo *photo in self.photos) {
-        [self.dataProvider cancelDownloadTasksByURL:photo.remoteURL];
+        [self.dataProvider cancelTasksByURL:photo.remoteURL];
     }
 }
 

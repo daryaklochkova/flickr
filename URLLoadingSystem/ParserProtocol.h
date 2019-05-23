@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)parse:(NSData *) data;
 - (Format)getFormatType;
+- (NSString *)getStringFormatType;
 
 
 @end

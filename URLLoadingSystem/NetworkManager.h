@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^SessionDataTaskCallBack)(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error);
-typedef void(^SessionDownloadTaskCallBack)(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error);
-
-
+typedef void(^successDataTaskBlock)(NSData * _Nullable responseData);
+typedef void(^successDownloadTaskBlock)(NSURL * _Nullable location);
+typedef void(^failBlock)(NSError * _Nullable error);
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,13 +19,19 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSURLSession *defaultSession;
 
 + (instancetype) defaultManager;
-
-- (void)createConnection;
-- (NSURLSessionTask *)fetchDataFromURL:(NSURL *) url using:(SessionDataTaskCallBack) completionHandler;
-- (NSURLSessionTask *)downloadData:(NSURL *) url using:(SessionDownloadTaskCallBack) completionHandler;
-
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 + (instancetype)new UNAVAILABLE_ATTRIBUTE;
+
+
+- (void)createConnection;
+- (NSURLSessionTask *)fetchData:(NSURLRequest *) request
+                using:(successDataTaskBlock) succcessBlock
+                and:(failBlock) failBlock;
+- (NSURLSessionTask *)downloadData:(NSURLRequest *) request
+                using:(successDownloadTaskBlock) successBlock
+                and:(failBlock) failBlock;
+
+- (NSURLRequest *)createRequestWithDictionary:(NSDictionary<NSString *, NSString *> *)requestFields;
 
 - (void)cancelDownloadTasksWithUrl:(NSURL *)url;
 - (void)cancelDataTasksWithUrl:(NSURL *)url;

@@ -10,15 +10,11 @@
 
 @implementation GalleryCell
 
-- (instancetype) init{
-    self = [super init];
+- (void)awakeFromNib{
+    [super awakeFromNib];
     
-    if (self){
-        self.layer.cornerRadius = 10;
-        self.layer.masksToBounds = true;
-    }
-    
-    return self;
+    self.layer.cornerRadius = 10;
+    self.layer.masksToBounds = true;
 }
 
 @end

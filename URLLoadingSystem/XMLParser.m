@@ -43,6 +43,9 @@
     return XMLFormat;
 }
 
+- (NSString *)getStringFormatType{
+    return @"rest";
+}
 
 @synthesize responseParser;
 

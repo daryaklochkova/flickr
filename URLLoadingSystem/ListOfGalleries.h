@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Gallery.h"
+#import "GalleriesListProvider.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 extern NSNotificationName const PrimaryPhotoDownloadComplite;
 extern NSString *const galleryIndex;
 
-extern NSNotificationName const ListOfGalleriesRecieved;
+extern NSNotificationName const ListOfGalleriesSuccessfulRecieved;
 
 @interface ListOfGalleries : NSObject // TODO impliment protocol <NSFastEnumeration>
 
@@ -27,7 +28,10 @@ extern NSNotificationName const ListOfGalleriesRecieved;
 - (Gallery *)getGalleryAtIndex:(NSInteger)index;
 - (NSInteger)countOfGalleries;
 
-- (void)setDataProvider:(id<DataProviderProtocol>)dataProvider;
+- (void)setDataProvider:(id<GalleriesListProviderProtocol>)dataProvider;
+
+
+- (NSArray<Gallery *> *)getGalleries;
 @end
 
 NS_ASSUME_NONNULL_END

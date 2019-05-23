@@ -8,6 +8,10 @@
 
 #import "DataProviderNetwork.h"
 
+const NSNotificationName dataFetchError = @"dataFetchError";
+const NSString *errorKey = @"errorKey";
+
+
 @interface DataProviderNetwork()
 @property (strong, nonatomic) NSMutableArray *activeTasks;
 @end
@@ -24,20 +28,23 @@
     return self;
 }
 
-- (void)sendRequest:(NSURL *) url{
+- (void)sendRequest:(NSDictionary *) requestFields{
     
-    SessionDataTaskCallBack completionHandler = ^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        if (error) {
-            
-        }
-        else {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [self.parser parse:data];
-            });
-        }
+    __weak typeof(self) weakSelf = self;
+    successDataTaskBlock successCompletionHandler = ^(NSData *responseData) {
+        __strong typeof(self) strongSelf = weakSelf;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [strongSelf.parser parse:responseData];
+        });
     };
-     [[NetworkManager defaultManager] fetchDataFromURL:url using:completionHandler];
+    
+    NetworkManager *networkManager = [NetworkManager defaultManager];
+    NSURLRequest *request = [networkManager createRequestWithDictionary:requestFields];
+    [networkManager fetchData:request using:successCompletionHandler and:^(NSError *error) {
+        //NSLog(@"%@ failed with error - %@", request.URL, error);
+        NSDictionary *notificationInfo = @{errorKey:error};
+        [[NSNotificationCenter defaultCenter] postNotificationName:dataFetchError object:notificationInfo];
+    }];
 }
 
 
@@ -48,8 +55,7 @@
 
 - (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification{
     
-    SessionDownloadTaskCallBack completionHandler = ^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error)
-    {
+    successDownloadTaskBlock completionHandler = ^(NSURL * _Nullable location) {
         NSError *err = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         
@@ -64,7 +70,16 @@
         }
     };
     
-    [[NetworkManager defaultManager] downloadData:remoteURL using:completionHandler];
+    failBlock failBlock =^(NSError * _Nullable error) {
+        
+        NSString *path = localFileURL.absoluteString;
+
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[path substringFromIndex:6]]){
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+    };
+    
+    [[NetworkManager defaultManager] downloadData:[NSURLRequest requestWithURL:remoteURL] using:completionHandler and:failBlock];
 }
 
 @end

@@ -8,7 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+
 typedef void(^ReturnResult)(NSArray * _Nullable result);
+typedef void(^ReturnGalleriesResult)(NSArray * _Nullable result);
+typedef void(^ReturnPhotosResult)(NSArray * _Nullable result);
+
 
 NS_ASSUME_NONNULL_BEGIN
 

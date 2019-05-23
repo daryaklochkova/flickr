@@ -11,11 +11,11 @@
 NSNotificationName const PrimaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
 NSString *const galleryIndex = @"galleryIndex";
 
-NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
+NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRecieved";
 
 @interface ListOfGalleries ()
 @property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
-@property (strong, nonatomic) id<DataProviderProtocol> dataProvider;
+@property (strong, nonatomic) id<GalleriesListProviderProtocol> dataProvider;
 @end
 
 @implementation ListOfGalleries
@@ -52,15 +52,6 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 }
 
 
-- (void)setDataProvider:(id<DataProviderProtocol>)dataProvider{
-    if (self.dataProvider){
-        [self cancelGetListOfGalleriesTask];
-    }
-    
-    _dataProvider = dataProvider;
-}
-
-
 - (void)updateContent{
     [self.dataProvider getGalleriesForUser:self.userID use:^(NSArray * _Nullable result) {
         self.galleries = [NSMutableArray arrayWithArray:result];
@@ -68,7 +59,7 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
         [self setDataProviderToGalleries];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesRecieved object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesSuccessfulRecieved object:nil];
         });
         
         [self getPrimaryPhotos];
@@ -78,7 +69,7 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 
 - (void)setDataProviderToGalleries{
     for (Gallery *gallery in self.galleries) {
-        [gallery setDataProvider:self.dataProvider];
+        [gallery setDataProvider:[[PhotoProvider alloc] init]];
     }
 }
 
@@ -106,6 +97,11 @@ NSNotificationName const ListOfGalleriesRecieved = @"ListOfGalleriesRecieved";
 
 - (Gallery *)getGalleryAtIndex:(NSInteger) index{
     return [self.galleries objectAtIndex:index];
+}
+
+
+- (NSArray<Gallery *> *)getGalleries{
+    return self.galleries;
 }
 
 @end

@@ -9,17 +9,19 @@
 #import <Foundation/Foundation.h>
 #import "NetworkManager.h"
 #import "ParserProtocol.h"
-#import "FlickrRequest.h"
 #import "Photo.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern const NSNotificationName dataFetchError;
+extern const NSString *errorKey;
+
 @interface DataProviderNetwork : NSObject
 
 @property (strong, nonatomic) id<Parser> parser;
 
-- (void)sendRequest:(NSURL *) url;
+- (void)sendRequest:(NSDictionary *) requestFields;
 - (void)cancelDownloadTasksByURL:(NSURL *) url;
 - (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification;
 

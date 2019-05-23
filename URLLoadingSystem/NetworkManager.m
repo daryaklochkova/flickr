@@ -8,6 +8,9 @@
 
 #import "NetworkManager.h"
 
+const NSString * baseURL = @"https://www.flickr.com/services/rest/";
+const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
+
 @implementation NetworkManager
 
 + (instancetype) defaultManager {
@@ -41,27 +44,65 @@
     defaultConfiguration.URLCache = cache;
     defaultConfiguration.requestCachePolicy = NSURLRequestUseProtocolCachePolicy;
     
+    
     NSOperationQueue *operationQueue = [NSOperationQueue mainQueue];
     
     self.defaultSession = [NSURLSession sessionWithConfiguration:defaultConfiguration delegate:self delegateQueue:operationQueue];
 }
 
 
-- (NSURLSessionTask *)fetchDataFromURL:(NSURL *) url using:(SessionDataTaskCallBack) completionHandler{
-    NSURLSessionTask *task = [self.defaultSession dataTaskWithURL:url completionHandler:completionHandler];
+- (NSURLSessionTask *)fetchData:(NSURLRequest *) request
+                            using:(successDataTaskBlock) succcessBlock
+                            and:(failBlock) failBlock {
+    
+    __weak typeof(self) weakSelf = self;
+    NSURLSessionTask *task = [self.defaultSession dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        __strong typeof(self) strongSelf = weakSelf;
+        
+        error = [[NSError alloc] init];
+        if (error){
+            NSURLCache *cache = strongSelf.defaultSession.configuration.URLCache;
+            NSCachedURLResponse *cachedResponce = [cache cachedResponseForRequest:request];
+            
+            if (cachedResponce){
+                succcessBlock(cachedResponce.data);
+            }
+            else {
+                failBlock(error);
+            }
+        }
+        else {
+            succcessBlock(data);
+        }
+    }];
+    
+    [task resume];
+    
+    return task;
+}
+
+
+- (NSURLSessionTask *)downloadData:(NSURLRequest *) request
+                             using:(successDownloadTaskBlock) successBlock
+                               and:(failBlock) failBlock{
+    
+    NSURLSessionTask *task = [self.defaultSession downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        
+        error = [[NSError alloc] init];
+        if (error){
+            failBlock(error);
+        }
+        else {
+            successBlock(location);
+        }
+    }];
     [task resume];
     return task;
 }
 
 
-- (NSURLSessionTask *)downloadData:(NSURL *) url using:(SessionDownloadTaskCallBack) completionHandler{
-    NSURLSessionTask *task = [self.defaultSession downloadTaskWithURL:url completionHandler:completionHandler];
-    [task resume];
-    return task;
-}
-
-
-- (void)cancelDownloadTasksWithUrl:(NSURL *)url{
+- (void)cancelDownloadTasksWithUrl:(NSURL *)url{ //NSOperationQueue?
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         
         for (NSURLSessionDownloadTask *downloadTask in downloadTasks) {
@@ -72,7 +113,8 @@
     }];
 }
 
-- (void)cancelDataTask:(NSURL *)url{
+
+- (void)cancelDataTasksWithUrl:(NSURL *)url{
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         
         for (NSURLSessionDataTask *task in dataTasks) {
@@ -81,6 +123,23 @@
             }
         }
     }];
+}
+
+- (NSURLRequest *)createRequestWithDictionary:(NSDictionary<NSString *, NSString *> *)requestFields{
+    NSURLComponents *urlComponents  = [NSURLComponents componentsWithString:[baseURL copy]];
+    
+    NSURLQueryItem *apiKeyItem = [NSURLQueryItem queryItemWithName:@"api_key" value:[apiKey copy]];
+    NSMutableArray<NSURLQueryItem *> *queryItems = [[NSMutableArray alloc] init];
+    [queryItems addObject:apiKeyItem];
+    
+    for (NSString *key in requestFields) {
+        NSString *value = [requestFields objectForKey:key];
+        NSURLQueryItem *item = [NSURLQueryItem queryItemWithName:key value:value];
+        [queryItems addObject:item];
+    }
+    
+    urlComponents.queryItems = queryItems;
+    return [NSURLRequest requestWithURL:urlComponents.URL];
 }
 
 

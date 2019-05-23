@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) NSURL *remoteURL;
 @property (strong, nonatomic, readonly) NSString *name;
 
--(instancetype)initWithDictionary:(NSDictionary *) dictionary;
+- (instancetype)initWithDictionary:(NSDictionary *) dictionary;
 - (instancetype)initPrimaryPhotoWithDictionary:(NSDictionary *) dictionary;
 @end
 

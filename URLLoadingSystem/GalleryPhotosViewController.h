@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GalleryPhotosViewController : UIViewController <UICollectionViewDataSource>
+@interface GalleryPhotosViewController : UIViewController <UICollectionViewDelegate>
 
 @property (strong, nonatomic) Gallery *gallery;
 

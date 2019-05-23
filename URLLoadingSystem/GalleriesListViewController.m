@@ -7,10 +7,13 @@
 //
 
 #import "GalleriesListViewController.h"
+#include "AppDelegate.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
 @property (strong, nonatomic) Gallery *selectedGallery;
+
+
 @end
 
 @implementation GalleriesListViewController
@@ -23,8 +26,9 @@
 
 - (void)loadListOfGalleries{
     self.listOfGalleries = [[ListOfGalleries alloc] initWithUserID:@"66956608@N06"];//26144115@N06 @"66956608@N06"
-    DataProvider *dataProvider = [[DataProvider alloc] initWithParser:[[JSONParser alloc] init]];
+    GalleriesListProvider *dataProvider = [[GalleriesListProvider alloc] init];
     [self.listOfGalleries setDataProvider:dataProvider];
+    
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.listOfGalleries updateContent];
@@ -32,20 +36,42 @@
 }
 
 - (void)subscribeToNotifications{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadView)
-                                                 name:ListOfGalleriesRecieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewContent)
+                                                 name:ListOfGalleriesSuccessfulRecieved object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:)
-                                                 name:PrimaryPhotoDownloadComplite object:nil];    
+                                                 name:PrimaryPhotoDownloadComplite object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
+                                                 name:dataFetchError object:nil];
 }
+
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)reloadView{
+#pragma MARK - update interface
+
+- (void)showAlert:(NSNotification *) notification{
+    
+    NSError *error = [[notification userInfo] objectForKey:errorKey];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Data loading failed" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    [alertController addAction:action];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+
+- (void)updateViewContent{
     [self.listOfGalleriesCollectionView reloadData];
 }
+
 
 - (void)reloadItem:(NSNotification *) notification{
     NSNumber * number = [[notification object] valueForKey:galleryIndex];
@@ -72,12 +98,13 @@
     
     Gallery *gallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
     
-    UIImage *image = [[UIImage alloc] initWithContentsOfFile:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
-    
-    if (image) {
-        cell.imageView.image = image;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[gallery getLocalPathForPhoto:gallery.primaryPhoto]]){
+        UIImage *image = [[UIImage alloc] initWithContentsOfFile:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
+        
+        if (image) {
+            cell.imageView.image = image;
+        }
     }
-    
     cell.lable.text = gallery.title;
     cell.layer.cornerRadius = 4;
     cell.layer.masksToBounds = true;
