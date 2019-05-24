@@ -7,6 +7,10 @@
 //
 
 #import "GalleriesListProvider.h"
+#include "JSONParser.h"
+
+@interface GalleriesListProvider()
+@end
 
 
 @implementation GalleriesListProvider
@@ -25,13 +29,12 @@
 - (NSDictionary *)GetRequestFields:(NSString *)userID {
     
     NSDictionary *requestFields = @{
-                                    @"method":          @"flickr.galleries.getList",
-                                    @"format":          [self.parser getStringFormatType],
-                                    @"user_id":         userID,
-                                    @"continuation":    @"0",
-                                    @"short_limit":     @"1",
-                                    @"per_page":        @"1",
-                                    @"page":            @"10"
+                                    methodArgumentName:       getGalleriesListMethod,
+                                    formatArgumentName:       [self.parser getStringFormatType],
+                                    userIDArgumentName:       userID,
+                                    continuationArgumentName: self.continuation,
+                                    shortLimitArgumentName:   @"1",
+                                    perPageArgumentName:      @"10"
                                     };
     
     return requestFields;
@@ -39,8 +42,17 @@
 
 
 - (void)getGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler{
-    self.parser.responseParser = [[GetListOfGalleriesResponseParser alloc] initWith:completionHandler];
-    [self sendRequest:[self GetRequestFields:userID]];
+    self.continuation = [continuationStartValue copy];
+    [self getAdditionalGalleriesForUser:userID use:completionHandler];
+}
+
+
+- (void)getAdditionalGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler{
+    if ([self continuationExist]){
+        ReturnResultWithContinuation returnBlock = [self createReturnResultWithContinuationWith:completionHandler];
+        self.parser.responseParser = [[GetListOfGalleriesResponseParser alloc] initWith:returnBlock];
+        [self sendRequest:[self GetRequestFields:userID]];
+    }
 }
 
 @end

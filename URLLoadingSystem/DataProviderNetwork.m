@@ -9,7 +9,7 @@
 #import "DataProviderNetwork.h"
 
 const NSNotificationName dataFetchError = @"dataFetchError";
-const NSString *errorKey = @"errorKey";
+const NSString *dataFetchErrorKey = @"errorKey";
 
 
 @interface DataProviderNetwork()
@@ -23,6 +23,7 @@ const NSString *errorKey = @"errorKey";
     
     if (self){
         self.activeTasks = [NSMutableArray array];
+        self.continuation = [continuationStartValue copy];
     }
     
     return self;
@@ -30,25 +31,21 @@ const NSString *errorKey = @"errorKey";
 
 - (void)sendRequest:(NSDictionary *) requestFields{
     
-    __weak typeof(self) weakSelf = self;
-    successDataTaskBlock successCompletionHandler = ^(NSData *responseData) {
-        __strong typeof(self) strongSelf = weakSelf;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [strongSelf.parser parse:responseData];
+    failBlock failBlock = ^(NSError *error) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSDictionary *notificationInfo = @{dataParsingErrorKey:error};
+            [[NSNotificationCenter defaultCenter] postNotificationName:dataFetchError object:notificationInfo];
         });
     };
     
     NetworkManager *networkManager = [NetworkManager defaultManager];
     NSURLRequest *request = [networkManager createRequestWithDictionary:requestFields];
-    [networkManager fetchData:request using:successCompletionHandler and:^(NSError *error) {
-        //NSLog(@"%@ failed with error - %@", request.URL, error);
-        NSDictionary *notificationInfo = @{errorKey:error};
-        [[NSNotificationCenter defaultCenter] postNotificationName:dataFetchError object:notificationInfo];
-    }];
+    
+    [networkManager fetchData:request parseResponceWith:self.parser using:^(NSData * _Nullable responseData){} and:failBlock];
 }
 
 
-- (void)cancelDownloadTasksByURL:(NSURL *) url{
+- (void)cancelTasksByURL:(NSURL *) url{
     [[NetworkManager defaultManager] cancelDownloadTasksWithUrl:url];
 }
 
@@ -73,13 +70,28 @@ const NSString *errorKey = @"errorKey";
     failBlock failBlock =^(NSError * _Nullable error) {
         
         NSString *path = localFileURL.absoluteString;
-
+        
         if ([[NSFileManager defaultManager] fileExistsAtPath:[path substringFromIndex:6]]){
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         }
     };
     
     [[NetworkManager defaultManager] downloadData:[NSURLRequest requestWithURL:remoteURL] using:completionHandler and:failBlock];
+}
+
+- (BOOL)continuationExist{
+    return ![self.continuation isEqualToString:[continuationEndValue copy]];
+}
+
+- (ReturnResultWithContinuation)createReturnResultWithContinuationWith:(ReturnResult)returnResultBlock{
+    __weak typeof(self) weakSelf = self;
+    ReturnResultWithContinuation block = ^(NSArray * _Nullable result, NSString *continuation) {
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.continuation = continuation;
+        returnResultBlock(result);
+    };
+    
+    return block;
 }
 
 @end

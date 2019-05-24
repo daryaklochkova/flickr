@@ -11,12 +11,13 @@
 		A0147FF322817D4F00A4D94F /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF222817D4F00A4D94F /* Gallery.m */; };
 		A0147FF62282B21D00A4D94F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF52282B21C00A4D94F /* Photo.m */; };
 		A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */; };
+		A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A02798132296B006002B42FE /* GalleryCollectionViewDataSource.m */; };
+		A027981B2296C770002B42FE /* UIScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A027981A2296C770002B42FE /* UIScrollView.m */; };
+		A027981E2296D917002B42FE /* FooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A027981D2296D917002B42FE /* FooterCollectionReusableView.m */; };
 		A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D212282FC3E00CD9DF6 /* PhotoViewController.m */; };
 		A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D2422896D1E00CD9DF6 /* ListOfGalleries.m */; };
-		A03E2D2822896E6200CD9DF6 /* FlickrRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D2722896E6200CD9DF6 /* FlickrRequest.m */; };
 		A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D3122898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m */; };
 		A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D472289C7E500CD9DF6 /* GalleryCell.m */; };
-		A03E2D4E228B0F4300CD9DF6 /* AnimationControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D4D228B0F4300CD9DF6 /* AnimationControllers.m */; };
 		A055BEDE228019ED00400256 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A055BEDD228019ED00400256 /* AppDelegate.m */; };
 		A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A055BEE0228019ED00400256 /* GalleriesListViewController.m */; };
 		A055BEE4228019ED00400256 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A055BEE2228019ED00400256 /* Main.storyboard */; };
@@ -28,7 +29,10 @@
 		A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A20228D379A009BF7BA /* JSONParser.m */; };
 		A05C2A24228D3FD7009BF7BA /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A23228D3FD7009BF7BA /* XMLParser.m */; };
 		A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */; };
-		A0862CAF2292B6A000F1855B /* DataProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CAE2292B6A000F1855B /* DataProvider.m */; };
+		A08503D1229805850083FEB7 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A08503D0229805850083FEB7 /* Constants.m */; };
+		A08503D9229836F10083FEB7 /* Footer.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08503D8229836F10083FEB7 /* Footer.xib */; };
+		A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE2229525BB00F1855B /* PhotoProvider.m */; };
+		A0862CE6229527C700F1855B /* GalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE5229527C700F1855B /* GalleriesListProvider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,18 +44,20 @@
 		A0147FF52282B21C00A4D94F /* Photo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		A0147FF72282CB9B00A4D94F /* GalleryPhotosViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryPhotosViewController.h; sourceTree = "<group>"; };
 		A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryPhotosViewController.m; sourceTree = "<group>"; };
+		A02798122296B006002B42FE /* GalleryCollectionViewDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryCollectionViewDataSource.h; sourceTree = "<group>"; };
+		A02798132296B006002B42FE /* GalleryCollectionViewDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryCollectionViewDataSource.m; sourceTree = "<group>"; };
+		A02798192296C770002B42FE /* UIScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIScrollView.h; sourceTree = "<group>"; };
+		A027981A2296C770002B42FE /* UIScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIScrollView.m; sourceTree = "<group>"; };
+		A027981C2296D917002B42FE /* FooterCollectionReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FooterCollectionReusableView.h; sourceTree = "<group>"; };
+		A027981D2296D917002B42FE /* FooterCollectionReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FooterCollectionReusableView.m; sourceTree = "<group>"; };
 		A03E2D202282FC3E00CD9DF6 /* PhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
 		A03E2D212282FC3E00CD9DF6 /* PhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		A03E2D2322896D1E00CD9DF6 /* ListOfGalleries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListOfGalleries.h; sourceTree = "<group>"; };
 		A03E2D2422896D1E00CD9DF6 /* ListOfGalleries.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListOfGalleries.m; sourceTree = "<group>"; };
-		A03E2D2622896E6200CD9DF6 /* FlickrRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrRequest.h; sourceTree = "<group>"; };
-		A03E2D2722896E6200CD9DF6 /* FlickrRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrRequest.m; sourceTree = "<group>"; };
 		A03E2D3022898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetListOfGalleriesResponseParser.h; sourceTree = "<group>"; };
 		A03E2D3122898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetListOfGalleriesResponseParser.m; sourceTree = "<group>"; };
 		A03E2D462289C7E500CD9DF6 /* GalleryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryCell.h; sourceTree = "<group>"; };
 		A03E2D472289C7E500CD9DF6 /* GalleryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryCell.m; sourceTree = "<group>"; };
-		A03E2D4C228B0F4300CD9DF6 /* AnimationControllers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnimationControllers.h; sourceTree = "<group>"; };
-		A03E2D4D228B0F4300CD9DF6 /* AnimationControllers.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnimationControllers.m; sourceTree = "<group>"; };
 		A055BED9228019ED00400256 /* URLLoadingSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLLoadingSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A055BEDC228019ED00400256 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A055BEDD228019ED00400256 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -73,9 +79,13 @@
 		A05C2A29228D4312009BF7BA /* GetPhotosResponseParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetPhotosResponseParser.h; sourceTree = "<group>"; };
 		A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetPhotosResponseParser.m; sourceTree = "<group>"; };
 		A05C2A2C228D5215009BF7BA /* ResponseParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseParser.h; sourceTree = "<group>"; };
-		A0862CAC2292B65700F1855B /* DataProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataProviderProtocol.h; sourceTree = "<group>"; };
-		A0862CAD2292B6A000F1855B /* DataProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataProvider.h; sourceTree = "<group>"; };
-		A0862CAE2292B6A000F1855B /* DataProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataProvider.m; sourceTree = "<group>"; };
+		A08503CF229805850083FEB7 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		A08503D0229805850083FEB7 /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		A08503D8229836F10083FEB7 /* Footer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Footer.xib; sourceTree = "<group>"; };
+		A0862CE1229525BB00F1855B /* PhotoProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoProvider.h; sourceTree = "<group>"; };
+		A0862CE2229525BB00F1855B /* PhotoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoProvider.m; sourceTree = "<group>"; };
+		A0862CE4229527C700F1855B /* GalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListProvider.h; sourceTree = "<group>"; };
+		A0862CE5229527C700F1855B /* GalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleriesListProvider.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,20 +102,70 @@
 		A0109EF8228BFF280055F946 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
-				A05C2A28228D40D1009BF7BA /* ParserProtocol.h */,
+				A05C2A2C228D5215009BF7BA /* ResponseParser.h */,
 				A03E2D3022898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.h */,
 				A03E2D3122898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m */,
+				A05C2A29228D4312009BF7BA /* GetPhotosResponseParser.h */,
+				A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */,
+				A05C2A28228D40D1009BF7BA /* ParserProtocol.h */,
 				A05C2A1F228D379A009BF7BA /* JSONParser.h */,
 				A05C2A20228D379A009BF7BA /* JSONParser.m */,
 				A05C2A22228D3FD7009BF7BA /* XMLParser.h */,
 				A05C2A23228D3FD7009BF7BA /* XMLParser.m */,
-				A05C2A29228D4312009BF7BA /* GetPhotosResponseParser.h */,
-				A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */,
 			);
 			name = Parsers;
 			sourceTree = "<group>";
 		};
-		A03E2D3D2289A80900CD9DF6 /* models */ = {
+		A02798152296C499002B42FE /* GalleriesListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A03E2D452289C7CB00CD9DF6 /* Cells */,
+				A055BEDF228019ED00400256 /* GalleriesListViewController.h */,
+				A055BEE0228019ED00400256 /* GalleriesListViewController.m */,
+			);
+			name = GalleriesListViewController;
+			sourceTree = "<group>";
+		};
+		A02798162296C609002B42FE /* PhotosViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A08503CE2298036A0083FEB7 /* DataSourse */,
+				A02798172296C628002B42FE /* PhotoViewController */,
+				A0147FF72282CB9B00A4D94F /* GalleryPhotosViewController.h */,
+				A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */,
+			);
+			name = PhotosViewController;
+			sourceTree = "<group>";
+		};
+		A02798172296C628002B42FE /* PhotoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A03E2D202282FC3E00CD9DF6 /* PhotoViewController.h */,
+				A03E2D212282FC3E00CD9DF6 /* PhotoViewController.m */,
+			);
+			name = PhotoViewController;
+			sourceTree = "<group>";
+		};
+		A02798182296C734002B42FE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A02798192296C770002B42FE /* UIScrollView.h */,
+				A027981A2296C770002B42FE /* UIScrollView.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		A027981F2296D921002B42FE /* Footer */ = {
+			isa = PBXGroup;
+			children = (
+				A027981C2296D917002B42FE /* FooterCollectionReusableView.h */,
+				A027981D2296D917002B42FE /* FooterCollectionReusableView.m */,
+				A08503D8229836F10083FEB7 /* Footer.xib */,
+			);
+			name = Footer;
+			sourceTree = "<group>";
+		};
+		A03E2D3D2289A80900CD9DF6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				A03E2D2322896D1E00CD9DF6 /* ListOfGalleries.h */,
@@ -115,43 +175,37 @@
 				A0147FF42282B21C00A4D94F /* Photo.h */,
 				A0147FF52282B21C00A4D94F /* Photo.m */,
 			);
-			name = models;
+			name = Models;
 			sourceTree = "<group>";
 		};
-		A03E2D3F2289A83000CD9DF6 /* network */ = {
+		A03E2D3F2289A83000CD9DF6 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				A055BEF622801A2F00400256 /* NetworkManager.m */,
 				A055BEF522801A2F00400256 /* NetworkManager.h */,
-				A03E2D2622896E6200CD9DF6 /* FlickrRequest.h */,
-				A03E2D2722896E6200CD9DF6 /* FlickrRequest.m */,
+				A055BEF622801A2F00400256 /* NetworkManager.m */,
+				A009EFD4228EF8D900839F5D /* DataProviderNetwork.h */,
+				A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */,
 			);
-			name = network;
+			name = Network;
 			sourceTree = "<group>";
 		};
-		A03E2D402289A84800CD9DF6 /* controllers */ = {
+		A03E2D402289A84800CD9DF6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A0147FF72282CB9B00A4D94F /* GalleryPhotosViewController.h */,
-				A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */,
-				A03E2D202282FC3E00CD9DF6 /* PhotoViewController.h */,
-				A03E2D212282FC3E00CD9DF6 /* PhotoViewController.m */,
-				A055BEDF228019ED00400256 /* GalleriesListViewController.h */,
-				A055BEE0228019ED00400256 /* GalleriesListViewController.m */,
-				A05C2A2C228D5215009BF7BA /* ResponseParser.h */,
-				A03E2D4C228B0F4300CD9DF6 /* AnimationControllers.h */,
-				A03E2D4D228B0F4300CD9DF6 /* AnimationControllers.m */,
+				A027981F2296D921002B42FE /* Footer */,
+				A02798162296C609002B42FE /* PhotosViewController */,
+				A02798152296C499002B42FE /* GalleriesListViewController */,
 			);
-			name = controllers;
+			name = Controllers;
 			sourceTree = "<group>";
 		};
-		A03E2D452289C7CB00CD9DF6 /* View */ = {
+		A03E2D452289C7CB00CD9DF6 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				A03E2D462289C7E500CD9DF6 /* GalleryCell.h */,
 				A03E2D472289C7E500CD9DF6 /* GalleryCell.m */,
 			);
-			name = View;
+			name = Cells;
 			sourceTree = "<group>";
 		};
 		A055BED0228019ED00400256 = {
@@ -173,11 +227,13 @@
 		A055BEDB228019ED00400256 /* URLLoadingSystem */ = {
 			isa = PBXGroup;
 			children = (
-				A03E2D452289C7CB00CD9DF6 /* View */,
+				A08503CF229805850083FEB7 /* Constants.h */,
+				A08503D0229805850083FEB7 /* Constants.m */,
+				A02798182296C734002B42FE /* Extensions */,
 				A0109EF8228BFF280055F946 /* Parsers */,
-				A03E2D402289A84800CD9DF6 /* controllers */,
-				A03E2D3F2289A83000CD9DF6 /* network */,
-				A03E2D3D2289A80900CD9DF6 /* models */,
+				A03E2D402289A84800CD9DF6 /* Controllers */,
+				A03E2D3D2289A80900CD9DF6 /* Models */,
+				A03E2D3F2289A83000CD9DF6 /* Network */,
 				A0862CAB2292B5DB00F1855B /* Data provider */,
 				A055BEDC228019ED00400256 /* AppDelegate.h */,
 				A055BEDD228019ED00400256 /* AppDelegate.m */,
@@ -191,14 +247,22 @@
 			path = URLLoadingSystem;
 			sourceTree = "<group>";
 		};
+		A08503CE2298036A0083FEB7 /* DataSourse */ = {
+			isa = PBXGroup;
+			children = (
+				A02798122296B006002B42FE /* GalleryCollectionViewDataSource.h */,
+				A02798132296B006002B42FE /* GalleryCollectionViewDataSource.m */,
+			);
+			name = DataSourse;
+			sourceTree = "<group>";
+		};
 		A0862CAB2292B5DB00F1855B /* Data provider */ = {
 			isa = PBXGroup;
 			children = (
-				A009EFD4228EF8D900839F5D /* DataProviderNetwork.h */,
-				A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */,
-				A0862CAC2292B65700F1855B /* DataProviderProtocol.h */,
-				A0862CAD2292B6A000F1855B /* DataProvider.h */,
-				A0862CAE2292B6A000F1855B /* DataProvider.m */,
+				A0862CE1229525BB00F1855B /* PhotoProvider.h */,
+				A0862CE2229525BB00F1855B /* PhotoProvider.m */,
+				A0862CE4229527C700F1855B /* GalleriesListProvider.h */,
+				A0862CE5229527C700F1855B /* GalleriesListProvider.m */,
 			);
 			name = "Data provider";
 			sourceTree = "<group>";
@@ -262,6 +326,7 @@
 			files = (
 				A055BEEC228019F100400256 /* LaunchScreen.storyboard in Resources */,
 				A055BEE9228019F100400256 /* Assets.xcassets in Resources */,
+				A08503D9229836F10083FEB7 /* Footer.xib in Resources */,
 				A055BEE4228019ED00400256 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -274,21 +339,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0147FF62282B21D00A4D94F /* Photo.m in Sources */,
-				A03E2D2822896E6200CD9DF6 /* FlickrRequest.m in Sources */,
+				A0862CE6229527C700F1855B /* GalleriesListProvider.m in Sources */,
 				A055BEF722801A2F00400256 /* NetworkManager.m in Sources */,
 				A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */,
 				A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */,
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
 				A055BEDE228019ED00400256 /* AppDelegate.m in Sources */,
+				A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */,
 				A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */,
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
-				A03E2D4E228B0F4300CD9DF6 /* AnimationControllers.m in Sources */,
+				A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */,
+				A08503D1229805850083FEB7 /* Constants.m in Sources */,
+				A027981B2296C770002B42FE /* UIScrollView.m in Sources */,
 				A009EFD6228EF8D900839F5D /* DataProviderNetwork.m in Sources */,
+				A027981E2296D917002B42FE /* FooterCollectionReusableView.m in Sources */,
 				A0147FF322817D4F00A4D94F /* Gallery.m in Sources */,
 				A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */,
 				A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */,
 				A055BEEF228019F100400256 /* main.m in Sources */,
-				A0862CAF2292B6A000F1855B /* DataProvider.m in Sources */,
 				A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */,
 				A05C2A24228D3FD7009BF7BA /* XMLParser.m in Sources */,
 				A055BEE7228019ED00400256 /* URLLoadingSystem.xcdatamodeld in Sources */,

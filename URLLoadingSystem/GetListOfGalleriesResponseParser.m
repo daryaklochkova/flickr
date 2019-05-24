@@ -16,12 +16,14 @@
 @property (strong, nonatomic) NSString *currentElement;
 @property (strong, nonatomic) Gallery *currentGallery;
 
-@property (strong, nonatomic) ReturnResult completionHandler;
+@property (strong, nonatomic) ReturnResultWithContinuation completionHandler;
 @end
 
 @implementation GetListOfGalleriesResponseParser
 
-- (instancetype)initWith:(ReturnResult) completionHandler;{
+@synthesize continuation;
+
+- (instancetype)initWith:(ReturnResultWithContinuation) completionHandler;{
     self = [super init];
     
     if (self){
@@ -32,7 +34,6 @@
     return self;
 }
 
-
 - (void)foundCharacters:(NSString *)string{
     if ([self.currentElement isEqualToString:@"title"]){
         NSString *tmpString = [self.currentGallery.title stringByAppendingString:string];
@@ -40,13 +41,16 @@
     }
 }
 
-
 - (void)didEndElement:(NSString *)elementName{
     self.currentElement = @"";
 }
 
-
 - (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
+    
+    if ([elementName isEqualToString:@"galleries"]){
+        self.continuation = [attributeDict objectForKey:@"continuation"];
+    }
+    
     if ([elementName isEqualToString:@"gallery"]){
         self.currentGallery = [[Gallery alloc] initWithGalleryID:[attributeDict objectForKey:@"gallery_id"]];
         self.currentGallery.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:attributeDict];
@@ -56,9 +60,11 @@
     self.currentElement = elementName;
 }
 
-
 - (void)didEndDocument{
-    self.completionHandler(self.galleries);
+    if (!self.continuation){
+        self.continuation = [continuationEndValue copy];
+    }
+    self.completionHandler(self.galleries, self.continuation);
 }
 
 @end

@@ -7,18 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Constants.h"
 
 
 typedef void(^ReturnResult)(NSArray * _Nullable result);
 typedef void(^ReturnGalleriesResult)(NSArray * _Nullable result);
 typedef void(^ReturnPhotosResult)(NSArray * _Nullable result);
-
+typedef void(^ReturnResultWithContinuation)(NSArray * _Nullable result, NSString * _Nonnull continuation);
 
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ResponseParser <NSObject>
 
-- (instancetype)initWith:(ReturnResult) completionHandler;
+@property (strong, nonatomic) NSString *continuation;
+
+- (instancetype)initWith:(ReturnResultWithContinuation) completionHandler;
 
 - (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict;
 - (void)didEndDocument;

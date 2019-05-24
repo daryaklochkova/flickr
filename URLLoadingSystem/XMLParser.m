@@ -8,7 +8,13 @@
 
 #import "XMLParser.h"
 
+const NSNotificationName dataParsingFailed = @"dataParsingFailed";
+const NSString *dataParsingErrorKey = @"erorKey";
+
+
 @implementation XMLParser
+
+@synthesize responseParser;
 
 - (void)parse:(NSData *) data{
     NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
@@ -19,7 +25,24 @@
 
 #pragma mark - NSXMLParser Delegate
 
-- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName attributes:(NSDictionary *)attributeDict{
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
+                                        namespaceURI:(NSString *)namespaceURI
+                                        qualifiedName:(NSString *)qName
+                                        attributes:(NSDictionary *)attributeDict{
+    
+    if ([elementName isEqualToString:@"err"]){
+        //        NSString *value = [attributeDict objectForKey:@"stat"];
+        //
+        //        if ([value isEqualToString:@"fail"]){
+        NSString *message = [attributeDict objectForKey:@"msg"];
+        NSString *code = [attributeDict objectForKey:@"code"];
+        
+        NSError *error = [NSError errorWithDomain:@"" code:[code intValue] userInfo:@{NSUnderlyingErrorKey:message}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{dataParsingErrorKey:error}];
+        
+        NSLog(@"parse error - %@: %@", code, message);
+    }
+    
     [self.responseParser didStartElement:elementName attributes:attributeDict];
 }
 
@@ -46,7 +69,5 @@
 - (NSString *)getStringFormatType{
     return @"rest";
 }
-
-@synthesize responseParser;
 
 @end

@@ -10,7 +10,7 @@
 
 @interface Gallery()
 @property (assign, nonatomic) BOOL isUpdateCanceld;
-
+@property (strong, nonatomic) NSMutableArray<Photo *> *mutablePhotos;
 @end
 
 @implementation Gallery
@@ -33,20 +33,21 @@ NSString * const photoIndex = @"photoIndex";
         self.currentPage = 0;
         self.title = [[NSString alloc] init];
         self.isUpdateCanceld = NO;
+        self.mutablePhotos = [NSMutableArray array];
     }
     
     return self;
 }
-//chacheRequest
 
 - (void)setDataProvider:(id<PhotoProviderProtocol>)dataProvider{
     if (self.dataProvider){
-       [self cancelGetData];
+        [self cancelGetData];
     }
     
     _dataProvider = dataProvider;
 }
 
+#pragma mark - Navigation
 
 - (Photo *)nextPhoto{
     
@@ -80,6 +81,7 @@ NSString * const photoIndex = @"photoIndex";
     return self.photos.count;
 }
 
+#pragma mark - File manager navigation
 
 - (NSString *)getLocalPathForPhoto:(Photo *)photo{
     NSString *localPath = [self.folderPath stringByAppendingPathComponent:photo.name];
@@ -93,7 +95,7 @@ NSString * const photoIndex = @"photoIndex";
 
 
 - (NSString *)createGalleryFolder{
- 
+    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachesDir = [paths objectAtIndex:0];
     
@@ -102,26 +104,45 @@ NSString * const photoIndex = @"photoIndex";
     
     NSError *error = nil;
     [[NSFileManager defaultManager] createDirectoryAtPath:assetsDir
-                                    withIntermediateDirectories:YES
-                                    attributes:nil
-                                    error:&error];
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:&error];
     return assetsDir;
 }
 
 
-- (void)updateContent{
-   [self cancelGetData];
+#pragma mark - Update content
+
+- (void)reloadContent{
+    //[self cancelGetData];
     
     @synchronized (self) {
         self.isUpdateCanceld = NO;
+        self.mutablePhotos = [NSMutableArray array];
     }
     
-    [self.dataProvider getPhotosForGallery:self.galleryID use:^(NSArray * _Nullable result) {
-        @synchronized (self) {
-            self.photos = result;
+    [self.dataProvider getPhotosForGallery:self.galleryID use:[self getResponseHandler]];
+}
+
+
+- (void)getAdditionalContent{
+    [self.dataProvider getAdditionalPhotosForGallery:self.galleryID use:[self getResponseHandler]];
+}
+
+
+- (ReturnResult)getResponseHandler{
+    __weak typeof(self) weakSelf = self;
+    
+    ReturnResult block = ^(NSArray * _Nullable result) {
+        __strong typeof(self) strongSelf = weakSelf;
+        @synchronized (strongSelf) {
+            [strongSelf.mutablePhotos addObjectsFromArray:result];
+            strongSelf.photos = strongSelf.mutablePhotos;
         }
-        [self allElementsParsed];
-    }];
+        [strongSelf elementsParsed:strongSelf.photos];
+    };
+    
+    return block;
 }
 
 
@@ -136,15 +157,15 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (void)allElementsParsed{
+- (void)elementsParsed:(NSArray<Photo *> *)photos {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:PhotosInformationReceived object:nil];
     });
     
-    for (NSInteger i = 0; i < self.photos.count; i++) {
+    for (NSInteger i = 0; i < photos.count; i++) {
         if (!self.isUpdateCanceld){
-            Photo * photo = [self.photos objectAtIndex:i];
+            Photo * photo = [photos objectAtIndex:i];
             
             NSDictionary *dictionary = @{locationKey:[self getLocalPathForPhoto:photo], photoIndex:[NSNumber numberWithInteger:i]};
             

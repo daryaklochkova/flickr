@@ -12,24 +12,15 @@
 @interface GetPhotosResponseParser()
 
 @property (strong, nonatomic) NSMutableArray<Photo *> *photos;
-@property (strong, nonatomic) ReturnResult completionHandler;
+@property (strong, nonatomic) ReturnResultWithContinuation completionHandler;
 
 @end
 
 @implementation GetPhotosResponseParser
 
-- (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
-    if ([elementName isEqualToString:@"photo"]){
-        Photo *photo = [[Photo alloc] initWithDictionary:attributeDict];
-        [self.photos addObject:photo];
-    }
-}
+@synthesize continuation;
 
-- (void)didEndDocument {
-    self.completionHandler(self.photos);
-}
-
-- (nonnull instancetype)initWith:(nonnull ReturnResult)completionHandler {
+- (nonnull instancetype)initWith:(nonnull ReturnResultWithContinuation)completionHandler {
     self = [super init];
     
     if(self){
@@ -40,5 +31,24 @@
     return self;
 }
 
+- (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
+    
+    if ([elementName isEqualToString:@"photos"]){
+        self.continuation = [attributeDict objectForKey:@"continuation"];
+    }
+    
+    if ([elementName isEqualToString:@"photo"]){
+        Photo *photo = [[Photo alloc] initWithDictionary:attributeDict];
+        [self.photos addObject:photo];
+    }
+}
+
+- (void)didEndDocument{
+    if (!self.continuation){
+        self.continuation = [continuationEndValue copy];
+    }
+    
+    self.completionHandler(self.photos, self.continuation);
+}
 
 @end

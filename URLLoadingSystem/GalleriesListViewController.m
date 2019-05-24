@@ -8,6 +8,7 @@
 
 #import "GalleriesListViewController.h"
 #include "AppDelegate.h"
+#include "FooterCollectionReusableView.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
@@ -44,34 +45,31 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
                                                  name:dataFetchError object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
+                                                 name:dataParsingFailed object:nil];
 }
-
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-#pragma MARK - update interface
+
+#pragma mark - update interface
 
 - (void)showAlert:(NSNotification *) notification{
     
-    NSError *error = [[notification userInfo] objectForKey:errorKey];
+    NSError *error = [[notification userInfo] objectForKey:dataParsingErrorKey];
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Data loading failed" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
-    
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        [alertController dismissViewControllerAnimated:YES completion:nil];
-    }];
-    
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
     [alertController addAction:action];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-
 - (void)updateViewContent{
     [self.listOfGalleriesCollectionView reloadData];
 }
-
 
 - (void)reloadItem:(NSNotification *) notification{
     NSNumber * number = [[notification object] valueForKey:galleryIndex];
@@ -90,7 +88,19 @@
     }
 }
 
+
 #pragma mark - UICollectionViewDataSource
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+
+    if (kind == UICollectionElementKindSectionFooter){
+        FooterCollectionReusableView *footer = (FooterCollectionReusableView *)([collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath]);
+
+        return footer;
+    }
+
+    return nil;
+}
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -106,16 +116,12 @@
         }
     }
     cell.lable.text = gallery.title;
-    cell.layer.cornerRadius = 4;
-    cell.layer.masksToBounds = true;
     return cell;
 }
-
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self.listOfGalleries countOfGalleries];
 }
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([[segue destinationViewController] isKindOfClass:[GalleryPhotosViewController class]]){
@@ -124,11 +130,33 @@
     }
 }
 
+
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
 }
 
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    
+    if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
+        NSArray *footers = [self.listOfGalleriesCollectionView visibleSupplementaryViewsOfKind:UICollectionElementKindSectionFooter];
+        
+        if (footers.count > 0){
+            FooterCollectionReusableView *footer = [footers objectAtIndex:0];
+            [footer.indicator startAnimating];
+            
+            [footer.indicator performSelector:@selector(stopAnimating) withObject:nil afterDelay:1];
+            
+            [self.listOfGalleries getAdditionalContent];
+        }
+    }
+    
+    if (scrollView.contentOffset.y < 0){
+        //reach top
+    }
+}
 
 @end

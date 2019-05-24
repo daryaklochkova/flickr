@@ -20,25 +20,30 @@
     return self;
 }
 
-
 - (void)getPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler{
-    self.parser.responseParser = [[GetPhotosResponseParser alloc] initWith:completionHandler];
-    [self sendRequest:[self GetRequestFields:galleryID]];
+    self.continuation = [continuationStartValue copy];
+    [self getAdditionalPhotosForGallery:galleryID use:completionHandler];
 }
 
-- (void)cancelTasksByURL:(nonnull NSURL *)url {
-    
+- (void)getAdditionalPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler{
+    if ([self continuationExist]){
+        ReturnResultWithContinuation returnBlock = [self createReturnResultWithContinuationWith:completionHandler];
+        self.parser.responseParser = [[GetPhotosResponseParser alloc] initWith:returnBlock];
+        [self sendRequest:[self GetRequestFields:galleryID]];
+    }
+    else {
+        NSLog(@"continuation doesn't exist");
+    }
 }
-
-
 
 - (NSDictionary *)GetRequestFields:(NSString *)galleryID {
 
     NSDictionary *requestFields = @{
-                                    @"flickr.galleries.getPhotos":[self.parser getStringFormatType],
-                                    @"gallery_id": galleryID
+                                    methodArgumentName:         getGalleriesGetPhotoMethod,
+                                    formatArgumentName:         [self.parser getStringFormatType],
+                                    galleryIDArgumentName:      galleryID,
+                                    continuationArgumentName:   self.continuation
                                     };
-
     return requestFields;
 }
 

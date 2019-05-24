@@ -7,6 +7,7 @@
 //
 
 #import "GalleryCollectionViewDataSource.h"
+#import "FooterCollectionReusableView.h"
 
 
 @interface GalleryCollectionViewDataSource()
@@ -14,6 +15,7 @@
 @property (strong, nonatomic) Gallery *gallery;
 
 @end
+
 
 @implementation GalleryCollectionViewDataSource
 
@@ -48,7 +50,7 @@
 
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return 5;//[self.gallery getPhotosCount];
+    return [self.gallery getPhotosCount];
 }
 
 #pragma mark - update Collection view
@@ -65,11 +67,11 @@
 - (BOOL)setPhoto:(Photo *) photo toCell:(UICollectionViewCell *) cell {
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:[self.gallery getLocalPathForPhoto:photo]];
     
-    //if (image) {
-        cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"flickrTest"]]; //[[UIImageView alloc] initWithImage:image];
+    if (image) {
+        cell.backgroundView = [[UIImageView alloc] initWithImage:image];
         cell.userInteractionEnabled = YES;
         return YES;
-    //}
+    }
     return NO;
 }
 
@@ -82,5 +84,17 @@
     cell.backgroundView = downloadActivityIndicator;
     cell.userInteractionEnabled = NO;
 }
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+
+    if (kind == UICollectionElementKindSectionFooter){
+        FooterCollectionReusableView *footer = (FooterCollectionReusableView *)([collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath]);
+
+        return footer;
+    }
+
+    return nil;
+}
+
 
 @end

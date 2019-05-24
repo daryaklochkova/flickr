@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "ResponseParser.h"
 
+extern const NSNotificationName _Nullable dataParsingFailed;
+extern const NSString * _Nullable dataParsingErrorKey;
+
 typedef enum{
     JSONFormat,
     XMLFormat
@@ -24,7 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)parse:(NSData *) data;
 - (Format)getFormatType;
 - (NSString *)getStringFormatType;
-
 
 @end
 

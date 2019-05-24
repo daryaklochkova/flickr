@@ -30,18 +30,64 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     return self;
 }
 
+- (void)setDataProviderToGalleries:(NSArray<Gallery *> *)galleries{
+    for (Gallery *gallery in galleries) {
+        [gallery setDataProvider:[[PhotoProvider alloc] init]];
+    }
+}
 
-- (void)getPrimaryPhotos{
+
+#pragma mark - Update content
+
+- (void)updateContent{
+    @synchronized (self) {
+         self.galleries = [NSMutableArray array];
+    }
+   
+    [self.dataProvider getGalleriesForUser:self.userID use:[self handleRequestResult]];
+}
+
+- (ReturnResult)handleRequestResult{
+    __weak typeof(self) weakSelf = self;
+    ReturnResult block = ^(NSArray * _Nullable result) {
+        __weak typeof(self) strongSelf = weakSelf;
+        
+        @synchronized (strongSelf) {
+            [strongSelf.galleries addObjectsFromArray:result];
+        }
+        
+        [strongSelf setDataProviderToGalleries:result];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesSuccessfulRecieved object:nil];
+        });
+        
+        [self getPrimaryPhotosFor:result];
+    };
+    
+    return block;
+}
+
+- (void)getAdditionalContent{
+     [self.dataProvider getAdditionalGalleriesForUser:self.userID use:[self handleRequestResult]];
+}
+
+- (void)cancelGetListOfGalleriesTask{
+    for (Gallery *gallery in self.galleries) {
+        [gallery cancelGetData];
+    }
+}
+
+- (void)getPrimaryPhotosFor:(NSArray<Gallery *> *)galleries{
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        for (NSInteger i = 0; i < self.galleries.count; i++) {
-            Gallery *gallery = [self.galleries objectAtIndex:i];
+        for (NSInteger i = 0; i < galleries.count; i++) {
+            Gallery *gallery = [galleries objectAtIndex:i];
             [self getPrimaryPhotoFor:gallery galleryIndex:i];
         }
     });
 }
-
 
 - (void)getPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger) index{
     NSDictionary *dictionary = @{locationKey:[gallery getLocalPathForPrimaryPhoto], galleryIndex:[NSNumber numberWithInteger:index]};
@@ -52,36 +98,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 }
 
 
-- (void)updateContent{
-    [self.dataProvider getGalleriesForUser:self.userID use:^(NSArray * _Nullable result) {
-        self.galleries = [NSMutableArray arrayWithArray:result];
-        
-        [self setDataProviderToGalleries];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesSuccessfulRecieved object:nil];
-        });
-        
-        [self getPrimaryPhotos];
-    }];
-}
-
-
-- (void)setDataProviderToGalleries{
-    for (Gallery *gallery in self.galleries) {
-        [gallery setDataProvider:[[PhotoProvider alloc] init]];
-    }
-}
-
-
-- (void)cancelGetListOfGalleriesTask{
-    for (Gallery *gallery in self.galleries) {
-        [gallery cancelGetData];
-    }
-}
-
-
-#pragma MARK - work with galleries
+#pragma mark - Work with galleries
 
 - (void)addGallery:(Gallery *) gallery{
     @synchronized (self) {
@@ -89,16 +106,13 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     }
 }
 
-
 - (NSInteger)countOfGalleries{
     return self.galleries.count;
 }
 
-
 - (Gallery *)getGalleryAtIndex:(NSInteger) index{
     return [self.galleries objectAtIndex:index];
 }
-
 
 - (NSArray<Gallery *> *)getGalleries{
     return self.galleries;

@@ -32,20 +32,24 @@ extern NSNotificationName const PhotosInformationReceived;
 @property (strong, nonatomic, readonly) NSString *galleryID;
 @property (strong, nonatomic, readonly) NSString *folderPath;
 
-- (void)updateContent;
 - (instancetype)initWithGalleryID:(NSString *) galleryID;
+
+- (void)reloadContent;
+- (void)getAdditionalContent;
+- (void)cancelGetData;
 
 - (Photo *)nextPhoto;
 - (Photo *)previousPhoto;
 - (Photo *)currentPhoto;
+- (NSInteger)getPhotosCount;
 
 - (NSString *)getLocalPathForPhoto:(Photo *)photo;
 - (NSString *)getLocalPathForPrimaryPhoto;
-- (NSInteger)getPhotosCount;
+
 - (void)getPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification;
-- (void)cancelGetData;
 
 - (void)setDataProvider:(id<PhotoProviderProtocol>)dataProvider;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,8 +8,6 @@
 
 #import "NetworkManager.h"
 
-const NSString * baseURL = @"https://www.flickr.com/services/rest/";
-const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
 
 @implementation NetworkManager
 
@@ -52,6 +50,7 @@ const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
 
 
 - (NSURLSessionTask *)fetchData:(NSURLRequest *) request
+                            parseResponceWith:(id<Parser>)parser
                             using:(successDataTaskBlock) succcessBlock
                             and:(failBlock) failBlock {
     
@@ -60,19 +59,26 @@ const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
         
         __strong typeof(self) strongSelf = weakSelf;
         
-        error = [[NSError alloc] init];
+        //error = [[NSError alloc] init];
         if (error){
             NSURLCache *cache = strongSelf.defaultSession.configuration.URLCache;
             NSCachedURLResponse *cachedResponce = [cache cachedResponseForRequest:request];
             
             if (cachedResponce){
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [parser parse:cachedResponce.data];
+                });
                 succcessBlock(cachedResponce.data);
             }
             else {
                 failBlock(error);
+                NSLog (@"NetworkManager fetch data failed - %@", [error description]);
             }
         }
         else {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [parser parse:data];
+            });
             succcessBlock(data);
         }
     }];
@@ -89,9 +95,10 @@ const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
     
     NSURLSessionTask *task = [self.defaultSession downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        error = [[NSError alloc] init];
+        //error = [[NSError alloc] init];
         if (error){
             failBlock(error);
+            NSLog (@"NetworkManager download data failed - %@", [error description]);
         }
         else {
             successBlock(location);
@@ -100,7 +107,6 @@ const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
     [task resume];
     return task;
 }
-
 
 - (void)cancelDownloadTasksWithUrl:(NSURL *)url{ //NSOperationQueue?
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
@@ -112,7 +118,6 @@ const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
         }
     }];
 }
-
 
 - (void)cancelDataTasksWithUrl:(NSURL *)url{
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
@@ -128,7 +133,7 @@ const NSString * apiKey = @"85974c3f3e4f62fd98efb4422277c008";
 - (NSURLRequest *)createRequestWithDictionary:(NSDictionary<NSString *, NSString *> *)requestFields{
     NSURLComponents *urlComponents  = [NSURLComponents componentsWithString:[baseURL copy]];
     
-    NSURLQueryItem *apiKeyItem = [NSURLQueryItem queryItemWithName:@"api_key" value:[apiKey copy]];
+    NSURLQueryItem *apiKeyItem = [NSURLQueryItem queryItemWithName:[apiKey copy] value:[apiKeyValue copy]];
     NSMutableArray<NSURLQueryItem *> *queryItems = [[NSMutableArray alloc] init];
     [queryItems addObject:apiKeyItem];
     

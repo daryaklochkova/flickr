@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ParserProtocol.h"
+#import "Constants.h"
 
 typedef void(^successDataTaskBlock)(NSData * _Nullable responseData);
 typedef void(^successDownloadTaskBlock)(NSURL * _Nullable location);
@@ -25,8 +27,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)createConnection;
 - (NSURLSessionTask *)fetchData:(NSURLRequest *) request
+                parseResponceWith:(id<Parser>)parser
                 using:(successDataTaskBlock) succcessBlock
                 and:(failBlock) failBlock;
+
 - (NSURLSessionTask *)downloadData:(NSURLRequest *) request
                 using:(successDownloadTaskBlock) successBlock
                 and:(failBlock) failBlock;

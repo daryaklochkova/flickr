@@ -17,7 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol GalleriesListProviderProtocol <NSObject>
 
-- (void)getGalleriesForUser:(NSString * _Nullable)userID use:(ReturnGalleriesResult _Nullable ) completionHandler;
+- (void)getAdditionalGalleriesForUser:(NSString * _Nullable)userID use:(ReturnGalleriesResult _Nullable ) completionHandler;
+- (void)getGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler;
 
 @end
 

@@ -1,8 +1,8 @@
 //
-//  AnimationControllers.h
+//  UIScrollView.h
 //  URLLoadingSystem
 //
-//  Created by Darya Klochkova on 14/05/2019.
+//  Created by Darya Klochkova on 23/05/2019.
 //  Copyright © 2019 Darya Klochkova. All rights reserved.
 //
 
@@ -11,8 +11,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AnimationControllers : NSObject <UIViewControllerAnimatedTransitioning>
+@interface UIScrollView (ZoomToPoint)
+
+- (void)zoomToPoint:(CGPoint)zoomPoint withScale: (CGFloat)scale animated: (BOOL)animated;
 
 @end
+
 
 NS_ASSUME_NONNULL_END
