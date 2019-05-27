@@ -14,7 +14,7 @@
     self = [super init];
     
     if (self){
-        self.parser = [[XMLParser alloc] init];
+        self.parser = [[JSONParser alloc] init];
     }
     
     return self;

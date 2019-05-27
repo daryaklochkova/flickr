@@ -13,26 +13,26 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FooterCollectionReusableView">
             <connections>
                 <outlet property="contentView" destination="ZoQ-UH-A1R" id="6du-sp-HYo"/>
-                <outlet property="indicator" destination="Noq-Bz-JBd" id="2Tg-ef-KOX"/>
+                <outlet property="indicator" destination="Noq-Bz-JBd" id="WbI-dt-mrQ"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="Footer" id="ZoQ-UH-A1R">
-            <rect key="frame" x="0.0" y="0.0" width="414" height="50"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="Footer" id="ZoQ-UH-A1R">
+            <rect key="frame" x="0.0" y="0.0" width="800" height="48"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Noq-Bz-JBd">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="16"/>
+                    <rect key="frame" x="0.0" y="0.0" width="800" height="48"/>
                 </activityIndicatorView>
             </subviews>
             <constraints>
-                <constraint firstItem="Noq-Bz-JBd" firstAttribute="leading" secondItem="l3o-Yd-EOS" secondAttribute="leading" id="1rY-4F-Ggu"/>
-                <constraint firstItem="l3o-Yd-EOS" firstAttribute="bottom" secondItem="Noq-Bz-JBd" secondAttribute="bottom" id="54w-bN-Q1N"/>
-                <constraint firstItem="l3o-Yd-EOS" firstAttribute="trailing" secondItem="Noq-Bz-JBd" secondAttribute="trailing" id="cpM-sG-dfz"/>
-                <constraint firstItem="Noq-Bz-JBd" firstAttribute="top" secondItem="ZoQ-UH-A1R" secondAttribute="top" id="eX4-G3-JyK"/>
+                <constraint firstItem="Noq-Bz-JBd" firstAttribute="top" secondItem="ZoQ-UH-A1R" secondAttribute="top" id="RZq-eO-PNK"/>
+                <constraint firstItem="Noq-Bz-JBd" firstAttribute="leading" secondItem="ZoQ-UH-A1R" secondAttribute="leading" id="brB-1S-9lF"/>
+                <constraint firstAttribute="trailing" secondItem="Noq-Bz-JBd" secondAttribute="trailing" id="dtn-iq-ebU"/>
+                <constraint firstAttribute="bottom" secondItem="Noq-Bz-JBd" secondAttribute="bottom" id="qBs-xR-tmI"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="l3o-Yd-EOS"/>
-            <point key="canvasLocation" x="-524" y="86"/>
+            <point key="canvasLocation" x="-279.71014492753625" y="-320.75892857142856"/>
         </collectionReusableView>
     </objects>
 </document>

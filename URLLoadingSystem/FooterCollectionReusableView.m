@@ -14,8 +14,7 @@
 
 @implementation FooterCollectionReusableView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         [self commonInit];
@@ -23,9 +22,7 @@
     return self;
 }
 
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
+- (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
         [self commonInit];
@@ -33,12 +30,13 @@
     return self;
 }
 
-
-- (void)commonInit{
+- (void)commonInit {
     [[[NSBundle mainBundle] loadNibNamed:@"Footer" owner:self options:nil] firstObject];
     [self addSubview:self.contentView];
-    self.contentView.frame = self.bounds;
 }
 
+- (void)configViewWith:(CGFloat)width and:(CGFloat)height {
+    self.contentView.frame = CGRectMake(0, 0, width, height);
+}
 
 @end

@@ -143,6 +143,12 @@
         [queryItems addObject:item];
     }
     
+    NSString *format = [requestFields objectForKey:formatArgumentName];
+    if ([format isEqualToString:@"json"]) {
+        NSURLQueryItem *item = [NSURLQueryItem queryItemWithName:@"nojsoncallback" value:@"1"];
+        [queryItems addObject:item];
+    }
+    
     urlComponents.queryItems = queryItems;
     return [NSURLRequest requestWithURL:urlComponents.URL];
 }

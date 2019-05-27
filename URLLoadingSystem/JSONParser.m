@@ -12,11 +12,11 @@
 @synthesize responseParser;
 
 - (void)parse:(NSData *) data{
+    
     NSError *error;
-    NSDictionary * jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    NSDictionary * jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
     
-    [self parseDictionary:jsonDictionary];
-    
+    [self parseDictionary:jsonDictionary]; 
     [self.responseParser didEndDocument];
 }
 

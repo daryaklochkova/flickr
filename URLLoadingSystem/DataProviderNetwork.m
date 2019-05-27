@@ -44,11 +44,9 @@ const NSString *dataFetchErrorKey = @"errorKey";
     [networkManager fetchData:request parseResponceWith:self.parser using:^(NSData * _Nullable responseData){} and:failBlock];
 }
 
-
 - (void)cancelTasksByURL:(NSURL *) url{
     [[NetworkManager defaultManager] cancelDownloadTasksWithUrl:url];
 }
-
 
 - (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification{
     

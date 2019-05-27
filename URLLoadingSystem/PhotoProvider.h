@@ -11,6 +11,7 @@
 #import "DataProviderNetwork.h"
 #import "GetPhotosResponseParser.h"
 #import "XMLParser.h"
+#import "JSONParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

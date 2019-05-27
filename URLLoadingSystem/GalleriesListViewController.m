@@ -13,6 +13,7 @@
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
 @property (strong, nonatomic) Gallery *selectedGallery;
+@property (weak, nonatomic) FooterCollectionReusableView *collectionViewFooter;
 
 
 @end
@@ -96,6 +97,7 @@
     if (kind == UICollectionElementKindSectionFooter){
         FooterCollectionReusableView *footer = (FooterCollectionReusableView *)([collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath]);
 
+        self.collectionViewFooter = footer;
         return footer;
     }
 
@@ -142,15 +144,19 @@
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
     if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-        NSArray *footers = [self.listOfGalleriesCollectionView visibleSupplementaryViewsOfKind:UICollectionElementKindSectionFooter];
         
-        if (footers.count > 0){
-            FooterCollectionReusableView *footer = [footers objectAtIndex:0];
-            [footer.indicator startAnimating];
-            
-            [footer.indicator performSelector:@selector(stopAnimating) withObject:nil afterDelay:1];
+        if (self.collectionViewFooter) {
+            [self.collectionViewFooter configViewWith:self.listOfGalleriesCollectionView.frame.size.width and:30];
+            [self.collectionViewFooter.indicator startAnimating];
             
             [self.listOfGalleries getAdditionalContent];
+            
+            double delayInSeconds = 2.0;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.collectionViewFooter.indicator stopAnimating];
+                [self.collectionViewFooter configViewWith:self.listOfGalleriesCollectionView.frame.size.width and:0];
+            });
         }
     }
     
@@ -158,5 +164,6 @@
         //reach top
     }
 }
+
 
 @end

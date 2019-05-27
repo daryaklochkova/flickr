@@ -11,7 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface FooterCollectionReusableView : UICollectionReusableView
+
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
+
+- (void)configViewWith:(CGFloat)width and:(CGFloat)height;
+
 @end
 
 NS_ASSUME_NONNULL_END
