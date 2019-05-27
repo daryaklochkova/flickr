@@ -39,6 +39,11 @@
         NSString *tmpString = [self.currentGallery.title stringByAppendingString:string];
         self.currentGallery.title = tmpString;
     }
+    
+    if ([self.currentElement isEqualToString:@"description"]) {
+        NSString *tmpString = [self.currentGallery.galleryDescription stringByAppendingString:string];
+        self.currentGallery.galleryDescription = tmpString;
+    }
 }
 
 - (void)didEndElement:(NSString *)elementName{
@@ -49,6 +54,11 @@
     
     if ([elementName isEqualToString:@"galleries"]){
         self.continuation = [attributeDict objectForKey:@"continuation"];
+        
+        NSDictionary *galleries = [attributeDict objectForKey:@"galleries"];
+        if (galleries) {
+            self.continuation = [galleries objectForKey:@"continuation"];
+        }
     }
     
     if ([elementName isEqualToString:@"gallery"]){

@@ -15,7 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 extern const NSNotificationName dataFetchError;
-extern const NSString *dataFetchErrorKey;
+extern const NSNotificationName downloadFileError;
 
 @interface DataProviderNetwork : NSObject
 

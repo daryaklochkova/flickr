@@ -9,14 +9,16 @@
 #import "GalleryPhotosViewController.h"
 #import "GalleryCollectionViewDataSource.h"
 #import "FooterCollectionReusableView.h"
+#import "UIScrollView.h"
+#import "GalleryHeaderCollectionReusableView.h"
 
 @interface GalleryPhotosViewController()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *galleryCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UINavigationItem *galleryTitle;
-
 @property (strong, nonatomic) GalleryCollectionViewDataSource *collectionViewDataSource;
+
 
 @end
 
@@ -31,8 +33,8 @@
     
     self.collectionViewDataSource = [[GalleryCollectionViewDataSource alloc] initWithGallery:self.gallery];
     self.galleryCollectionView.dataSource = self.collectionViewDataSource;
-    
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
@@ -45,7 +47,7 @@
 
 - (void)showAlert:(NSNotification *) notification{
     
-    NSError *error = [[notification userInfo] objectForKey:dataParsingErrorKey];
+    NSError *error = [[notification userInfo] objectForKey:errorKey];
     
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Data loading failed" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
@@ -66,6 +68,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
                                                  name:dataParsingFailed object:nil];
+    
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:)
+                                                // name:downloadFileError object:nil];
 }
 
 - (void)dealloc{
@@ -89,25 +94,27 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     UIViewController *destinationViewController = [segue destinationViewController];
     
-    if ([destinationViewController isKindOfClass:[PhotoViewController class]]){
-    
+    if ([destinationViewController isKindOfClass:[PhotoViewController class]] &&
+        [sender isKindOfClass:[UICollectionViewCell class]]) {
+        
         PhotoViewController *photoViewController = (PhotoViewController *)destinationViewController;
-        if ([sender isKindOfClass:[UICollectionViewCell class]]){
-            UICollectionViewCell *cell = (UICollectionViewCell *)sender;
-            UIImageView *cellImageView = (UIImageView *)cell.backgroundView;
-            if (cellImageView){
-                photoViewController.image = cellImageView.image;
-                photoViewController.gallery = self.gallery;
-            }    
+  
+        UICollectionViewCell *cell = (UICollectionViewCell *)sender;
+        UIImageView *cellImageView = (UIImageView *)cell.backgroundView;
+        
+        if (cellImageView) {
+            photoViewController.image = cellImageView.image;
+            photoViewController.gallery = self.gallery;
         }
     }
 }
 
-- (void)showPreviews:(NSNotification *) notification{
+- (void)showPreviews:(NSNotification *) notification {
     [self.galleryCollectionView setHidden:NO];
     [self.activityIndicator stopAnimating];
     [self.galleryCollectionView reloadData];
 }
+
 
 - (void)reloadItem:(NSNotification *) notification{
     NSNumber * number = [[notification object] valueForKey:photoIndex];
@@ -116,9 +123,7 @@
     
     [self.collectionViewDataSource collectionView:self.galleryCollectionView
                                                 reloadItemAtIndex:indexPath];
-
 }
-
 
 #pragma mark - UICollectionViewDelegate
 
@@ -130,23 +135,23 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
-    if (scrollView.contentOffset.y >= (scrollView.contentSize.height - scrollView.frame.size.height)) {
-        NSArray *footers = [self.galleryCollectionView visibleSupplementaryViewsOfKind:UICollectionElementKindSectionFooter];
-        
-        if (footers.count > 0){
-            FooterCollectionReusableView *footer = [footers objectAtIndex:0];
-            [footer.indicator startAnimating];
-            
-            [footer.indicator performSelector:@selector(stopAnimating) withObject:nil afterDelay:1];
-            
-            [self.gallery getAdditionalContent];
-        }
-    }
-    
-    if (scrollView.contentOffset.y < 0){
-        //reach top
+    if ([scrollView isBottomReached]) {
+        CGFloat width = self.galleryCollectionView.frame.size.width;
+        [[self getFooter] showWithWight:width];
+        [self.gallery getAdditionalContent];
     }
 }
 
+- (FooterCollectionReusableView *)getFooter {
+   UICollectionReusableView *footer = [self.galleryCollectionView supplementaryViewForElementKind:UICollectionElementKindSectionFooter atIndexPath:[NSIndexPath indexPathWithIndex:0]];
+
+    return (FooterCollectionReusableView *)footer;
+}
+
+- (GalleryHeaderCollectionReusableView *)getHeader {
+    UICollectionReusableView *header = [self.galleryCollectionView supplementaryViewForElementKind:UICollectionElementKindSectionHeader atIndexPath:[NSIndexPath indexPathWithIndex:0]];
+    
+    return (GalleryHeaderCollectionReusableView *)header;
+}
 
 @end

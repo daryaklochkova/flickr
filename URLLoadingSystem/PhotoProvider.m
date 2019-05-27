@@ -7,6 +7,7 @@
 //
 
 #import "PhotoProvider.h"
+#import "ParserProvider.h"
 
 @implementation PhotoProvider
 
@@ -14,7 +15,7 @@
     self = [super init];
     
     if (self){
-        self.parser = [[JSONParser alloc] init];
+        self.parser = [[ParserProvider defaultProvider] getParser];
     }
     
     return self;

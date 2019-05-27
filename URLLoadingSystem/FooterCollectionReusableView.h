@@ -14,7 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicator;
 
-- (void)configViewWith:(CGFloat)width and:(CGFloat)height;
+- (void)configureViewWithWidth:(CGFloat)width andHeight:(CGFloat)height;
+- (void)showWithWight:(CGFloat)width;
 
 @end
 

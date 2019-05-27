@@ -16,15 +16,29 @@
     NSError *error;
     NSDictionary * jsonDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
     
-    [self parseDictionary:jsonDictionary]; 
-    [self.responseParser didEndDocument];
+    if (error) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{errorKey:error}];
+    }
+    else {
+        
+        NSString *status = [jsonDictionary objectForKey:@"stat"];
+        if ([status isEqualToString:@"fail"]){
+            NSString *message = [jsonDictionary objectForKey:@"message"];
+            NSString *code = [jsonDictionary objectForKey:@"code"];
+            
+            NSError *error = [NSError errorWithDomain:@"" code:[code intValue] userInfo:@{NSUnderlyingErrorKey:message}];
+            [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{errorKey:error}];
+        }
+        
+        [self parseDictionary:jsonDictionary];
+        [self.responseParser didEndDocument];
+    }
 }
 
 - (void)parseDictionary:(NSDictionary *)dictionary{
     
     for (NSString *key in dictionary) {
         id obj = [dictionary objectForKey:key];
-        
         if ([obj isKindOfClass:[NSArray class]]){
             for (id elem in obj) {
                 [self.responseParser didStartElement:key attributes:elem];

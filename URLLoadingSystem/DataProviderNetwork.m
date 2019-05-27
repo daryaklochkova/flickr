@@ -9,8 +9,7 @@
 #import "DataProviderNetwork.h"
 
 const NSNotificationName dataFetchError = @"dataFetchError";
-const NSString *dataFetchErrorKey = @"errorKey";
-
+const NSNotificationName downloadFileError = @"downloadFileError";
 
 @interface DataProviderNetwork()
 @property (strong, nonatomic) NSMutableArray *activeTasks;
@@ -33,7 +32,7 @@ const NSString *dataFetchErrorKey = @"errorKey";
     
     failBlock failBlock = ^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSDictionary *notificationInfo = @{dataParsingErrorKey:error};
+            NSDictionary *notificationInfo = @{errorKey:error};
             [[NSNotificationCenter defaultCenter] postNotificationName:dataFetchError object:notificationInfo];
         });
     };
@@ -44,11 +43,13 @@ const NSString *dataFetchErrorKey = @"errorKey";
     [networkManager fetchData:request parseResponceWith:self.parser using:^(NSData * _Nullable responseData){} and:failBlock];
 }
 
+
 - (void)cancelTasksByURL:(NSURL *) url{
     [[NetworkManager defaultManager] cancelDownloadTasksWithUrl:url];
 }
 
-- (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification{
+
+- (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification {
     
     successDownloadTaskBlock completionHandler = ^(NSURL * _Nullable location) {
         NSError *err = nil;
@@ -71,6 +72,9 @@ const NSString *dataFetchErrorKey = @"errorKey";
         
         if ([[NSFileManager defaultManager] fileExistsAtPath:[path substringFromIndex:6]]){
             [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+        else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:downloadFileError object:nil];
         }
     };
     

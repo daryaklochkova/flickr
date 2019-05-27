@@ -10,7 +10,6 @@
 #import "ResponseParser.h"
 
 extern const NSNotificationName _Nullable dataParsingFailed;
-extern const NSString * _Nullable dataParsingErrorKey;
 
 typedef enum{
     JSONFormat,

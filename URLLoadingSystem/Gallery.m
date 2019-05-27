@@ -32,6 +32,7 @@ NSString * const photoIndex = @"photoIndex";
         _folderPath = [self createGalleryFolder];
         self.currentPage = 0;
         self.title = [[NSString alloc] init];
+        self.galleryDescription = [[NSString alloc] init];
         self.isUpdateCanceld = NO;
         self.mutablePhotos = [NSMutableArray array];
     }

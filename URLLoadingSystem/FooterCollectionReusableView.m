@@ -35,8 +35,21 @@
     [self addSubview:self.contentView];
 }
 
-- (void)configViewWith:(CGFloat)width and:(CGFloat)height {
+- (void)configureViewWithWidth:(CGFloat)width andHeight:(CGFloat)height {
     self.contentView.frame = CGRectMake(0, 0, width, height);
 }
+
+- (void)showWithWight:(CGFloat)width {
+    [self configureViewWithWidth:width andHeight:30];
+    [self.indicator startAnimating];
+    
+    double delayInSeconds = 2.0;
+    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
+    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+        [self.indicator stopAnimating];
+        [self configureViewWithWidth:width andHeight:0];
+    });
+}
+
 
 @end

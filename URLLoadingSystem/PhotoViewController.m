@@ -30,6 +30,8 @@
     
     self.collectionViewDataSource = [[GalleryCollectionViewDataSource alloc] initWithGallery:self.gallery];
     self.collectionView.dataSource = self.collectionViewDataSource;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:) name:fileDownloadComplite object:nil];
 }
 
 
@@ -86,12 +88,12 @@
 
 - (void)handleDoubleTapRecognizer:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
-        if(self.scrollView.zoomScale > self.scrollView.minimumZoomScale){
-            [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:NO];
+        if(self.scrollView.zoomScale > self.scrollView.minimumZoomScale) {
+            [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
         }
-        else{
+        else {
             CGPoint location = [sender locationInView:self.scrollView];
-            [self.scrollView zoomToPoint:location withScale:self.scrollView.maximumZoomScale animated:NO];
+            [self.scrollView zoomToPoint:location withScale:self.scrollView.maximumZoomScale animated:YES];
         }
     }
 }
@@ -100,7 +102,8 @@
     if (sender.state == UIGestureRecognizerStateEnded) {
         if ([self.collectionView isHidden]){
             [self.collectionView setHidden:NO];
-        } else {
+        }
+        else {
             [self.collectionView setHidden:YES];
         }
     }
@@ -108,6 +111,15 @@
 
 
 #pragma mark - Work with views
+
+- (void)reloadItem:(NSNotification *) notification{
+    NSNumber * number = [[notification object] valueForKey:photoIndex];
+    NSInteger index = [number integerValue];
+    NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    
+    [self.collectionViewDataSource collectionView:self.collectionView
+                                reloadItemAtIndex:indexPath];
+}
 
 - (void)showPhoto:(Photo *)photo {
     UIImage *image = [UIImage imageWithContentsOfFile:[self.gallery getLocalPathForPhoto:photo]];

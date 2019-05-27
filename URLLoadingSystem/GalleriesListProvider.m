@@ -7,7 +7,7 @@
 //
 
 #import "GalleriesListProvider.h"
-#include "JSONParser.h"
+#include "ParserProvider.h"
 
 @interface GalleriesListProvider()
 @end
@@ -19,7 +19,7 @@
     self = [super init];
     
     if (self){
-        self.parser = [[XMLParser alloc] init];
+        self.parser = [[ParserProvider defaultProvider] getParser];
     }
     
     return self;
@@ -45,7 +45,6 @@
     self.continuation = [continuationStartValue copy];
     [self getAdditionalGalleriesForUser:userID use:completionHandler];
 }
-
 
 - (void)getAdditionalGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler{
     if ([self continuationExist]){

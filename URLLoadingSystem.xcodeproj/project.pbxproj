@@ -29,6 +29,8 @@
 		A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A20228D379A009BF7BA /* JSONParser.m */; };
 		A05C2A24228D3FD7009BF7BA /* XMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A23228D3FD7009BF7BA /* XMLParser.m */; };
 		A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */; };
+		A0664858229C16AB00066CEA /* ParserProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0664857229C16AB00066CEA /* ParserProvider.m */; };
+		A066485D229C253000066CEA /* GalleryHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A066485C229C253000066CEA /* GalleryHeaderCollectionReusableView.m */; };
 		A08503D1229805850083FEB7 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = A08503D0229805850083FEB7 /* Constants.m */; };
 		A08503D9229836F10083FEB7 /* Footer.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08503D8229836F10083FEB7 /* Footer.xib */; };
 		A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE2229525BB00F1855B /* PhotoProvider.m */; };
@@ -79,6 +81,10 @@
 		A05C2A29228D4312009BF7BA /* GetPhotosResponseParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GetPhotosResponseParser.h; sourceTree = "<group>"; };
 		A05C2A2A228D4312009BF7BA /* GetPhotosResponseParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetPhotosResponseParser.m; sourceTree = "<group>"; };
 		A05C2A2C228D5215009BF7BA /* ResponseParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponseParser.h; sourceTree = "<group>"; };
+		A0664856229C16AB00066CEA /* ParserProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParserProvider.h; sourceTree = "<group>"; };
+		A0664857229C16AB00066CEA /* ParserProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ParserProvider.m; sourceTree = "<group>"; };
+		A066485B229C253000066CEA /* GalleryHeaderCollectionReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		A066485C229C253000066CEA /* GalleryHeaderCollectionReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryHeaderCollectionReusableView.m; sourceTree = "<group>"; };
 		A08503CF229805850083FEB7 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		A08503D0229805850083FEB7 /* Constants.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		A08503D8229836F10083FEB7 /* Footer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Footer.xib; sourceTree = "<group>"; };
@@ -112,6 +118,8 @@
 				A05C2A20228D379A009BF7BA /* JSONParser.m */,
 				A05C2A22228D3FD7009BF7BA /* XMLParser.h */,
 				A05C2A23228D3FD7009BF7BA /* XMLParser.m */,
+				A0664856229C16AB00066CEA /* ParserProvider.h */,
+				A0664857229C16AB00066CEA /* ParserProvider.m */,
 			);
 			name = Parsers;
 			sourceTree = "<group>";
@@ -119,7 +127,7 @@
 		A02798152296C499002B42FE /* GalleriesListViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A03E2D452289C7CB00CD9DF6 /* Cells */,
+				A03E2D452289C7CB00CD9DF6 /* GalleryCell */,
 				A055BEDF228019ED00400256 /* GalleriesListViewController.h */,
 				A055BEE0228019ED00400256 /* GalleriesListViewController.m */,
 			);
@@ -192,20 +200,19 @@
 		A03E2D402289A84800CD9DF6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				A027981F2296D921002B42FE /* Footer */,
 				A02798162296C609002B42FE /* PhotosViewController */,
 				A02798152296C499002B42FE /* GalleriesListViewController */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
 		};
-		A03E2D452289C7CB00CD9DF6 /* Cells */ = {
+		A03E2D452289C7CB00CD9DF6 /* GalleryCell */ = {
 			isa = PBXGroup;
 			children = (
 				A03E2D462289C7E500CD9DF6 /* GalleryCell.h */,
 				A03E2D472289C7E500CD9DF6 /* GalleryCell.m */,
 			);
-			name = Cells;
+			name = GalleryCell;
 			sourceTree = "<group>";
 		};
 		A055BED0228019ED00400256 = {
@@ -227,8 +234,8 @@
 		A055BEDB228019ED00400256 /* URLLoadingSystem */ = {
 			isa = PBXGroup;
 			children = (
-				A08503CF229805850083FEB7 /* Constants.h */,
-				A08503D0229805850083FEB7 /* Constants.m */,
+				A066485A229C1A7700066CEA /* Views */,
+				A0664859229C1A6300066CEA /* Constants */,
 				A02798182296C734002B42FE /* Extensions */,
 				A0109EF8228BFF280055F946 /* Parsers */,
 				A03E2D402289A84800CD9DF6 /* Controllers */,
@@ -245,6 +252,25 @@
 				A055BEE5228019ED00400256 /* URLLoadingSystem.xcdatamodeld */,
 			);
 			path = URLLoadingSystem;
+			sourceTree = "<group>";
+		};
+		A0664859229C1A6300066CEA /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				A08503CF229805850083FEB7 /* Constants.h */,
+				A08503D0229805850083FEB7 /* Constants.m */,
+			);
+			name = Constants;
+			sourceTree = "<group>";
+		};
+		A066485A229C1A7700066CEA /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				A027981F2296D921002B42FE /* Footer */,
+				A066485B229C253000066CEA /* GalleryHeaderCollectionReusableView.h */,
+				A066485C229C253000066CEA /* GalleryHeaderCollectionReusableView.m */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		A08503CE2298036A0083FEB7 /* DataSourse */ = {
@@ -341,9 +367,11 @@
 				A0147FF62282B21D00A4D94F /* Photo.m in Sources */,
 				A0862CE6229527C700F1855B /* GalleriesListProvider.m in Sources */,
 				A055BEF722801A2F00400256 /* NetworkManager.m in Sources */,
+				A066485D229C253000066CEA /* GalleryHeaderCollectionReusableView.m in Sources */,
 				A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */,
 				A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */,
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
+				A0664858229C16AB00066CEA /* ParserProvider.m in Sources */,
 				A055BEDE228019ED00400256 /* AppDelegate.m in Sources */,
 				A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */,
 				A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */,

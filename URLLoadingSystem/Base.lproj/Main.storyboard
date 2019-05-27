@@ -35,15 +35,15 @@
                                             <rect key="frame" x="0.0" y="0.0" width="175" height="237"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="orP-ot-bsC">
+                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="orP-ot-bsC">
                                                     <rect key="frame" x="0.0" y="0.0" width="175" height="237"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jOK-pb-mMr">
-                                                            <rect key="frame" x="0.0" y="0.0" width="175" height="177.66666666666666"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="175" height="176.33333333333334"/>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utn-gB-RfG">
-                                                            <rect key="frame" x="0.0" y="177.66666666666666" width="175" height="59.333333333333343"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="utn-gB-RfG">
+                                                            <rect key="frame" x="0.0" y="178.33333333333334" width="175" height="58.666666666666657"/>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
@@ -113,13 +113,13 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Vaz-YA-g7S">
                                     <size key="itemSize" width="84" height="84"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="headerReferenceSize" width="50" height="99"/>
                                     <size key="footerReferenceSize" width="50" height="50"/>
                                     <inset key="sectionInset" minX="20" minY="5" maxX="20" maxY="5"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="bGr-wT-tF9">
-                                        <rect key="frame" x="20" y="5" width="84" height="84"/>
+                                        <rect key="frame" x="20" y="104" width="84" height="84"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="84" height="84"/>
@@ -130,8 +130,35 @@
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="GalleryHeader" id="23k-9k-vvD" customClass="GalleryHeaderCollectionReusableView">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="99"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="fpP-zL-xqV" userLabel="stack view">
+                                            <rect key="frame" x="10" y="0.0" width="394" height="99"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Mu-fu-xQj">
+                                                    <rect key="frame" x="0.0" y="0.0" width="394" height="99"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="bottom" secondItem="fpP-zL-xqV" secondAttribute="bottom" id="TK5-pU-y5G"/>
+                                        <constraint firstItem="fpP-zL-xqV" firstAttribute="top" secondItem="23k-9k-vvD" secondAttribute="top" id="fCu-eF-YrU"/>
+                                        <constraint firstItem="fpP-zL-xqV" firstAttribute="leading" secondItem="23k-9k-vvD" secondAttribute="leading" constant="10" id="g90-kC-IgP"/>
+                                        <constraint firstAttribute="trailing" secondItem="fpP-zL-xqV" secondAttribute="trailing" constant="10" id="sen-NC-7rn"/>
+                                    </constraints>
+                                    <connections>
+                                        <outlet property="titleTextField" destination="7Mu-fu-xQj" id="gBF-WA-tvH"/>
+                                    </connections>
+                                </collectionReusableView>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="Footer" id="Dmg-FA-Bv4" customClass="FooterCollectionReusableView">
-                                    <rect key="frame" x="0.0" y="94" width="414" height="50"/>
+                                    <rect key="frame" x="0.0" y="193" width="414" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </collectionReusableView>
                                 <connections>
@@ -152,16 +179,14 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="213-eT-gcE"/>
                     <connections>
                         <outlet property="activityIndicator" destination="HPe-h9-OSU" id="xXf-qO-ApU"/>
                         <outlet property="galleryCollectionView" destination="l5p-jh-q3n" id="AfY-x7-3ZV"/>
-                        <outlet property="galleryTitle" destination="213-eT-gcE" id="Be0-x7-2Yc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-397" y="-90"/>
+            <point key="canvasLocation" x="-397.10144927536237" y="-90.401785714285708"/>
         </scene>
         <!--Photo View Controller-->
         <scene sceneID="UOt-bC-5Ek">

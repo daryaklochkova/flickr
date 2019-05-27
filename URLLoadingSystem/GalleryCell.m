@@ -20,4 +20,15 @@
     return self;
 }
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.layer.cornerRadius = 4;
+        self.layer.masksToBounds = true;
+        self.layer.borderColor = [UIColor grayColor].CGColor;
+        self.layer.borderWidth = 1.0f;
+    }
+    return self;
+}
 @end

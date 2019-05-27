@@ -30,4 +30,7 @@ extern const NSString *galleryIDArgumentName;
 extern const NSString *continuationStartValue;
 extern const NSString *continuationEndValue;
 
+
+extern const NSString * _Nullable errorKey;
+
 NS_ASSUME_NONNULL_END

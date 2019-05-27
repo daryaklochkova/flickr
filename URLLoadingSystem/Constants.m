@@ -26,3 +26,6 @@ const NSString *galleryIDArgumentName = @"gallery_id";
 
 const NSString *continuationStartValue = @"0";
 const NSString *continuationEndValue = @"-1";
+
+
+const NSString *errorKey = @"erorKey";

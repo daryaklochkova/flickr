@@ -9,7 +9,6 @@
 #import "XMLParser.h"
 
 const NSNotificationName dataParsingFailed = @"dataParsingFailed";
-const NSString *dataParsingErrorKey = @"erorKey";
 
 
 @implementation XMLParser
@@ -38,7 +37,7 @@ const NSString *dataParsingErrorKey = @"erorKey";
         NSString *code = [attributeDict objectForKey:@"code"];
         
         NSError *error = [NSError errorWithDomain:@"" code:[code intValue] userInfo:@{NSUnderlyingErrorKey:message}];
-        [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{dataParsingErrorKey:error}];
+        [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{errorKey:error}];
         
         NSLog(@"parse error - %@: %@", code, message);
     }

@@ -8,6 +8,7 @@
 
 #import "GalleryCollectionViewDataSource.h"
 #import "FooterCollectionReusableView.h"
+#import "GalleryHeaderCollectionReusableView.h"
 
 
 @interface GalleryCollectionViewDataSource()
@@ -29,6 +30,7 @@
     return self;
 }
 
+
 #pragma mark - UICollectionViewDataSource
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -48,10 +50,10 @@
     return cell;
 }
 
-
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self.gallery getPhotosCount];
 }
+
 
 #pragma mark - update Collection view
 
@@ -85,16 +87,25 @@
     cell.userInteractionEnabled = NO;
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionReusableView *supplementaryElement = nil;
+    
     if (kind == UICollectionElementKindSectionFooter){
-        FooterCollectionReusableView *footer = (FooterCollectionReusableView *)([collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath]);
-
-        return footer;
+        supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
     }
-
-    return nil;
+    
+    if (kind == UICollectionElementKindSectionHeader) {
+        supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"GalleryHeader" forIndexPath:indexPath];
+        
+        GalleryHeaderCollectionReusableView *header = (GalleryHeaderCollectionReusableView *)supplementaryElement;
+        
+        header.titleTextField.text = self.gallery.title;
+        
+    }
+    
+    return supplementaryElement;
 }
-
 
 @end

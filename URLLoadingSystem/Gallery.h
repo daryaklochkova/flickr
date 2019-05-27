@@ -27,6 +27,7 @@ extern NSNotificationName const PhotosInformationReceived;
 
 @property (strong, nonatomic) Photo *primaryPhoto;
 @property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSString *galleryDescription;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) NSInteger selectedImageIndex;
 @property (strong, nonatomic, readonly) NSString *galleryID;

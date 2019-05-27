@@ -36,5 +36,17 @@
     //apply the resize
     [self zoomToRect: zoomRect animated: animated];
 }
+@end
+
+
+@implementation UIScrollView (IsEdgeReached)
+
+- (BOOL)isBottomReached{
+    return (self.contentOffset.y >= (self.contentSize.height - self.frame.size.height));
+}
+
+- (BOOL)isTopReached{
+    return (self.contentOffset.y < 0);
+}
 
 @end
