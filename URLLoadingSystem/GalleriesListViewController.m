@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
 @property (strong, nonatomic) Gallery *selectedGallery;
 @property (strong, nonatomic) FooterCollectionReusableView *collectionViewFooter;
-
+@property (assign, nonatomic) BOOL isUpdateStarted;
 
 @property (assign, nonatomic) CGSize minCellSize;
 @property (assign, nonatomic) CGSize cellSize;
@@ -29,6 +29,7 @@
     [super viewDidLoad];
     [self loadListOfGalleries];
     [self subscribeToNotifications];
+    self.isUpdateStarted = NO;
     
     self.minCellSize = CGSizeMake(173, 236);
     self.cellSize = self.minCellSize;
@@ -48,12 +49,13 @@
     [self.listOfGalleries setDataProvider:dataProvider];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        self.isUpdateStarted = YES;
         [self.listOfGalleries updateContent];
     });
 }
 
 - (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateViewContent)
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listOfGalleriesRecieved:)
                                                  name:ListOfGalleriesSuccessfulRecieved object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:)
@@ -70,8 +72,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+#pragma mark - Notifications handlers
 
-#pragma mark - update interface
+- (void)listOfGalleriesRecieved:(NSNotification *)notification {
+    self.isUpdateStarted = NO;
+    [self updateViewContent];
+}
+
+#pragma mark - Update interface
 
 - (void)showAlert:(NSNotification *)notification {
     
@@ -164,10 +172,12 @@
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     
-    if ([scrollView isBottomReached]) {
+    if (!self.isUpdateStarted && [scrollView isBottomReached]) {
         CGFloat width = self.listOfGalleriesCollectionView.frame.size.width;
         [self.collectionViewFooter showWithWight:width];
         [self.listOfGalleries getAdditionalContent];
+        self.isUpdateStarted = YES;
+        NSLog(@"BottomReached");
     }
 }
 

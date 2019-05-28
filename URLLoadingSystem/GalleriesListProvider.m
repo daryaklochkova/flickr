@@ -36,7 +36,6 @@
                                     shortLimitArgumentName:   @"1",
                                     perPageArgumentName:      @"3"
                                     };
-    
     return requestFields;
 }
 
