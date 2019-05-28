@@ -34,7 +34,7 @@
                                     userIDArgumentName:       userID,
                                     continuationArgumentName: self.continuation,
                                     shortLimitArgumentName:   @"1",
-                                    perPageArgumentName:      @"10"
+                                    perPageArgumentName:      @"3"
                                     };
     
     return requestFields;

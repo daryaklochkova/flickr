@@ -12,7 +12,7 @@
 #import "GalleryPhotosViewController.h"
 #import "GalleriesListProvider.h"
 
-@interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIScrollViewDelegate>
+@interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) ListOfGalleries *listOfGalleries;
 

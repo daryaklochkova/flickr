@@ -7,14 +7,20 @@
 //
 
 #import "GalleriesListViewController.h"
-#include "AppDelegate.h"
-#include "FooterCollectionReusableView.h"
-#include "UIScrollView.h"
+#import "AppDelegate.h"
+#import "FooterCollectionReusableView.h"
+#import "UIScrollView.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
 @property (strong, nonatomic) Gallery *selectedGallery;
 @property (strong, nonatomic) FooterCollectionReusableView *collectionViewFooter;
+
+
+@property (assign, nonatomic) CGSize minCellSize;
+@property (assign, nonatomic) CGSize cellSize;
+@property (assign, nonatomic) NSInteger minSpacing;
+@property (assign, nonatomic) CGFloat aspectRatio;
 @end
 
 @implementation GalleriesListViewController
@@ -23,13 +29,23 @@
     [super viewDidLoad];
     [self loadListOfGalleries];
     [self subscribeToNotifications];
+    
+    self.minCellSize = CGSizeMake(173, 236);
+    self.cellSize = self.minCellSize;
+    self.minSpacing = 10;
+    self.aspectRatio = (CGFloat)173 / (CGFloat)236;
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.listOfGalleriesCollectionView reloadData];
 }
 
 - (void)loadListOfGalleries{
     self.listOfGalleries = [[ListOfGalleries alloc] initWithUserID:@"66956608@N06"];//26144115@N06 @"66956608@N06"
     GalleriesListProvider *dataProvider = [[GalleriesListProvider alloc] init];
     [self.listOfGalleries setDataProvider:dataProvider];
-    
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.listOfGalleries updateContent];
@@ -144,14 +160,6 @@
 }
 
 
-#pragma mark - UICollectionViewDelegate
-
-- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger index = [indexPath indexAtPosition:1];
-    self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:index];
-}
-
-
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -163,5 +171,35 @@
     }
 }
 
+#pragma mark - UICollectionViewDelegate
+
+- (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger index = [indexPath indexAtPosition:1];
+    self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:index];
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout *)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section {
+    return UIEdgeInsetsMake(10, self.minSpacing, 10, self.minSpacing);
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    [self recalculateCellSize];
+    return CGSizeMake(self.cellSize.width, self.cellSize.height);
+}
+
+- (void)recalculateCellSize {
+    UICollectionView *collectionView = self.listOfGalleriesCollectionView;
+    NSInteger cellsWidth = collectionView.frame.size.width - self.minSpacing;
+    NSInteger columnCount = cellsWidth / (self.minCellSize.width + self.minSpacing);
+    
+    NSInteger newCellWidth = (cellsWidth - (self.minSpacing * columnCount + self.minSpacing)) / columnCount;
+    NSInteger newCellHeight = newCellWidth / self.aspectRatio;
+    
+    self.cellSize = CGSizeMake(newCellWidth, newCellHeight);
+}
 
 @end
