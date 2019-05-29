@@ -16,9 +16,8 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *galleryCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UINavigationItem *galleryTitle;
-@property (strong, nonatomic) GalleryCollectionViewDataSource *collectionViewDataSource;
 
+@property (strong, nonatomic) GalleryCollectionViewDataSource *collectionViewDataSource;
 
 @end
 
@@ -81,8 +80,6 @@
     if (!self.gallery) {
         self.gallery = [[Gallery alloc] initWithGalleryID:@"72157704531735241"];
     }
-    
-    self.galleryTitle.title = self.gallery.title;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.gallery reloadContent];

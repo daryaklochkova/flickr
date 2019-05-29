@@ -40,7 +40,12 @@
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
-    [self.listOfGalleriesCollectionView reloadData];
+    [self.listOfGalleriesCollectionView.collectionViewLayout invalidateLayout];
+}
+
+- (void)viewDidLayoutSubviews{
+    [super viewDidLayoutSubviews];
+    [self recalculateCellSize];
 }
 
 - (void)loadListOfGalleries{
@@ -53,6 +58,7 @@
         [self.listOfGalleries updateContent];
     });
 }
+
 
 - (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listOfGalleriesRecieved:)
@@ -91,9 +97,11 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
+
 - (void)updateViewContent {
     [self.listOfGalleriesCollectionView reloadData];
 }
+
 
 - (void)reloadItem:(NSNotification *)notification {
     NSNumber * number = [[notification object] valueForKey:galleryIndex];
@@ -181,6 +189,14 @@
     }
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    NSLog(@"scrollViewDidEndDragging");
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSLog(@"scrollViewDidScroll");
+}
+
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -197,13 +213,12 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self recalculateCellSize];
     return CGSizeMake(self.cellSize.width, self.cellSize.height);
 }
 
 - (void)recalculateCellSize {
-    UICollectionView *collectionView = self.listOfGalleriesCollectionView;
-    NSInteger cellsWidth = collectionView.frame.size.width - self.minSpacing;
+    CGSize size = self.listOfGalleriesCollectionView.frame.size;
+    NSInteger cellsWidth = size.width - self.minSpacing;
     NSInteger columnCount = cellsWidth / (self.minCellSize.width + self.minSpacing);
     
     NSInteger newCellWidth = (cellsWidth - (self.minSpacing * columnCount + self.minSpacing)) / columnCount;

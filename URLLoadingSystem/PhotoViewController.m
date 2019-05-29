@@ -34,6 +34,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:) name:fileDownloadComplite object:nil];
 }
 
+-(void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    NSInteger index = self.gallery.selectedImageIndex;
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition: UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+}
 
 #pragma mark - Set gestures
 
@@ -45,6 +51,8 @@
     UITapGestureRecognizer *onceTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOnceTapRecognizer:)];
     onceTap.numberOfTapsRequired = 1;
     [self.scrollView addGestureRecognizer:onceTap];
+    
+    [onceTap requireGestureRecognizerToFail:doubleTap];
 }
 
 
@@ -127,7 +135,8 @@
     if (image){
         self.image = image;
         [self reloadImageView];
-    } else {
+    }
+    else {
         [self showActivityView];
     }
 }
