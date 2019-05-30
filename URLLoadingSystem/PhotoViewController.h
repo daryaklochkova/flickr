@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PhotoViewController : UIViewController <UIScrollViewDelegate>
 
-@property (strong, nonatomic) UIImage *image;
 @property (strong, nonatomic) Gallery *gallery;
 
 @end

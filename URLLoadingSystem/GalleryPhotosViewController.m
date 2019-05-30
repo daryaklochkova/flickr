@@ -30,8 +30,10 @@
     [self subscribeToNotifications];
     [self.galleryCollectionView setHidden:YES];
     
-    self.collectionViewDataSource = [[GalleryCollectionViewDataSource alloc] initWithGallery:self.gallery];
+    self.collectionViewDataSource = [[GalleryCollectionViewDataSource alloc] initWithGallery:self.gallery andCellReuseIdentifier:@"PhotoCell"];
     self.galleryCollectionView.dataSource = self.collectionViewDataSource;
+    
+    self.galleryCollectionView.delegate = self;
 }
 
 
@@ -95,14 +97,8 @@
         [sender isKindOfClass:[UICollectionViewCell class]]) {
         
         PhotoViewController *photoViewController = (PhotoViewController *)destinationViewController;
-  
-        UICollectionViewCell *cell = (UICollectionViewCell *)sender;
-        UIImageView *cellImageView = (UIImageView *)cell.backgroundView;
         
-        if (cellImageView) {
-            photoViewController.image = cellImageView.image;
-            photoViewController.gallery = self.gallery;
-        }
+        photoViewController.gallery = self.gallery;    
     }
 }
 
@@ -125,6 +121,10 @@
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath{
+    self.gallery.selectedImageIndex = [indexPath indexAtPosition:1];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     self.gallery.selectedImageIndex = [indexPath indexAtPosition:1];
 }
 

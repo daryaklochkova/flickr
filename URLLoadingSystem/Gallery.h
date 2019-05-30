@@ -43,6 +43,8 @@ extern NSNotificationName const PhotosInformationReceived;
 - (Photo *)previousPhoto;
 - (Photo *)currentPhoto;
 - (NSInteger)getPhotosCount;
+- (NSInteger)nextPhotoIndex;
+- (NSInteger)previousPhotoIndex;
 
 - (NSString *)getLocalPathForPhoto:(Photo *)photo;
 - (NSString *)getLocalPathForPrimaryPhoto;

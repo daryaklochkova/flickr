@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface GalleryCollectionViewDataSource : NSObject <UICollectionViewDataSource>
 
-- (instancetype)initWithGallery:(Gallery *) gallery;
+- (instancetype)initWithGallery:(Gallery *) gallery andCellReuseIdentifier:(NSString *) cellIdentifier;
 - (void)collectionView:(UICollectionView *)collectionView reloadItemAtIndex:(NSIndexPath *)indexPath;
 
 @end

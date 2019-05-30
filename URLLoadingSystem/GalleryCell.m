@@ -14,8 +14,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.layer.cornerRadius = 4;
-        self.layer.masksToBounds = true;
+        [self configureLayerSettings];
     }
     return self;
 }
@@ -24,13 +23,16 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.layer.cornerRadius = 4;
-        self.layer.masksToBounds = true;
-        self.layer.borderColor = [UIColor grayColor].CGColor;
-        self.layer.borderWidth = 1.0f;
+        [self configureLayerSettings];
     }
     return self;
 }
 
+- (void)configureLayerSettings {
+    self.layer.cornerRadius = 4;
+    self.layer.masksToBounds = true;
+    self.layer.borderColor = [UIColor grayColor].CGColor;
+    self.layer.borderWidth = 1.0f;
+}
 
 @end

@@ -50,36 +50,45 @@ NSString * const photoIndex = @"photoIndex";
 
 #pragma mark - Navigation
 
-- (Photo *)nextPhoto{
-    
-    NSInteger newImageIndex = self.selectedImageIndex + 1;
-    if (newImageIndex  < self.photos.count){
-        self.selectedImageIndex = newImageIndex;
-    }
-    
-    Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
+- (Photo *)nextPhoto {
+    Photo *selectedPhoto = [self.photos objectAtIndex:[self nextPhotoIndex]];
     return selectedPhoto;
 }
 
 
-- (Photo *)previousPhoto{
-    
-    NSInteger newImageIndex = self.selectedImageIndex - 1;
-    if (newImageIndex >= 0){
-        self.selectedImageIndex = newImageIndex;
-    }
-    
-    Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
+- (Photo *)previousPhoto {
+    Photo *selectedPhoto = [self.photos objectAtIndex:[self previousPhotoIndex]];
     return selectedPhoto;
 }
 
-- (Photo *)currentPhoto{
+- (Photo *)currentPhoto {
     Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
     return selectedPhoto;
 }
 
 - (NSInteger)getPhotosCount{
     return self.photos.count;
+}
+
+- (NSInteger)nextPhotoIndex {
+    
+    NSInteger newImageIndex = self.selectedImageIndex + 1;
+    if (newImageIndex  < self.photos.count){
+        self.selectedImageIndex = newImageIndex;
+    }
+    
+    return self.selectedImageIndex;
+}
+
+
+- (NSInteger)previousPhotoIndex {
+    
+    NSInteger newImageIndex = self.selectedImageIndex - 1;
+    if (newImageIndex >= 0){
+        self.selectedImageIndex = newImageIndex;
+    }
+    
+    return self.selectedImageIndex;
 }
 
 #pragma mark - File manager navigation

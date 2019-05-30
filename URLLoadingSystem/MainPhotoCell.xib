@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainPhotoCollectionViewCell">
+            <connections>
+                <outlet property="activityIndicator" destination="ZyS-YJ-xGf" id="6ev-Ug-AIf"/>
+                <outlet property="cell" destination="q0Q-F2-kGa" id="lhi-3z-x1f"/>
+                <outlet property="scrollView" destination="fg2-cO-giz" id="tda-5T-80v"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MainPhotoCell" id="q0Q-F2-kGa">
+            <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZyS-YJ-xGf">
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+                    </activityIndicatorView>
+                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fg2-cO-giz">
+                        <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+                    </scrollView>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="ZyS-YJ-xGf" firstAttribute="leading" secondItem="q0Q-F2-kGa" secondAttribute="leading" id="0dz-Qp-3bD"/>
+                <constraint firstAttribute="trailing" secondItem="fg2-cO-giz" secondAttribute="trailing" id="9qs-Os-W8W"/>
+                <constraint firstItem="fg2-cO-giz" firstAttribute="top" secondItem="q0Q-F2-kGa" secondAttribute="top" id="D7t-NW-Z6J"/>
+                <constraint firstAttribute="bottom" secondItem="fg2-cO-giz" secondAttribute="bottom" id="SLS-Zz-dan"/>
+                <constraint firstItem="fg2-cO-giz" firstAttribute="leading" secondItem="q0Q-F2-kGa" secondAttribute="leading" id="cjg-N5-6b1"/>
+                <constraint firstItem="ZyS-YJ-xGf" firstAttribute="top" secondItem="q0Q-F2-kGa" secondAttribute="top" id="fte-yV-Y8I"/>
+                <constraint firstAttribute="bottom" secondItem="ZyS-YJ-xGf" secondAttribute="bottom" id="huL-1C-NNl"/>
+                <constraint firstAttribute="trailing" secondItem="ZyS-YJ-xGf" secondAttribute="trailing" id="xXC-VX-JFY"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="eo2-0G-CMb"/>
+            <size key="customSize" width="383" height="301"/>
+            <point key="canvasLocation" x="85" y="58"/>
+        </collectionViewCell>
+    </objects>
+</document>

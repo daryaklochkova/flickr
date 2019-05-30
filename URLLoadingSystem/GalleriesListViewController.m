@@ -31,10 +31,12 @@
     [self subscribeToNotifications];
     self.isUpdateStarted = NO;
     
-    self.minCellSize = CGSizeMake(173, 236);
+    UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout *)[self.listOfGalleriesCollectionView collectionViewLayout];
+    
+    self.minCellSize = [collectionViewLayout itemSize];
     self.cellSize = self.minCellSize;
-    self.minSpacing = 10;
-    self.aspectRatio = (CGFloat)173 / (CGFloat)236;
+    self.minSpacing = [collectionViewLayout minimumLineSpacing];
+    self.aspectRatio = self.minCellSize.width / self.minCellSize.height;
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -43,7 +45,7 @@
     [self.listOfGalleriesCollectionView.collectionViewLayout invalidateLayout];
 }
 
-- (void)viewDidLayoutSubviews{
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     [self recalculateCellSize];
 }
@@ -97,11 +99,9 @@
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
-
 - (void)updateViewContent {
     [self.listOfGalleriesCollectionView reloadData];
 }
-
 
 - (void)reloadItem:(NSNotification *)notification {
     NSNumber * number = [[notification object] valueForKey:galleryIndex];
@@ -217,8 +217,8 @@
 }
 
 - (void)recalculateCellSize {
-    CGSize size = self.listOfGalleriesCollectionView.frame.size;
-    NSInteger cellsWidth = size.width - self.minSpacing;
+    CGSize collectionViewSize = self.listOfGalleriesCollectionView.frame.size;
+    NSInteger cellsWidth = collectionViewSize.width - self.minSpacing;
     NSInteger columnCount = cellsWidth / (self.minCellSize.width + self.minSpacing);
     
     NSInteger newCellWidth = (cellsWidth - (self.minSpacing * columnCount + self.minSpacing)) / columnCount;

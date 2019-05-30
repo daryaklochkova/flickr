@@ -9,82 +9,89 @@
 #import "GalleryCollectionViewDataSource.h"
 #import "FooterCollectionReusableView.h"
 #import "GalleryHeaderCollectionReusableView.h"
-
+#import "PhotoCollectionViewCell.h"
 
 @interface GalleryCollectionViewDataSource()
-
 @property (strong, nonatomic) Gallery *gallery;
-
+@property (strong, nonatomic) NSString *cellIdentifier;
 @end
-
 
 @implementation GalleryCollectionViewDataSource
 
-- (instancetype)initWithGallery:(Gallery *) gallery{
+- (instancetype)initWithGallery:(Gallery *) gallery andCellReuseIdentifier:(NSString *) cellIdentifier{
     self = [super init];
     
     if (!self) return nil;
     
     self.gallery = gallery;
+    self.cellIdentifier = cellIdentifier;
     
     return self;
 }
 
-
 #pragma mark - UICollectionViewDataSource
-
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCell" forIndexPath:indexPath];
-    
-    cell.layer.cornerRadius = 10;
-    cell.layer.masksToBounds = true;
-    
-    Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
-    [self setPhoto:photo toCell:cell];
-    
-    if ([self setPhoto:photo toCell:cell] == NO){
-        [self setActivityIndicatorToCell:cell];
-    }
-    
-    return cell;
-}
 
 - (NSInteger)collectionView:(nonnull UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [self.gallery getPhotosCount];
 }
 
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
+    
+    if ([cell conformsToProtocol:@protocol(PhotoCell)]) {
+        
+        id<PhotoCell> photoCell = (id<PhotoCell>)cell;
+        
+        CGSize cellSize = [self getCellSizeCollectionView:collectionView atIndexPath:indexPath];
+        [photoCell configureViewWithSize:cellSize];
+        
+        Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
+        
+        if ([self setPhoto:photo toCell:photoCell] == NO) {
+            [photoCell startActivityIndicator];
+        }
+    }
+    return cell;
+}
+
+- (CGSize)getCellSizeCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
+    
+    UICollectionViewFlowLayout* collectionViewLayout = (UICollectionViewFlowLayout*)[collectionView collectionViewLayout];
+    
+    if ([collectionView.delegate respondsToSelector:@selector(collectionView:layout:sizeForItemAtIndexPath:)]) {
+        id<UICollectionViewDelegateFlowLayout> delegate = (id<UICollectionViewDelegateFlowLayout>) collectionView.delegate;
+        
+        return [delegate collectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
+    }
+    else {
+        return collectionViewLayout.itemSize;
+    }
+}
 
 #pragma mark - update Collection view
 
-- (void)collectionView:(UICollectionView *)collectionView reloadItemAtIndex:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView reloadItemAtIndex:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
-    if (cell){
+    if (cell) {
         Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
-        [self setPhoto:photo toCell:cell];
+        if ([cell conformsToProtocol:@protocol(PhotoCell)]) {
+            [self setPhoto:photo toCell:(id<PhotoCell>)cell];
+        }
     }
 }
 
-- (BOOL)setPhoto:(Photo *) photo toCell:(UICollectionViewCell *) cell {
+- (BOOL)setPhoto:(Photo *)photo toCell:(id <PhotoCell>)cell {
+    
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:[self.gallery getLocalPathForPhoto:photo]];
     
     if (image) {
-        cell.backgroundView = [[UIImageView alloc] initWithImage:image];
-        cell.userInteractionEnabled = YES;
+        cell.imageView.image = image;
+        [cell stopActivityIndicator];
         return YES;
     }
     return NO;
-}
-
-- (void)setActivityIndicatorToCell:(UICollectionViewCell *) cell{
-    UIActivityIndicatorView * downloadActivityIndicator = [[UIActivityIndicatorView alloc] init];
-    
-    downloadActivityIndicator.backgroundColor = [UIColor grayColor];
-    [downloadActivityIndicator startAnimating];
-    
-    cell.backgroundView = downloadActivityIndicator;
-    cell.userInteractionEnabled = NO;
 }
 
 
@@ -92,7 +99,7 @@
     
     UICollectionReusableView *supplementaryElement = nil;
     
-    if (kind == UICollectionElementKindSectionFooter){
+    if (kind == UICollectionElementKindSectionFooter) {
         supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
     }
     
@@ -102,7 +109,6 @@
         GalleryHeaderCollectionReusableView *header = (GalleryHeaderCollectionReusableView *)supplementaryElement;
         
         header.titleTextField.text = self.gallery.title;
-        
     }
     
     return supplementaryElement;
