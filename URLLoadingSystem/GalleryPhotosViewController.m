@@ -46,7 +46,7 @@
     }
 }
 
-- (void)showAlert:(NSNotification *) notification{
+- (void)showAlert:(NSNotification *)notification {
     
     NSError *error = [[notification userInfo] objectForKey:errorKey];
     
@@ -109,9 +109,12 @@
 }
 
 
-- (void)reloadItem:(NSNotification *) notification{
+- (void)reloadItem:(NSNotification *)notification {
     NSNumber * number = [[notification object] valueForKey:photoIndex];
     NSInteger index = [number integerValue];
+    
+    NSLog(@"reloadItem: for item - %ld", (long)index);
+    
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
     
     [self.collectionViewDataSource collectionView:self.galleryCollectionView

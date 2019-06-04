@@ -10,6 +10,7 @@
 #import "GalleryCollectionViewDataSource.h"
 #import "UIScrollView.h"
 #import "PhotoCollectionViewCell.h"
+#import "MainPhotoCollectionViewCell.h"
 
 @interface PhotoViewController () <UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
@@ -31,17 +32,12 @@
     [self setTapGestureRecognizer];
     [self initiateCollectionViews];
     [self subsctibeToNotifications];
+    
+    [self showNavigationItems];
 }
 
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
-    
-    id<UICollectionViewDelegateFlowLayout> delegate = (id<UICollectionViewDelegateFlowLayout>) self.mainCollectionView.delegate;
-    
-    CGSize cellSize = [delegate collectionView:self.mainCollectionView layout:self.mainCollectionView.collectionViewLayout sizeForItemAtIndexPath:self.currentItemIndexPath];
-    
-    id<PhotoCell> photoCell = (id<PhotoCell>)[self.mainCollectionView cellForItemAtIndexPath:self.currentItemIndexPath];
-    [photoCell configureViewWithSize:cellSize];
     
     NSInteger index = self.gallery.selectedImageIndex;
     self.currentItemIndexPath = [NSIndexPath indexPathForItem:index inSection:0];
@@ -75,9 +71,15 @@
 #pragma mark - Set gestures
 
 - (void)setTapGestureRecognizer {
-    UITapGestureRecognizer *onceTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOnceTapRecognizer:)];
-    onceTap.numberOfTapsRequired = 1;
-    [self.mainCollectionView addGestureRecognizer:onceTap];
+    UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOnceTapRecognizer:)];
+    singleTap.numberOfTapsRequired = 1;
+    [self.mainCollectionView addGestureRecognizer:singleTap];
+    
+    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doDoubleTap:)];
+    doubleTap.numberOfTapsRequired = 2;
+    [self.view addGestureRecognizer:doubleTap];
+    
+    [singleTap requireGestureRecognizerToFail:doubleTap];
 }
 
 - (void)setSwipes {
@@ -106,6 +108,7 @@
     if ((swipe.direction & UISwipeGestureRecognizerDirectionUp) ||
         (swipe.direction & UISwipeGestureRecognizerDirectionDown))
     {
+        [self showNavigationItems];
         [self.navigationController popViewControllerAnimated:NO];
     }
     
@@ -122,20 +125,40 @@
 - (void)handleOnceTapRecognizer:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if ([self.auxiliaryCollectionView isHidden]){
-            [self.auxiliaryCollectionView setHidden:NO];
+            [self showNavigationItems];
         }
         else {
-            [self.auxiliaryCollectionView setHidden:YES];
+            [self hideNavigationItems];
         }
     }
+}
+
+- (void)doDoubleTap:(UITapGestureRecognizer *)sender {
+    id <PhotoCell> cell = [self getCurrentMainPhotoCell];
+    
+    if ([cell respondsToSelector:@selector(handleDoubleClick:)]) {
+        [cell handleDoubleClick:(UITapGestureRecognizer *)sender];
+    }
+    
+    [self hideNavigationItems];
 }
 
 
 #pragma mark - Work with views
 
-- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
-    id<PhotoCell> cell = [self getCurrentMainPhotoCell];
-    [cell configureViewWithSize:self.mainCollectionView.frame.size];
+- (void)showNavigationItems {
+    [[self navigationController] setNavigationBarHidden:NO];
+    [self.auxiliaryCollectionView setHidden:NO];
+}
+
+- (void)hideNavigationItems {
+    [[self navigationController] setNavigationBarHidden:YES];
+    [self.auxiliaryCollectionView setHidden:YES];
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id <UIViewControllerTransitionCoordinator>)coordinator {
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self.mainCollectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)reloadItem:(NSNotification *)notification {
@@ -187,7 +210,13 @@
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([collectionView isEqual:self.mainCollectionView]) {
-        return collectionView.frame.size;
+        CGSize cellSize = self.view.frame.size;
+        NSLog(@"%@ seze width - %f height - %f", NSStringFromSelector(_cmd),cellSize.width, cellSize.height);
+        
+        id<PhotoCell> photoCell = (id<PhotoCell>)[self.mainCollectionView cellForItemAtIndexPath:indexPath];
+        [photoCell configureViewWithSize:cellSize];
+        
+        return cellSize;
     }
     
     return [(UICollectionViewFlowLayout *)collectionViewLayout itemSize];

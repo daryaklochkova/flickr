@@ -43,7 +43,6 @@
     [self addSubview:self.cell];
 
     self.scrollView.delegate = self;
-    [self setTapGestureRecognizer];
 }
 
 - (void)configureViewWithSize:(CGSize)size {
@@ -83,8 +82,17 @@
     CGFloat xScale = boundsSize.width  / imageSize.width;
     CGFloat yScale = boundsSize.height / imageSize.height;
     
+    BOOL changeScale = NO;
+    if (self.scrollView.zoomScale == self.scrollView.minimumZoomScale) {
+        changeScale = YES;
+    }
+    
     self.scrollView.maximumZoomScale = 3;
-    self.scrollView.minimumZoomScale = MIN(xScale, yScale) - 0.001f;
+    self.scrollView.minimumZoomScale = MIN(xScale, yScale) - 0.0001f;
+    
+    if (changeScale) {
+        self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
+    }
 }
 
 - (void)centerImage {
@@ -108,17 +116,9 @@
     self.imageView.frame = frameToCenter;
 }
 
-#pragma mark - Set gesture
-
-- (void)setTapGestureRecognizer {
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zoomToPoint:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [self.scrollView addGestureRecognizer:doubleTap];
-}
-
 #pragma mark - Handle double tap user action
 
-- (void)zoomToPoint:(UITapGestureRecognizer *)sender {
+- (void)handleDoubleClick:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if(self.scrollView.zoomScale > self.scrollView.minimumZoomScale) {
             [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
@@ -151,7 +151,5 @@
 - (void)scrollViewDidZoom:(UIScrollView *)scrollView {
     [self centerImage];
 }
-
-
 
 @end

@@ -21,9 +21,12 @@
 @property (assign, nonatomic) CGSize cellSize;
 @property (assign, nonatomic) NSInteger minSpacing;
 @property (assign, nonatomic) CGFloat aspectRatio;
+@property (assign, nonatomic) NSInteger displayItem;
 @end
 
 @implementation GalleriesListViewController
+
+#pragma mark - UIViewController methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -31,17 +34,13 @@
     [self subscribeToNotifications];
     self.isUpdateStarted = NO;
     
-    UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout *)[self.listOfGalleriesCollectionView collectionViewLayout];
-    
-    self.minCellSize = [collectionViewLayout itemSize];
-    self.cellSize = self.minCellSize;
-    self.minSpacing = [collectionViewLayout minimumLineSpacing];
-    self.aspectRatio = self.minCellSize.width / self.minCellSize.height;
+    [self setCellSizeAndSpacing];
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+    [self findDisplayItem:self.listOfGalleriesCollectionView];
     [self.listOfGalleriesCollectionView.collectionViewLayout invalidateLayout];
 }
 
@@ -49,6 +48,12 @@
     [super viewDidLayoutSubviews];
     [self recalculateCellSize];
 }
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+#pragma mark - Initialization
 
 - (void)loadListOfGalleries{
     self.listOfGalleries = [[ListOfGalleries alloc] initWithUserID:@"66956608@N06"];//26144115@N06 @"66956608@N06"
@@ -61,24 +66,35 @@
     });
 }
 
+- (void)setCellSizeAndSpacing {
+    UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout *)[self.listOfGalleriesCollectionView collectionViewLayout];
+    
+    self.minCellSize = [collectionViewLayout itemSize];
+    self.cellSize = self.minCellSize;
+    self.minSpacing = [collectionViewLayout minimumLineSpacing];
+    self.aspectRatio = self.minCellSize.width / self.minCellSize.height;
+    self.displayItem = 0;
+}
 
 - (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listOfGalleriesRecieved:)
-                                                 name:ListOfGalleriesSuccessfulRecieved object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(listOfGalleriesRecieved:)
+                                                 name:ListOfGalleriesSuccessfulRecieved
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:)
-                                                 name:PrimaryPhotoDownloadComplite object:nil];
+                                                 name:PrimaryPhotoDownloadComplite
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
-                                                 name:dataFetchError object:nil];
+                                                 name:dataFetchError
+                                               object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
-                                                 name:dataParsingFailed object:nil];
+                                                 name:dataParsingFailed
+                                               object:nil];
 }
 
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 #pragma mark - Notifications handlers
 
@@ -216,6 +232,17 @@
     return CGSizeMake(self.cellSize.width, self.cellSize.height);
 }
 
+- (CGPoint)collectionView:(UICollectionView *)collectionView targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset {
+    CGPoint newOffset = proposedContentOffset;
+    
+    NSInteger column = collectionView.frame.size.width / (self.cellSize.width + self.minSpacing);
+    newOffset.y = (self.displayItem / column) * self.cellSize.height;
+    
+    return newOffset;
+}
+
+#pragma mark - Calculate values for collection view
+
 - (void)recalculateCellSize {
     CGSize collectionViewSize = self.listOfGalleriesCollectionView.frame.size;
     NSInteger cellsWidth = collectionViewSize.width - self.minSpacing;
@@ -225,6 +252,14 @@
     NSInteger newCellHeight = newCellWidth / self.aspectRatio;
     
     self.cellSize = CGSizeMake(newCellWidth, newCellHeight);
+}
+
+- (void)findDisplayItem:(UICollectionView * _Nonnull)collectionView {
+    NSInteger column = collectionView.frame.size.width / (self.cellSize.width + self.minSpacing);
+    CGFloat offsetY = collectionView.contentOffset.y + collectionView.frame.size.height / 2;
+    NSInteger row = offsetY / (self.cellSize.height + 10);
+    
+    self.displayItem = column * row;
 }
 
 @end

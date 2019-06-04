@@ -35,4 +35,9 @@
     self.layer.borderWidth = 1.0f;
 }
 
+- (void)prepareForReuse {
+    self.imageView.image = nil;
+    self.lable.text = @"";
+}
+
 @end

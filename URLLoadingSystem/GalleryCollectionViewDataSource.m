@@ -48,9 +48,7 @@
         
         Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
         
-        if ([self setPhoto:photo toCell:photoCell] == NO) {
-            [photoCell startActivityIndicator];
-        }
+        [self setPhoto:photo toCell:photoCell];
     }
     return cell;
 }
@@ -77,7 +75,7 @@
     if (cell) {
         Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
         if ([cell conformsToProtocol:@protocol(PhotoCell)]) {
-            [self setPhoto:photo toCell:(id<PhotoCell>)cell];
+            [self setPhoto:photo toCell:(id <PhotoCell>)cell];
         }
     }
 }
@@ -90,9 +88,11 @@
         [cell setImageToImageView:image];
         return YES;
     }
+    
+    NSLog(@"%@ image doesn't exist", NSStringFromSelector(_cmd));
+    [cell startActivityIndicator];
     return NO;
 }
-
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     

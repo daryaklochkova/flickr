@@ -43,13 +43,15 @@
 - (void)commonInit {
     [[[NSBundle mainBundle] loadNibNamed:@"PhotoCell" owner:self options:nil] firstObject];
     [self addSubview:self.cell];
+    
     CGRect frame = self.cell.frame;
     self.imageView = [[UIImageView alloc] initWithFrame:frame];
     [self.cell addSubview:self.imageView];
 }
 
 - (void)setImageToImageView:(UIImage *)image {
-    self.imageView.image= image;
+    self.imageView.image = image;
+    [self stopActivityIndicator];
 }
 
 - (void)configureLayerSettings {

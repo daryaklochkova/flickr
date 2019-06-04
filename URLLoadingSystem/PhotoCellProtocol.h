@@ -16,9 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)configureViewWithSize:(CGSize)size;
 - (void)startActivityIndicator;
-- (void)stopActivityIndicator;
 
 - (void)setImageToImageView:(UIImage *)image;
+
+@optional
+
+- (void)handleDoubleClick:(UITapGestureRecognizer *)sender;
 
 @end
 
