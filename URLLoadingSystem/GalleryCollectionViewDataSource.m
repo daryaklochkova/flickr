@@ -87,8 +87,7 @@
     UIImage *image = [[UIImage alloc] initWithContentsOfFile:[self.gallery getLocalPathForPhoto:photo]];
     
     if (image) {
-        cell.imageView.image = image;
-        [cell stopActivityIndicator];
+        [cell setImageToImageView:image];
         return YES;
     }
     return NO;

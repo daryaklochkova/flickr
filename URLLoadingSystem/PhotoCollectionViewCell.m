@@ -18,6 +18,8 @@
 
 @synthesize imageView;
 
+#pragma mark - Init functions
+
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
@@ -36,12 +38,18 @@
     return self;
 }
 
+#pragma mark - Initialization
+
 - (void)commonInit {
     [[[NSBundle mainBundle] loadNibNamed:@"PhotoCell" owner:self options:nil] firstObject];
     [self addSubview:self.cell];
     CGRect frame = self.cell.frame;
     self.imageView = [[UIImageView alloc] initWithFrame:frame];
     [self.cell addSubview:self.imageView];
+}
+
+- (void)setImageToImageView:(UIImage *)image {
+    self.imageView.image= image;
 }
 
 - (void)configureLayerSettings {
@@ -66,6 +74,8 @@
     self.imageView.frame = self.cell.frame;
 }
 
+#pragma mark - Actions with activity indicator
+
 - (void)startActivityIndicator {
     [self.activityIndicator startAnimating];
     [self.imageView setHidden:YES];
@@ -75,5 +85,6 @@
     [self.activityIndicator stopAnimating];
     [self.imageView setHidden:NO];
 }
+
 
 @end

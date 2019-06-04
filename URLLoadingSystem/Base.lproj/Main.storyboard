@@ -198,16 +198,16 @@
         <!--Photo View Controller-->
         <scene sceneID="UOt-bC-5Ek">
             <objects>
-                <viewController id="FwP-rW-o3r" customClass="PhotoViewController" sceneMemberID="viewController">
+                <viewController autoresizesArchivedViewToFullSize="NO" id="FwP-rW-o3r" customClass="PhotoViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="NNo-qu-voA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Vui-2z-u8f">
-                                <rect key="frame" x="0.0" y="88" width="414" height="681"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="20"/>
                             </activityIndicatorView>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="3" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9ro-ZB-YkF">
-                                <rect key="frame" x="0.0" y="88" width="414" height="681"/>
+                            <collectionView clipsSubviews="YES" clearsContextBeforeDrawing="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" maximumZoomScale="3" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9ro-ZB-YkF">
+                                <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="esL-jQ-DpH">
                                     <size key="itemSize" width="385" height="553"/>
@@ -217,7 +217,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="MainPhotoCell" id="JmN-Nd-dTo" customClass="MainPhotoCollectionViewCell">
-                                        <rect key="frame" x="10" y="64" width="385" height="553"/>
+                                        <rect key="frame" x="10" y="110.66666666666667" width="385" height="553"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="385" height="553"/>
@@ -230,10 +230,10 @@
                                 </connections>
                             </collectionView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bouncesZoom="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lEx-MO-EEg">
-                                <rect key="frame" x="0.0" y="769" width="414" height="93"/>
+                                <rect key="frame" x="0.0" y="776" width="414" height="86"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="93" id="2uR-0A-YbU"/>
+                                    <constraint firstAttribute="height" constant="86" id="QPp-bE-uej"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="3" minimumInteritemSpacing="5" id="KM5-bK-xqh">
                                     <size key="itemSize" width="69" height="80"/>
@@ -243,7 +243,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="PhotoCell" id="Vt1-ZB-hSG" customClass="PhotoCollectionViewCell">
-                                        <rect key="frame" x="3" y="6.666666666666667" width="69" height="80"/>
+                                        <rect key="frame" x="3" y="3" width="69" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="69" height="80"/>
@@ -258,17 +258,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="lEx-MO-EEg" firstAttribute="top" secondItem="Vui-2z-u8f" secondAttribute="bottom" id="1Jt-Ji-QFf"/>
+                            <constraint firstItem="TiP-nL-zgC" firstAttribute="bottom" secondItem="lEx-MO-EEg" secondAttribute="bottom" id="2q2-jv-Ca9"/>
+                            <constraint firstItem="TiP-nL-zgC" firstAttribute="bottom" secondItem="9ro-ZB-YkF" secondAttribute="bottom" id="5Et-zT-ggE"/>
                             <constraint firstItem="9ro-ZB-YkF" firstAttribute="top" secondItem="TiP-nL-zgC" secondAttribute="top" id="Ea2-ez-Xxh"/>
                             <constraint firstItem="TiP-nL-zgC" firstAttribute="trailing" secondItem="9ro-ZB-YkF" secondAttribute="trailing" id="IHh-oa-BMA"/>
+                            <constraint firstItem="TiP-nL-zgC" firstAttribute="trailing" secondItem="lEx-MO-EEg" secondAttribute="trailing" id="Kgo-cF-FcN"/>
                             <constraint firstItem="TiP-nL-zgC" firstAttribute="trailing" secondItem="Vui-2z-u8f" secondAttribute="trailing" id="Lit-8C-u7p"/>
                             <constraint firstItem="9ro-ZB-YkF" firstAttribute="leading" secondItem="NNo-qu-voA" secondAttribute="leading" id="LzH-m2-6qx"/>
+                            <constraint firstItem="lEx-MO-EEg" firstAttribute="leading" secondItem="TiP-nL-zgC" secondAttribute="leading" id="Wpw-za-8fF"/>
                             <constraint firstItem="Vui-2z-u8f" firstAttribute="top" secondItem="TiP-nL-zgC" secondAttribute="top" id="XvI-1L-xxP"/>
-                            <constraint firstItem="lEx-MO-EEg" firstAttribute="trailing" secondItem="TiP-nL-zgC" secondAttribute="trailing" id="gZd-9L-2Xc"/>
                             <constraint firstItem="Vui-2z-u8f" firstAttribute="leading" secondItem="TiP-nL-zgC" secondAttribute="leading" id="r5l-1n-BW3"/>
                             <constraint firstItem="TiP-nL-zgC" firstAttribute="bottom" secondItem="lEx-MO-EEg" secondAttribute="bottom" id="rYa-lo-kmE"/>
-                            <constraint firstItem="lEx-MO-EEg" firstAttribute="top" secondItem="9ro-ZB-YkF" secondAttribute="bottom" id="xPB-h7-iaC"/>
-                            <constraint firstItem="lEx-MO-EEg" firstAttribute="leading" secondItem="TiP-nL-zgC" secondAttribute="leading" id="yPH-cM-0uq"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="TiP-nL-zgC"/>
                     </view>

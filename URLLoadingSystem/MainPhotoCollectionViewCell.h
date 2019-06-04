@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MainPhotoCollectionViewCell : UICollectionViewCell <PhotoCell>
+@interface MainPhotoCollectionViewCell : UICollectionViewCell <PhotoCell, UIScrollViewDelegate>
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
 @end

@@ -18,34 +18,36 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="MainPhotoCell" id="q0Q-F2-kGa">
-            <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" reuseIdentifier="MainPhotoCell" id="q0Q-F2-kGa">
+            <rect key="frame" x="0.0" y="0.0" width="522" height="416"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+                <rect key="frame" x="0.0" y="0.0" width="522" height="416"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZyS-YJ-xGf">
-                        <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ZyS-YJ-xGf">
+                        <rect key="frame" x="0.0" y="0.0" width="522" height="416"/>
                     </activityIndicatorView>
-                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fg2-cO-giz">
-                        <rect key="frame" x="0.0" y="0.0" width="383" height="301"/>
+                    <scrollView clipsSubviews="YES" contentMode="scaleAspectFill" translatesAutoresizingMaskIntoConstraints="NO" id="fg2-cO-giz">
+                        <rect key="frame" x="0.0" y="44" width="522" height="338"/>
                     </scrollView>
                 </subviews>
             </view>
             <constraints>
-                <constraint firstItem="ZyS-YJ-xGf" firstAttribute="leading" secondItem="q0Q-F2-kGa" secondAttribute="leading" id="0dz-Qp-3bD"/>
-                <constraint firstAttribute="trailing" secondItem="fg2-cO-giz" secondAttribute="trailing" id="9qs-Os-W8W"/>
-                <constraint firstItem="fg2-cO-giz" firstAttribute="top" secondItem="q0Q-F2-kGa" secondAttribute="top" id="D7t-NW-Z6J"/>
-                <constraint firstAttribute="bottom" secondItem="fg2-cO-giz" secondAttribute="bottom" id="SLS-Zz-dan"/>
-                <constraint firstItem="fg2-cO-giz" firstAttribute="leading" secondItem="q0Q-F2-kGa" secondAttribute="leading" id="cjg-N5-6b1"/>
-                <constraint firstItem="ZyS-YJ-xGf" firstAttribute="top" secondItem="q0Q-F2-kGa" secondAttribute="top" id="fte-yV-Y8I"/>
-                <constraint firstAttribute="bottom" secondItem="ZyS-YJ-xGf" secondAttribute="bottom" id="huL-1C-NNl"/>
-                <constraint firstAttribute="trailing" secondItem="ZyS-YJ-xGf" secondAttribute="trailing" id="xXC-VX-JFY"/>
+                <constraint firstItem="ZyS-YJ-xGf" firstAttribute="top" secondItem="q0Q-F2-kGa" secondAttribute="top" id="2u4-zy-P6A"/>
+                <constraint firstItem="fg2-cO-giz" firstAttribute="centerX" secondItem="eo2-0G-CMb" secondAttribute="centerX" id="JV1-6f-BLh"/>
+                <constraint firstItem="fg2-cO-giz" firstAttribute="leading" secondItem="q0Q-F2-kGa" secondAttribute="leading" id="JX0-sn-VuG"/>
+                <constraint firstAttribute="trailing" secondItem="ZyS-YJ-xGf" secondAttribute="trailing" id="Rxn-zU-Dya"/>
+                <constraint firstAttribute="bottom" secondItem="ZyS-YJ-xGf" secondAttribute="bottom" id="VIZ-If-FZR"/>
+                <constraint firstItem="eo2-0G-CMb" firstAttribute="bottom" secondItem="fg2-cO-giz" secondAttribute="bottom" id="d4E-Pn-VIC"/>
+                <constraint firstAttribute="trailing" secondItem="fg2-cO-giz" secondAttribute="trailing" id="gvK-LK-Lmv"/>
+                <constraint firstItem="ZyS-YJ-xGf" firstAttribute="leading" secondItem="q0Q-F2-kGa" secondAttribute="leading" id="i2y-HP-kpn"/>
+                <constraint firstItem="fg2-cO-giz" firstAttribute="top" secondItem="eo2-0G-CMb" secondAttribute="top" id="rah-0k-WhM"/>
+                <constraint firstItem="fg2-cO-giz" firstAttribute="centerY" secondItem="eo2-0G-CMb" secondAttribute="centerY" id="wqt-rI-9EB"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="eo2-0G-CMb"/>
-            <size key="customSize" width="383" height="301"/>
-            <point key="canvasLocation" x="85" y="58"/>
+            <size key="customSize" width="522" height="416"/>
+            <point key="canvasLocation" x="-4752.1739130434789" y="115.84821428571428"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startActivityIndicator;
 - (void)stopActivityIndicator;
 
+- (void)setImageToImageView:(UIImage *)image;
+
 @end
 
 NS_ASSUME_NONNULL_END

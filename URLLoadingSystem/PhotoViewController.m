@@ -36,6 +36,13 @@
 -(void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
+    id<UICollectionViewDelegateFlowLayout> delegate = (id<UICollectionViewDelegateFlowLayout>) self.mainCollectionView.delegate;
+    
+    CGSize cellSize = [delegate collectionView:self.mainCollectionView layout:self.mainCollectionView.collectionViewLayout sizeForItemAtIndexPath:self.currentItemIndexPath];
+    
+    id<PhotoCell> photoCell = (id<PhotoCell>)[self.mainCollectionView cellForItemAtIndexPath:self.currentItemIndexPath];
+    [photoCell configureViewWithSize:cellSize];
+    
     NSInteger index = self.gallery.selectedImageIndex;
     self.currentItemIndexPath = [NSIndexPath indexPathForItem:index inSection:0];
     
@@ -68,16 +75,9 @@
 #pragma mark - Set gestures
 
 - (void)setTapGestureRecognizer {
-    
-    UITapGestureRecognizer *doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTapRecognizer:)];
-    doubleTap.numberOfTapsRequired = 2;
-    [self.mainCollectionView addGestureRecognizer:doubleTap];
-    
     UITapGestureRecognizer *onceTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleOnceTapRecognizer:)];
     onceTap.numberOfTapsRequired = 1;
     [self.mainCollectionView addGestureRecognizer:onceTap];
-    
-    [onceTap requireGestureRecognizerToFail:doubleTap];
 }
 
 - (void)setSwipes {
@@ -92,16 +92,16 @@
     [swipeUp setDirection:UISwipeGestureRecognizerDirectionUp];
     [swipeDown setDirection:UISwipeGestureRecognizerDirectionDown];
     
-    [self.view addGestureRecognizer:swipeLeft];
-    [self.view addGestureRecognizer:swipeRight];
-    [self.view addGestureRecognizer:swipeUp];
-    [self.view addGestureRecognizer:swipeDown];
+    [self.mainCollectionView addGestureRecognizer:swipeLeft];
+    [self.mainCollectionView addGestureRecognizer:swipeRight];
+    [self.mainCollectionView addGestureRecognizer:swipeUp];
+    [self.mainCollectionView addGestureRecognizer:swipeDown];
 }
 
 
 #pragma mark - Gesture handlers
 
-- (void)handleSwipe:(UISwipeGestureRecognizer *)swipe{
+- (void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
     
     if ((swipe.direction & UISwipeGestureRecognizerDirectionUp) ||
         (swipe.direction & UISwipeGestureRecognizerDirectionDown))
@@ -119,18 +119,6 @@
 }
 
 
-- (void)handleDoubleTapRecognizer:(UITapGestureRecognizer *)sender {
- //   if (sender.state == UIGestureRecognizerStateEnded) {
-//        if(self.scrollView.zoomScale > self.scrollView.minimumZoomScale) {
-//            [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
-//        }
-//        else {
-//            CGPoint location = [sender locationInView:self.scrollView];
-//            [self.scrollView zoomToPoint:location withScale:self.scrollView.maximumZoomScale animated:YES];
-//        }
-   // }
-}
-
 - (void)handleOnceTapRecognizer:(UITapGestureRecognizer *)sender {
     if (sender.state == UIGestureRecognizerStateEnded) {
         if ([self.auxiliaryCollectionView isHidden]){
@@ -144,6 +132,11 @@
 
 
 #pragma mark - Work with views
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    id<PhotoCell> cell = [self getCurrentMainPhotoCell];
+    [cell configureViewWithSize:self.mainCollectionView.frame.size];
+}
 
 - (void)reloadItem:(NSNotification *)notification {
     
@@ -166,7 +159,7 @@
     [self.auxiliaryCollectionView scrollToItemAtIndexPath:self.currentItemIndexPath  atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }
 
-- (id <PhotoCell>)getCurrentPhotoCell {
+- (id <PhotoCell>)getCurrentMainPhotoCell {
     UICollectionViewCell *cell = [self.mainCollectionView cellForItemAtIndexPath:self.currentItemIndexPath];
     
     if ([cell conformsToProtocol:@protocol(PhotoCell)]) {
@@ -174,15 +167,6 @@
     }
     
     return nil;
-}
-
-#pragma mark - UIScrollViewDelegate
-
-- (nullable UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView {
-    
-    UICollectionViewCell *cell = [self.mainCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:self.gallery.selectedImageIndex inSection:0]];
-    
-    return cell.backgroundView;
 }
 
 
