@@ -10,12 +10,20 @@
 #import "AppDelegate.h"
 #import "FooterCollectionReusableView.h"
 #import "UIScrollView.h"
+#import "Constants.h"
+#import "AddGalleryViewController.h"
+#import "LocalGalleriesListProvider.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
 @property (strong, nonatomic) Gallery *selectedGallery;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
+
+
 @property (strong, nonatomic) FooterCollectionReusableView *collectionViewFooter;
 @property (assign, nonatomic) BOOL isUpdateStarted;
+@property (assign, nonatomic) BOOL isUserOwner;
 
 @property (assign, nonatomic) CGSize minCellSize;
 @property (assign, nonatomic) CGSize cellSize;
@@ -30,11 +38,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    NSString *logdedInUserID = [[NSUserDefaults standardUserDefaults] objectForKey:[LogdedInUserID copy]];
+    self.isUserOwner = [self.user.userID isEqualToString:logdedInUserID];
+    if (self.isUserOwner) {
+        [self.addButton setHidden:NO];
+    }
+    
+    [self.activityIndicator startAnimating];
     [self loadListOfGalleries];
     [self subscribeToNotifications];
     self.isUpdateStarted = NO;
     
     [self setCellSizeAndSpacing];
+    
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -56,8 +73,21 @@
 #pragma mark - Initialization
 
 - (void)loadListOfGalleries {
-    self.listOfGalleries = [[ListOfGalleries alloc] initWithUserID:@"66956608@N06"];//26144115@N06 @"66956608@N06"
-    GalleriesListProvider *dataProvider = [[GalleriesListProvider alloc] init];
+    
+    if (!self.user) {
+        self.user = [[User alloc] initWithUserID:@"66956608@N06" andName:@""];//26144115@N06 @"66956608@N06"
+    }
+    
+    self.listOfGalleries = [[ListOfGalleries alloc] initWithUser:self.user];
+    
+    id <GalleriesListProviderProtocol> dataProvider;
+    if (self.isUserOwner) {
+        dataProvider = [[LocalGalleriesListProvider alloc] init];
+    }
+    else {
+        dataProvider = [[GalleriesListProvider alloc] init];
+    }
+    
     [self.listOfGalleries setDataProvider:dataProvider];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -109,6 +139,7 @@
 - (void)listOfGalleriesRecieved:(NSNotification *)notification {
     self.isUpdateStarted = NO;
     [self updateViewContent];
+    [self.activityIndicator stopAnimating];
 }
 
 #pragma mark - Update interface
@@ -251,6 +282,14 @@
     NSInteger newCellHeight = newCellWidth / self.aspectRatio;
     
     self.cellSize = CGSizeMake(newCellWidth, newCellHeight);
+}
+
+#pragma mark - User actions
+
+- (IBAction)addGalleryPressed:(id)sender {
+    UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"AddGallery" bundle:nil];
+    AddGalleryViewController *nextViewController = [nextStoryBoard instantiateInitialViewController];
+    [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
 @end

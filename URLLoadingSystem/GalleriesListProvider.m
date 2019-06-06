@@ -7,7 +7,8 @@
 //
 
 #import "GalleriesListProvider.h"
-#include "ParserProvider.h"
+#import "ParserProvider.h"
+#import "GetListOfGalleriesResponseParser.h"
 
 @interface GalleriesListProvider()
 @end

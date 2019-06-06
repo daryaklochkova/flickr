@@ -22,17 +22,16 @@ NSNotificationName const fileDownloadComplite = @"fileDownloadComplite";
 NSString * const locationKey = @"locationKey";
 NSString * const photoIndex = @"photoIndex";
 
-
-
-- (instancetype)initWithGalleryID:(NSString *) galleryID{
+- (instancetype)initWithDictionary:(NSDictionary *) dictionary andUserFolder:(NSString *) folder {
     self = [super init];
     
     if (self) {
-        _galleryID = galleryID;
-        _folderPath = [self createGalleryFolder];
+        _galleryID = [dictionary objectForKey:@"gallery_id"];
+        _folderPath = [self createGalleryFolder:folder];
         self.currentPage = 0;
-        self.title = [[NSString alloc] init];
-        self.galleryDescription = [[NSString alloc] init];
+        self.title = [dictionary objectForKey:@"title"];
+        self.galleryDescription = [dictionary objectForKey:@"description"];
+        self.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:dictionary];
         self.isUpdateCanceld = NO;
         self.mutablePhotos = [NSMutableArray array];
     }
@@ -104,13 +103,11 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (NSString *)createGalleryFolder{
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachesDir = [paths objectAtIndex:0];
+- (NSString *)createGalleryFolder:(NSString *)rootFolder {
     
     NSString *assetsAndGalleryID = [NSString stringWithFormat:@"Assets/%@", self.galleryID];
-    NSString *assetsDir = [cachesDir stringByAppendingPathComponent:assetsAndGalleryID];
+    
+    NSString *assetsDir = [rootFolder stringByAppendingPathComponent:assetsAndGalleryID];
     
     NSError *error = nil;
     [[NSFileManager defaultManager] createDirectoryAtPath:assetsDir
@@ -123,7 +120,7 @@ NSString * const photoIndex = @"photoIndex";
 
 #pragma mark - Update content
 
-- (void)reloadContent{
+- (void)reloadContent {
     //[self cancelGetData];
     
     @synchronized (self) {

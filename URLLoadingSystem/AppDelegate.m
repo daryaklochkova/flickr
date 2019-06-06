@@ -19,6 +19,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
     [[NSUserDefaults standardUserDefaults] setObject:@"json" forKey:[formatArgumentName copy]];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:[LogdedInUserID copy]];
     // Override point for customization after application launch.
     return YES;
 }

@@ -1,18 +1,17 @@
 //
-//  GalleriesListProvider.h
+//  LocalGalleriesListProvider.h
 //  URLLoadingSystem
 //
-//  Created by Darya Klochkova on 22/05/2019.
+//  Created by Darya Klochkova on 06/06/2019.
 //  Copyright © 2019 Darya Klochkova. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "GalleriesListProviderProtocol.h"
-#import "DataProviderNetwork.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GalleriesListProvider : DataProviderNetwork <GalleriesListProviderProtocol>
+@interface LocalGalleriesListProvider : NSObject
 
 @end
 

@@ -18,6 +18,10 @@
 		A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D2422896D1E00CD9DF6 /* ListOfGalleries.m */; };
 		A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D3122898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m */; };
 		A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D472289C7E500CD9DF6 /* GalleryCell.m */; };
+		A04BF47B22A7B502006895F6 /* UsersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A04BF47A22A7B502006895F6 /* UsersListViewController.m */; };
+		A04BF47E22A7B992006895F6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A04BF47D22A7B992006895F6 /* User.m */; };
+		A04BF48322A7F65E006895F6 /* AddGallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A04BF48222A7F65E006895F6 /* AddGallery.storyboard */; };
+		A04BF48622A80338006895F6 /* AddGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A04BF48522A80338006895F6 /* AddGalleryViewController.m */; };
 		A055BEDE228019ED00400256 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A055BEDD228019ED00400256 /* AppDelegate.m */; };
 		A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A055BEE0228019ED00400256 /* GalleriesListViewController.m */; };
 		A055BEE4228019ED00400256 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A055BEE2228019ED00400256 /* Main.storyboard */; };
@@ -39,6 +43,7 @@
 		A08503D9229836F10083FEB7 /* Footer.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08503D8229836F10083FEB7 /* Footer.xib */; };
 		A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE2229525BB00F1855B /* PhotoProvider.m */; };
 		A0862CE6229527C700F1855B /* GalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE5229527C700F1855B /* GalleriesListProvider.m */; };
+		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +69,13 @@
 		A03E2D3122898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GetListOfGalleriesResponseParser.m; sourceTree = "<group>"; };
 		A03E2D462289C7E500CD9DF6 /* GalleryCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleryCell.h; sourceTree = "<group>"; };
 		A03E2D472289C7E500CD9DF6 /* GalleryCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleryCell.m; sourceTree = "<group>"; };
+		A04BF47922A7B502006895F6 /* UsersListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UsersListViewController.h; sourceTree = "<group>"; };
+		A04BF47A22A7B502006895F6 /* UsersListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UsersListViewController.m; sourceTree = "<group>"; };
+		A04BF47C22A7B992006895F6 /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		A04BF47D22A7B992006895F6 /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		A04BF48222A7F65E006895F6 /* AddGallery.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddGallery.storyboard; sourceTree = "<group>"; };
+		A04BF48422A80338006895F6 /* AddGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddGalleryViewController.h; sourceTree = "<group>"; };
+		A04BF48522A80338006895F6 /* AddGalleryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddGalleryViewController.m; sourceTree = "<group>"; };
 		A055BED9228019ED00400256 /* URLLoadingSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLLoadingSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A055BEDC228019ED00400256 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A055BEDD228019ED00400256 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -103,6 +115,10 @@
 		A0862CE2229525BB00F1855B /* PhotoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoProvider.m; sourceTree = "<group>"; };
 		A0862CE4229527C700F1855B /* GalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListProvider.h; sourceTree = "<group>"; };
 		A0862CE5229527C700F1855B /* GalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleriesListProvider.m; sourceTree = "<group>"; };
+		A0F4C1D922A94C770080E040 /* LocalGalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalGalleriesListProvider.h; sourceTree = "<group>"; };
+		A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalGalleriesListProvider.m; sourceTree = "<group>"; };
+		A0F4C1DC22A94C990080E040 /* PhotoProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoProviderProtocol.h; sourceTree = "<group>"; };
+		A0F4C1DD22A94CC80080E040 /* GalleriesListProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListProviderProtocol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,6 +211,8 @@
 				A0147FF222817D4F00A4D94F /* Gallery.m */,
 				A0147FF42282B21C00A4D94F /* Photo.h */,
 				A0147FF52282B21C00A4D94F /* Photo.m */,
+				A04BF47C22A7B992006895F6 /* User.h */,
+				A04BF47D22A7B992006895F6 /* User.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -213,6 +231,9 @@
 		A03E2D402289A84800CD9DF6 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				A0F4C1DE22A959590080E040 /* Add photos to gallery */,
+				A04BF47F22A7F629006895F6 /* AddGallery */,
+				A04BF47822A7B4AA006895F6 /* UsersList */,
 				A02798162296C609002B42FE /* PhotosViewController */,
 				A02798152296C499002B42FE /* GalleriesListViewController */,
 			);
@@ -226,6 +247,25 @@
 				A03E2D472289C7E500CD9DF6 /* GalleryCell.m */,
 			);
 			name = GalleryCell;
+			sourceTree = "<group>";
+		};
+		A04BF47822A7B4AA006895F6 /* UsersList */ = {
+			isa = PBXGroup;
+			children = (
+				A04BF47922A7B502006895F6 /* UsersListViewController.h */,
+				A04BF47A22A7B502006895F6 /* UsersListViewController.m */,
+			);
+			name = UsersList;
+			sourceTree = "<group>";
+		};
+		A04BF47F22A7F629006895F6 /* AddGallery */ = {
+			isa = PBXGroup;
+			children = (
+				A04BF48222A7F65E006895F6 /* AddGallery.storyboard */,
+				A04BF48422A80338006895F6 /* AddGalleryViewController.h */,
+				A04BF48522A80338006895F6 /* AddGalleryViewController.m */,
+			);
+			name = AddGallery;
 			sourceTree = "<group>";
 		};
 		A055BED0228019ED00400256 = {
@@ -335,12 +375,39 @@
 		A0862CAB2292B5DB00F1855B /* Data provider */ = {
 			isa = PBXGroup;
 			children = (
+				A0F4C1DC22A94C990080E040 /* PhotoProviderProtocol.h */,
+				A0F4C1DD22A94CC80080E040 /* GalleriesListProviderProtocol.h */,
+				A0F4C1D822A94C200080E040 /* localProviders */,
+				A0F4C1D722A94C040080E040 /* remoteProviders */,
+			);
+			name = "Data provider";
+			sourceTree = "<group>";
+		};
+		A0F4C1D722A94C040080E040 /* remoteProviders */ = {
+			isa = PBXGroup;
+			children = (
 				A0862CE1229525BB00F1855B /* PhotoProvider.h */,
 				A0862CE2229525BB00F1855B /* PhotoProvider.m */,
 				A0862CE4229527C700F1855B /* GalleriesListProvider.h */,
 				A0862CE5229527C700F1855B /* GalleriesListProvider.m */,
 			);
-			name = "Data provider";
+			name = remoteProviders;
+			sourceTree = "<group>";
+		};
+		A0F4C1D822A94C200080E040 /* localProviders */ = {
+			isa = PBXGroup;
+			children = (
+				A0F4C1D922A94C770080E040 /* LocalGalleriesListProvider.h */,
+				A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */,
+			);
+			name = localProviders;
+			sourceTree = "<group>";
+		};
+		A0F4C1DE22A959590080E040 /* Add photos to gallery */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Add photos to gallery";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -406,6 +473,7 @@
 				A055BEE4228019ED00400256 /* Main.storyboard in Resources */,
 				A06C9A1622A01A6D005A6AF3 /* MainPhotoCell.xib in Resources */,
 				A06C9A11229FC734005A6AF3 /* PhotoCell.xib in Resources */,
+				A04BF48322A7F65E006895F6 /* AddGallery.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,12 +492,16 @@
 				A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */,
 				A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */,
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
+				A04BF47E22A7B992006895F6 /* User.m in Sources */,
 				A0664858229C16AB00066CEA /* ParserProvider.m in Sources */,
 				A055BEDE228019ED00400256 /* AppDelegate.m in Sources */,
+				A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */,
 				A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */,
+				A04BF48622A80338006895F6 /* AddGalleryViewController.m in Sources */,
 				A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */,
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
 				A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */,
+				A04BF47B22A7B502006895F6 /* UsersListViewController.m in Sources */,
 				A08503D1229805850083FEB7 /* Constants.m in Sources */,
 				A027981B2296C770002B42FE /* UIScrollView.m in Sources */,
 				A009EFD6228EF8D900839F5D /* DataProviderNetwork.m in Sources */,

@@ -33,4 +33,8 @@ extern const NSString *continuationEndValue;
 
 extern const NSString * _Nullable errorKey;
 
+extern const NSString *LogdedInUserID;
+
+extern const NSString *LocalGalleriesKey;
+
 NS_ASSUME_NONNULL_END

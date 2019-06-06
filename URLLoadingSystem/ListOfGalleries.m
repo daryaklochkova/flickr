@@ -20,19 +20,22 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 
 @implementation ListOfGalleries
 
-- (instancetype)initWithUserID:(NSString *) userID{
+- (instancetype)initWithUser:(User *) user{
     self = [super init];
     
     if (self) {
         self.galleries = [[NSMutableArray alloc] init];
-        _userID = userID;
+        _user = user;
     }
     return self;
 }
 
-- (void)setDataProviderToGalleries:(NSArray<Gallery *> *)galleries{
-    for (Gallery *gallery in galleries) {
+- (void)createGalleriesUsing:(NSArray<NSDictionary *> *)dictionaries{
+    for (NSDictionary *dictionary in dictionaries) {
+        Gallery *gallery = [[Gallery alloc] initWithDictionary:dictionary andUserFolder:self.user.userFolder];
         [gallery setDataProvider:[[PhotoProvider alloc] init]];
+        
+        [self.galleries addObject:gallery];
     }
 }
 
@@ -44,7 +47,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
          self.galleries = [NSMutableArray array];
     }
    
-    [self.dataProvider getGalleriesForUser:self.userID use:[self handleRequestResult]];
+    [self.dataProvider getGalleriesForUser:self.user.userID use:[self handleRequestResult]];
 }
 
 - (ReturnResult)handleRequestResult{
@@ -53,23 +56,21 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
         __weak typeof(self) strongSelf = weakSelf;
         
         @synchronized (strongSelf) {
-            [strongSelf.galleries addObjectsFromArray:result];
+            [strongSelf createGalleriesUsing:result];
         }
-        
-        [strongSelf setDataProviderToGalleries:result];
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesSuccessfulRecieved object:nil];
         });
         
-        [self getPrimaryPhotosFor:result];
+        [self getPrimaryPhotosFor:strongSelf.galleries];
     };
     
     return block;
 }
 
 - (void)getAdditionalContent{
-     [self.dataProvider getAdditionalGalleriesForUser:self.userID use:[self handleRequestResult]];
+     [self.dataProvider getAdditionalGalleriesForUser:self.user.userID use:[self handleRequestResult]];
 }
 
 - (void)cancelGetListOfGalleriesTask{
