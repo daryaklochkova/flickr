@@ -80,7 +80,7 @@
 
 - (void)createGallery{
     if (!self.gallery) {
-        self.gallery = [[Gallery alloc] initWithGalleryID:@"72157704531735241"];
+        //self.gallery = [[Gallery alloc] initWithDictionary:@"72157704531735241"];
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

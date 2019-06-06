@@ -7,24 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ParserProtocol.h"
+#import "PhotoProviderProtocol.h"
 #import "DataProviderNetwork.h"
-#import "GetPhotosResponseParser.h"
-#import "XMLParser.h"
-#import "JSONParser.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
-@protocol PhotoProviderProtocol <NSObject>
-
-- (void)getPhotosForGallery:(NSString * _Nullable)galleryID use:(ReturnPhotosResult _Nullable) completionHandler;
-- (void)getAdditionalPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler;
-
-- (void)cancelTasksByURL:(NSURL *) url;
-- (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification;
-
-@end
-
 
 @interface PhotoProvider : DataProviderNetwork <PhotoProviderProtocol>
 

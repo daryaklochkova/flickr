@@ -7,14 +7,13 @@
 //
 
 #import "GetListOfGalleriesResponseParser.h"
-#import "Gallery.h"
 
 @interface GetListOfGalleriesResponseParser()
 
-@property (strong, nonatomic) NSMutableArray *galleries;
+@property (strong, nonatomic) NSMutableArray<NSMutableDictionary *> *dictionaries;
 
 @property (strong, nonatomic) NSString *currentElement;
-@property (strong, nonatomic) Gallery *currentGallery;
+@property (strong, nonatomic) NSMutableDictionary *currentGalleryDictionary;
 
 @property (strong, nonatomic) ReturnResultWithContinuation completionHandler;
 @end
@@ -23,26 +22,35 @@
 
 @synthesize continuation;
 
-- (instancetype)initWith:(ReturnResultWithContinuation) completionHandler;{
+- (instancetype)initWith:(ReturnResultWithContinuation) completionHandler {
     self = [super init];
     
     if (self){
         self.completionHandler = completionHandler;
-        self.galleries = [NSMutableArray array];
+        self.dictionaries = [NSMutableArray array];
     }
     
     return self;
 }
 
-- (void)foundCharacters:(NSString *)string{
-    if ([self.currentElement isEqualToString:@"title"]){
-        NSString *tmpString = [self.currentGallery.title stringByAppendingString:string];
-        self.currentGallery.title = tmpString;
+- (void)foundCharacters:(NSString *)string {
+    if ([self.currentElement isEqualToString:@"title"]) {
+        NSString *title = [self.currentGalleryDictionary objectForKey:@"title"];
+        if (!title) {
+            title = [NSString string];
+        }
+        
+        NSString *tmpString = [title stringByAppendingString:string];
+        [self.currentGalleryDictionary setValue:tmpString forKey:@"title"];
     }
     
     if ([self.currentElement isEqualToString:@"description"]) {
-        NSString *tmpString = [self.currentGallery.galleryDescription stringByAppendingString:string];
-        self.currentGallery.galleryDescription = tmpString;
+        NSString *description = [self.currentGalleryDictionary objectForKey:@"description"];
+        if (!description) {
+            description = [NSString string];
+        }
+        NSString *tmpString = [description stringByAppendingString:string];
+        [self.currentGalleryDictionary setValue:tmpString forKey:@"description"];
     }
 }
 
@@ -61,20 +69,19 @@
         }
     }
     
-    if ([elementName isEqualToString:@"gallery"]){
-        self.currentGallery = [[Gallery alloc] initWithGalleryID:[attributeDict objectForKey:@"gallery_id"]];
-        self.currentGallery.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:attributeDict];
-        [self.galleries addObject:self.currentGallery];
+    if ([elementName isEqualToString:@"gallery"]) {
+        self.currentGalleryDictionary = [NSMutableDictionary dictionaryWithDictionary:attributeDict];
+        [self.dictionaries addObject:self.currentGalleryDictionary];
     }
     
     self.currentElement = elementName;
 }
 
-- (void)didEndDocument{
+- (void)didEndDocument {
     if (!self.continuation){
         self.continuation = [continuationEndValue copy];
     }
-    self.completionHandler(self.galleries, self.continuation);
+    self.completionHandler(self.dictionaries, self.continuation);
 }
 
 @end

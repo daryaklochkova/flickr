@@ -8,6 +8,8 @@
 
 #import "PhotoProvider.h"
 #import "ParserProvider.h"
+#import "GetPhotosResponseParser.h"
+
 
 @implementation PhotoProvider
 

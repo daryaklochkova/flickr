@@ -33,7 +33,7 @@ extern NSNotificationName const PhotosInformationReceived;
 @property (strong, nonatomic, readonly) NSString *galleryID;
 @property (strong, nonatomic, readonly) NSString *folderPath;
 
-- (instancetype)initWithGalleryID:(NSString *) galleryID;
+- (instancetype)initWithDictionary:(NSDictionary *) dictionary andUserFolder:(NSString *) folder;
 
 - (void)reloadContent;
 - (void)getAdditionalContent;
