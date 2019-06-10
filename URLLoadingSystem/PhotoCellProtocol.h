@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @optional
 
 - (void)handleDoubleClick:(UITapGestureRecognizer *)sender;
+- (void)selectItem;
 
 @end
 

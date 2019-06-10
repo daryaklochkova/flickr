@@ -53,7 +53,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 - (ReturnResult)handleRequestResult{
     __weak typeof(self) weakSelf = self;
     ReturnResult block = ^(NSArray * _Nullable result) {
-        __weak typeof(self) strongSelf = weakSelf;
+        __strong typeof(self) strongSelf = weakSelf;
         
         @synchronized (strongSelf) {
             [strongSelf createGalleriesUsing:result];

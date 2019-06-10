@@ -12,6 +12,8 @@
 @property (strong, nonatomic) IBOutlet UICollectionViewCell *cell;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 
+
+
 @end
 
 @implementation PhotoCollectionViewCell
@@ -46,7 +48,10 @@
     
     CGRect frame = self.cell.frame;
     self.imageView = [[UIImageView alloc] initWithFrame:frame];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.cell addSubview:self.imageView];
+    
+    self.isCellSelected = NO;
 }
 
 - (void)setImageToImageView:(UIImage *)image {
@@ -74,6 +79,18 @@
 - (void)configureViewWithSize:(CGSize)size {
     self.cell.frame = CGRectMake(0, 0, size.width, size.height);
     self.imageView.frame = self.cell.frame;
+}
+
+#pragma mark - Select item
+
+- (void)selectItem {
+    if (!self.isCellSelected) {
+        self.imageView.alpha = 0.5;
+        self.isCellSelected = YES;
+    } else {
+        self.imageView.alpha = 1;
+        self.isCellSelected = NO;
+    }
 }
 
 #pragma mark - Actions with activity indicator

@@ -43,7 +43,9 @@
 		A08503D9229836F10083FEB7 /* Footer.xib in Resources */ = {isa = PBXBuildFile; fileRef = A08503D8229836F10083FEB7 /* Footer.xib */; };
 		A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE2229525BB00F1855B /* PhotoProvider.m */; };
 		A0862CE6229527C700F1855B /* GalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE5229527C700F1855B /* GalleriesListProvider.m */; };
+		A0B2932822AE44570051358B /* UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B2932722AE44570051358B /* UICollectionView.m */; };
 		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
+		A0F4C1E122A95AA80080E040 /* AddPhotosToGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1E022A95AA80080E040 /* AddPhotosToGalleryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -115,10 +117,14 @@
 		A0862CE2229525BB00F1855B /* PhotoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoProvider.m; sourceTree = "<group>"; };
 		A0862CE4229527C700F1855B /* GalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListProvider.h; sourceTree = "<group>"; };
 		A0862CE5229527C700F1855B /* GalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleriesListProvider.m; sourceTree = "<group>"; };
+		A0B2932622AE44570051358B /* UICollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UICollectionView.h; sourceTree = "<group>"; };
+		A0B2932722AE44570051358B /* UICollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UICollectionView.m; sourceTree = "<group>"; };
 		A0F4C1D922A94C770080E040 /* LocalGalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalGalleriesListProvider.h; sourceTree = "<group>"; };
 		A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalGalleriesListProvider.m; sourceTree = "<group>"; };
 		A0F4C1DC22A94C990080E040 /* PhotoProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoProviderProtocol.h; sourceTree = "<group>"; };
 		A0F4C1DD22A94CC80080E040 /* GalleriesListProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListProviderProtocol.h; sourceTree = "<group>"; };
+		A0F4C1DF22A95AA80080E040 /* AddPhotosToGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddPhotosToGalleryViewController.h; sourceTree = "<group>"; };
+		A0F4C1E022A95AA80080E040 /* AddPhotosToGalleryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddPhotosToGalleryViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,6 +194,8 @@
 			children = (
 				A02798192296C770002B42FE /* UIScrollView.h */,
 				A027981A2296C770002B42FE /* UIScrollView.m */,
+				A0B2932622AE44570051358B /* UICollectionView.h */,
+				A0B2932722AE44570051358B /* UICollectionView.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -406,6 +414,8 @@
 		A0F4C1DE22A959590080E040 /* Add photos to gallery */ = {
 			isa = PBXGroup;
 			children = (
+				A0F4C1DF22A95AA80080E040 /* AddPhotosToGalleryViewController.h */,
+				A0F4C1E022A95AA80080E040 /* AddPhotosToGalleryViewController.m */,
 			);
 			name = "Add photos to gallery";
 			sourceTree = "<group>";
@@ -502,12 +512,14 @@
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
 				A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */,
 				A04BF47B22A7B502006895F6 /* UsersListViewController.m in Sources */,
+				A0B2932822AE44570051358B /* UICollectionView.m in Sources */,
 				A08503D1229805850083FEB7 /* Constants.m in Sources */,
 				A027981B2296C770002B42FE /* UIScrollView.m in Sources */,
 				A009EFD6228EF8D900839F5D /* DataProviderNetwork.m in Sources */,
 				A027981E2296D917002B42FE /* FooterCollectionReusableView.m in Sources */,
 				A0147FF322817D4F00A4D94F /* Gallery.m in Sources */,
 				A05C2A2B228D4312009BF7BA /* GetPhotosResponseParser.m in Sources */,
+				A0F4C1E122A95AA80080E040 /* AddPhotosToGalleryViewController.m in Sources */,
 				A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */,
 				A055BEEF228019F100400256 /* main.m in Sources */,
 				A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */,

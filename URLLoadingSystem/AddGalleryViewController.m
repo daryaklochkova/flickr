@@ -15,6 +15,9 @@
 @property (weak, nonatomic) IBOutlet UITextField *galleryTitleTextField;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
+@property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+
+
 @property (strong, nonatomic) Gallery *galleryNew;
 
 @end
@@ -73,16 +76,16 @@
     
     CGRect fieldFrame;
     if ([self.descriptionTextView isFirstResponder]) {
-        fieldFrame = self.descriptionTextView.frame;
+        fieldFrame = [self.descriptionTextView convertRect:self.descriptionTextView.frame toView:self.view];
     }
     else if ([self.galleryTitleTextField isFirstResponder]) {
-        fieldFrame = self.galleryTitleTextField.frame;
+        fieldFrame = [self.galleryTitleTextField convertRect:self.galleryTitleTextField.frame toView:self.view];
     }
-    fieldFrame.size.height += 10;
+    fieldFrame.size.height += 5;
     
     if (CGRectIntersectsRect(fieldFrame, keyboardFrame)) {
         CGSize keyboardSize = keyboardFrame.size;
-        CGFloat distanceToBottom = (self.view.frame.size.height - fieldFrame.size.height - fieldFrame.origin.y - 10);
+        CGFloat distanceToBottom = (self.view.frame.size.height - fieldFrame.size.height - fieldFrame.origin.y - 5);
         CGFloat diff = keyboardSize.height - distanceToBottom;
         UIEdgeInsets contentInsets = UIEdgeInsetsMake(-diff, 0.0, 0.0, 0.0);
         self.scrollView.contentInset = contentInsets;
@@ -111,16 +114,6 @@
     NSLog(@"textFieldDidEndEditing");
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 #pragma mark - UI actions
 
@@ -132,14 +125,21 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSString *userID = [userDefaults objectForKey:[LogdedInUserID copy]];
     
-    NSDictionary *galleryInfo = @{
-                                    @"gallery_id":@"1",
-                                    @"title":self.galleryTitleTextField.text,
-                                    @"description":self.descriptionTextView.text,
-                                    @"user_id":userID
-                                    };
-    
     NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
+    NSString *galleryID = @"";
+    
+    if (localGalleriesInfo) {
+        galleryID = [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
+    } else {
+        galleryID = @"0";
+    }
+    
+    NSDictionary *galleryInfo = @{
+                                  @"gallery_id":galleryID,
+                                  @"title":self.galleryTitleTextField.text,
+                                  @"description":self.descriptionTextView.text,
+                                  @"user_id":userID
+                                  };
     
     if (localGalleriesInfo) {
         NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
@@ -149,7 +149,56 @@
     else {
         [userDefaults setObject:@[galleryInfo] forKey:[LocalGalleriesKey copy]];
     }
+    
+    self.galleryNew = [[Gallery alloc] initWithDictionary:galleryInfo andUserFolder:self.galleryOwner.userFolder];
+    
+    NSString *path = self.galleryNew.folderPath;
+    NSString *filePath = [path stringByAppendingPathComponent:@"123"];
+    
+    [UIImagePNGRepresentation(self.coverImageView.image) writeToFile:filePath atomically:YES];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (IBAction)tapToImage:(UITapGestureRecognizer *)sender {
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
+        
+        [self showErrorAlert:@"Error" and:@"Device has no camera"];
+        
+    } else {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+- (void)showErrorAlert:(NSString *)title and:(NSString *)message {
+    UIAlertController *alert = [UIAlertController
+                                alertControllerWithTitle:title
+                                message:message
+                                preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction *action = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleCancel
+                             handler:nil];
+    
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    self.coverImageView.image = info[UIImagePickerControllerEditedImage];
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
 
 @end

@@ -289,6 +289,7 @@
 - (IBAction)addGalleryPressed:(id)sender {
     UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"AddGallery" bundle:nil];
     AddGalleryViewController *nextViewController = [nextStoryBoard instantiateInitialViewController];
+    nextViewController.galleryOwner = self.user;
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
 

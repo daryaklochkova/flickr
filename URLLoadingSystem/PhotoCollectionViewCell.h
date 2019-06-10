@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface PhotoCollectionViewCell : UICollectionViewCell <PhotoCell>
 
+@property (assign, nonatomic) BOOL isCellSelected;
+
 @end
 
 

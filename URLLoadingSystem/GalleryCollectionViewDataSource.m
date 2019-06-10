@@ -10,6 +10,7 @@
 #import "FooterCollectionReusableView.h"
 #import "GalleryHeaderCollectionReusableView.h"
 #import "PhotoCollectionViewCell.h"
+#import "UICollectionView.h"
 
 @interface GalleryCollectionViewDataSource()
 @property (strong, nonatomic) Gallery *gallery;
@@ -43,7 +44,7 @@
         
         id<PhotoCell> photoCell = (id<PhotoCell>)cell;
         
-        CGSize cellSize = [self getCellSizeCollectionView:collectionView atIndexPath:indexPath];
+        CGSize cellSize = [collectionView getCellSizeAtIndexPath:indexPath];
         [photoCell configureViewWithSize:cellSize];
         
         Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
@@ -53,19 +54,6 @@
     return cell;
 }
 
-- (CGSize)getCellSizeCollectionView:(UICollectionView *)collectionView atIndexPath:(NSIndexPath *)indexPath {
-    
-    UICollectionViewFlowLayout* collectionViewLayout = (UICollectionViewFlowLayout*)[collectionView collectionViewLayout];
-    
-    if ([collectionView.delegate respondsToSelector:@selector(collectionView:layout:sizeForItemAtIndexPath:)]) {
-        id<UICollectionViewDelegateFlowLayout> delegate = (id<UICollectionViewDelegateFlowLayout>) collectionView.delegate;
-        
-        return [delegate collectionView:collectionView layout:collectionViewLayout sizeForItemAtIndexPath:indexPath];
-    }
-    else {
-        return collectionViewLayout.itemSize;
-    }
-}
 
 #pragma mark - update Collection view
 
