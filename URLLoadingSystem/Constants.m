@@ -31,6 +31,6 @@ const NSString *continuationEndValue = @"-1";
 const NSString *errorKey = @"erorKey";
 
 
-const NSString *LogdedInUserID = @"LoginedUserID";
+const NSString *LoginedUserID = @"LoginedUserID";
 
 const NSString *LocalGalleriesKey = @"LocalGalleriesKey";

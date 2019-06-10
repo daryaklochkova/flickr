@@ -26,7 +26,12 @@
         _isPrimary = [dictionary objectForKey:@"is_primary"];
         _hasComment = [dictionary objectForKey:@"has_comment"];
         _remoteURL = [self getPhotoURL];
-        _name = [self.remoteURL lastPathComponent];
+        
+        if (self.farm) {
+            _name = [self.remoteURL lastPathComponent];
+        } else {
+            _name = self.photoID;
+        }
         
     }
     return self;
@@ -48,7 +53,7 @@
     return self;
 }
 
-- (NSURL *)getPhotoURL{
+- (NSURL *)getPhotoURL {
     NSString *stringURL = [NSString stringWithFormat:@"https://farm%@.staticflickr.com/%@/%@_%@.jpg", self.farm, self.server, self.photoID, self.secret];
     
     return [NSURL URLWithString:stringURL];

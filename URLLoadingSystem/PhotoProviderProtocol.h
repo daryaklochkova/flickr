@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol PhotoProviderProtocol <NSObject>
 
 - (void)getPhotosForGallery:(NSString * _Nullable)galleryID use:(ReturnPhotosResult _Nullable) completionHandler;
+
+@optional
 - (void)getAdditionalPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler;
 
 - (void)cancelTasksByURL:(NSURL *) url;

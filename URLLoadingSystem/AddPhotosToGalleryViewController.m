@@ -13,7 +13,9 @@
 
 @interface AddPhotosToGalleryViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *photosCollectionView;
-@property (strong, nonatomic) NSMutableArray<UIImage *> *images;
+@property (strong, nonatomic) PHFetchResult<PHAsset *> *assets;
+
+@property (strong, nonatomic) NSMutableSet<NSIndexPath *> *selectedCellsIndexPath;
 @end
 
 @implementation AddPhotosToGalleryViewController
@@ -22,40 +24,37 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.images = [NSMutableArray array];
+    self.selectedCellsIndexPath = [NSMutableSet set];
     
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
-    PHFetchResult<PHAsset *> * assets = [PHAsset fetchAssetsWithOptions:options];
-    
-    PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];
-    //imageOptions.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
-    imageOptions.resizeMode = PHImageRequestOptionsResizeModeExact;
-    CGSize size = CGSizeMake(100, 100);
-    
-    __weak typeof(self) weakSelf = self;
-    for (PHAsset *asset in assets) {
-        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            __strong typeof(self) strongSelf = weakSelf;
-            [strongSelf.images addObject:result];
-        }];
-    }
+    self.assets = [PHAsset fetchAssetsWithOptions:options];
 }
 
+#pragma mark - UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.images.count;
+    return self.assets.count;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCell" forIndexPath:indexPath];
     
     CGSize cellSize = [collectionView getCellSizeAtIndexPath:indexPath];
     [cell configureViewWithSize:cellSize];
     
-    UIImage *image = [self.images objectAtIndex:[indexPath indexAtPosition:1]];
-    cell.imageView.image = image;
+    NSUInteger index = [indexPath indexAtPosition:1];
+    PHAsset *asset = [self.assets objectAtIndex:index];
+    
+    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:cellSize contentMode:PHImageContentModeDefault options:[[PHImageRequestOptions alloc] init] resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+        cell.imageView.image = result;
+    }];
+    
+    if ([self.selectedCellsIndexPath containsObject:indexPath]) {
+        [cell selectItem];
+    }
     
     return cell;
 }
@@ -63,8 +62,39 @@
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    UICollectionViewCell *collectionViewCell = [collectionView cellForItemAtIndexPath:indexPath];
+    PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)collectionViewCell;
     [cell selectItem];
+    
+    if ([self.selectedCellsIndexPath containsObject:indexPath]) {
+        [self.selectedCellsIndexPath removeObject:indexPath];
+    } else {
+        [self.selectedCellsIndexPath addObject:indexPath];
+    }
+}
+
+#pragma mark - IBActions
+
+- (IBAction)done:(id)sender {
+    if (!self.selectedImages) {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    
+    for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
+        NSUInteger index = [indexPath indexAtPosition:1];
+        PHAsset *asset = [self.assets objectAtIndex:index];
+        
+        PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];
+        
+        __weak typeof(self) weakSelf = self;
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf.selectedImages addObject:result];
+        }];
+    }
+
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

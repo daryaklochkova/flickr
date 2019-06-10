@@ -9,6 +9,7 @@
 #import "AddGalleryViewController.h"
 #import "Gallery.h"
 #import "Constants.h"
+#import "AddPhotosToGalleryViewController.h"
 
 @interface AddGalleryViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -17,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 
+@property (strong, nonatomic) NSMutableArray *selectedImages;
 
 @property (strong, nonatomic) Gallery *galleryNew;
 
@@ -29,6 +31,8 @@
     [super viewDidLoad];
     [self configureLayout];
     [self subscribeToNotifications];
+    
+    self.selectedImages = [NSMutableArray array];
     
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognizer:)];
     [self.view addGestureRecognizer:recognizer];
@@ -122,8 +126,13 @@
 }
 
 - (IBAction)saveNewGallery:(id)sender {
+    
+    if ([self.galleryTitleTextField.text isEqualToString:@""]) {
+        [self showErrorAlertWithTitle:@"Error" andMessage:@"The title field is empty"];
+    }
+    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *userID = [userDefaults objectForKey:[LogdedInUserID copy]];
+    NSString *userID = [userDefaults objectForKey:[LoginedUserID copy]];
     
     NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
     NSString *galleryID = @"";
@@ -138,24 +147,41 @@
                                   @"gallery_id":galleryID,
                                   @"title":self.galleryTitleTextField.text,
                                   @"description":self.descriptionTextView.text,
-                                  @"user_id":userID
+                                  @"user_id":userID,
+                                  @"primary_photo_id":@"primaryPhoto"
                                   };
-    
-    if (localGalleriesInfo) {
-        NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
-        [mutableGalleriesInfo addObject:galleryInfo];
-        [userDefaults setObject:mutableGalleriesInfo forKey:[LocalGalleriesKey copy]];
-    }
-    else {
-        [userDefaults setObject:@[galleryInfo] forKey:[LocalGalleriesKey copy]];
-    }
     
     self.galleryNew = [[Gallery alloc] initWithDictionary:galleryInfo andUserFolder:self.galleryOwner.userFolder];
     
     NSString *path = self.galleryNew.folderPath;
-    NSString *filePath = [path stringByAppendingPathComponent:@"123"];
+    NSString *filePath = [path stringByAppendingPathComponent:@"primaryPhoto"];
     
     [UIImagePNGRepresentation(self.coverImageView.image) writeToFile:filePath atomically:YES];
+    
+    NSString *fileName;
+    NSInteger i = 0;
+    NSMutableArray *photos = [NSMutableArray array];
+    for (UIImage *image in self.selectedImages) {
+        fileName = [NSString stringWithFormat:@"%ld", (long)i];
+        [photos addObject:fileName];
+        filePath = [path stringByAppendingPathComponent:fileName];
+        
+        [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+        
+        i++;
+    }
+    
+    NSMutableDictionary *galleryInfoWithPhotos = [[NSMutableDictionary alloc] initWithDictionary:galleryInfo];
+    [galleryInfoWithPhotos setValue:photos forKey:@"photos"];
+    
+    if (localGalleriesInfo) {
+        NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
+        [mutableGalleriesInfo addObject:galleryInfoWithPhotos];
+        [userDefaults setObject:mutableGalleriesInfo forKey:[LocalGalleriesKey copy]];
+    }
+    else {
+        [userDefaults setObject:@[galleryInfoWithPhotos] forKey:[LocalGalleriesKey copy]];
+    }
     
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -163,7 +189,7 @@
 - (IBAction)tapToImage:(UITapGestureRecognizer *)sender {
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         
-        [self showErrorAlert:@"Error" and:@"Device has no camera"];
+        [self showErrorAlertWithTitle:@"Error" andMessage:@"Device has no camera"];
         
     } else {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -174,7 +200,7 @@
     }
 }
 
-- (void)showErrorAlert:(NSString *)title and:(NSString *)message {
+- (void)showErrorAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
     UIAlertController *alert = [UIAlertController
                                 alertControllerWithTitle:title
                                 message:message
@@ -200,5 +226,18 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [super prepareForSegue:segue sender:sender];
+    
+    UIViewController *destinationController = segue.destinationViewController;
+    
+    if ([destinationController isKindOfClass:[AddPhotosToGalleryViewController class]]) {
+        AddPhotosToGalleryViewController *addPhotosVC = (AddPhotosToGalleryViewController *)destinationController;
+        addPhotosVC.selectedImages = self.selectedImages;
+    }
+}
+
 
 @end

@@ -44,6 +44,7 @@
 		A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE2229525BB00F1855B /* PhotoProvider.m */; };
 		A0862CE6229527C700F1855B /* GalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0862CE5229527C700F1855B /* GalleriesListProvider.m */; };
 		A0B2932822AE44570051358B /* UICollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B2932722AE44570051358B /* UICollectionView.m */; };
+		A0B2932B22AE683B0051358B /* LocalPhotosProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B2932A22AE683B0051358B /* LocalPhotosProvider.m */; };
 		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
 		A0F4C1E122A95AA80080E040 /* AddPhotosToGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1E022A95AA80080E040 /* AddPhotosToGalleryViewController.m */; };
 /* End PBXBuildFile section */
@@ -119,6 +120,8 @@
 		A0862CE5229527C700F1855B /* GalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleriesListProvider.m; sourceTree = "<group>"; };
 		A0B2932622AE44570051358B /* UICollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UICollectionView.h; sourceTree = "<group>"; };
 		A0B2932722AE44570051358B /* UICollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UICollectionView.m; sourceTree = "<group>"; };
+		A0B2932922AE683B0051358B /* LocalPhotosProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalPhotosProvider.h; sourceTree = "<group>"; };
+		A0B2932A22AE683B0051358B /* LocalPhotosProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalPhotosProvider.m; sourceTree = "<group>"; };
 		A0F4C1D922A94C770080E040 /* LocalGalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalGalleriesListProvider.h; sourceTree = "<group>"; };
 		A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LocalGalleriesListProvider.m; sourceTree = "<group>"; };
 		A0F4C1DC22A94C990080E040 /* PhotoProviderProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoProviderProtocol.h; sourceTree = "<group>"; };
@@ -407,6 +410,8 @@
 			children = (
 				A0F4C1D922A94C770080E040 /* LocalGalleriesListProvider.h */,
 				A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */,
+				A0B2932922AE683B0051358B /* LocalPhotosProvider.h */,
+				A0B2932A22AE683B0051358B /* LocalPhotosProvider.m */,
 			);
 			name = localProviders;
 			sourceTree = "<group>";
@@ -522,6 +527,7 @@
 				A0F4C1E122A95AA80080E040 /* AddPhotosToGalleryViewController.m in Sources */,
 				A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */,
 				A055BEEF228019F100400256 /* main.m in Sources */,
+				A0B2932B22AE683B0051358B /* LocalPhotosProvider.m in Sources */,
 				A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */,
 				A05C2A24228D3FD7009BF7BA /* XMLParser.m in Sources */,
 				A06C9A01229FB1D4005A6AF3 /* PhotoCollectionViewCell.m in Sources */,

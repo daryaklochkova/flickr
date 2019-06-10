@@ -23,9 +23,10 @@
     return self;
 }
 
-- (void)getPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler{
+- (void)getPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler {
     self.continuation = [continuationStartValue copy];
     [self getAdditionalPhotosForGallery:galleryID use:completionHandler];
+    
 }
 
 - (void)getAdditionalPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler{

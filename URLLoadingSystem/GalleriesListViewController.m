@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *logdedInUserID = [[NSUserDefaults standardUserDefaults] objectForKey:[LogdedInUserID copy]];
+    NSString *logdedInUserID = [[NSUserDefaults standardUserDefaults] objectForKey:[LoginedUserID copy]];
     self.isUserOwner = [self.user.userID isEqualToString:logdedInUserID];
     if (self.isUserOwner) {
         [self.addButton setHidden:NO];
@@ -249,7 +249,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSLog(@"scrollViewDidScroll");
+    //NSLog(@"scrollViewDidScroll");
 }
 
 #pragma mark - UICollectionViewDelegate

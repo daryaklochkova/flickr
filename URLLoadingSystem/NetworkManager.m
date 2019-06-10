@@ -89,14 +89,14 @@
 }
 
 
-- (NSURLSessionTask *)downloadData:(NSURLRequest *) request
-                             using:(successDownloadTaskBlock) successBlock
-                               and:(failBlock) failBlock{
+- (NSURLSessionTask *)downloadData:(NSURLRequest *)request
+                             using:(successDownloadTaskBlock)successBlock
+                               and:(failBlock)failBlock {
     
     NSURLSessionTask *task = [self.defaultSession downloadTaskWithRequest:request completionHandler:^(NSURL * _Nullable location, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         //error = [[NSError alloc] init];
-        if (error){
+        if (error) {
             failBlock(error);
             NSLog (@"NetworkManager download data failed - %@", [error description]);
         }

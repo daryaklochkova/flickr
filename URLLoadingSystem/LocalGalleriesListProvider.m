@@ -14,7 +14,6 @@
     
 }
 
-
 - (void)getGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler {
     NSArray *localGalleriesInfo = [[NSUserDefaults standardUserDefaults] objectForKey:[LocalGalleriesKey copy]];
     

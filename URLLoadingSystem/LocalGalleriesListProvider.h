@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LocalGalleriesListProvider : NSObject
+@interface LocalGalleriesListProvider : NSObject <GalleriesListProviderProtocol>
 
 @end
 

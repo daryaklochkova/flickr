@@ -68,6 +68,8 @@
 
 - (void)prepareForReuse {
     self.imageView.image = nil;
+    self.isCellSelected = NO;
+    self.imageView.alpha = 1;
     [self.activityIndicator stopAnimating];
 }
 

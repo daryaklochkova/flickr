@@ -26,7 +26,6 @@
     return self;
 }
 
-
 - (NSDictionary *)GetRequestFields:(NSString *)userID {
     
     NSDictionary *requestFields = @{
@@ -46,8 +45,8 @@
     [self getAdditionalGalleriesForUser:userID use:completionHandler];
 }
 
-- (void)getAdditionalGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler{
-    if ([self continuationExist]){
+- (void)getAdditionalGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler {
+    if ([self continuationExist]) {
         ReturnResultWithContinuation returnBlock = [self createReturnResultWithContinuationWith:completionHandler];
         self.parser.responseParser = [[GetListOfGalleriesResponseParser alloc] initWith:returnBlock];
         [self sendRequest:[self GetRequestFields:userID]];

@@ -7,6 +7,7 @@
 //
 
 #import "ListOfGalleries.h"
+#import "LocalPhotosProvider.h"
 
 NSNotificationName const PrimaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
 NSString *const galleryIndex = @"galleryIndex";
@@ -16,6 +17,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 @interface ListOfGalleries ()
 @property (strong, nonatomic) NSMutableArray<Gallery *> *galleries;
 @property (strong, nonatomic) id<GalleriesListProviderProtocol> dataProvider;
+@property (assign, nonatomic) BOOL isUserOwner;
 @end
 
 @implementation ListOfGalleries
@@ -26,14 +28,23 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     if (self) {
         self.galleries = [[NSMutableArray alloc] init];
         _user = user;
+        
+        NSString *logdedInUserID = [[NSUserDefaults standardUserDefaults] objectForKey:[LoginedUserID copy]];
+        self.isUserOwner = [self.user.userID isEqualToString:logdedInUserID];
+        
     }
     return self;
 }
 
-- (void)createGalleriesUsing:(NSArray<NSDictionary *> *)dictionaries{
+- (void)createGalleriesUsing:(NSArray<NSDictionary *> *)dictionaries {
     for (NSDictionary *dictionary in dictionaries) {
         Gallery *gallery = [[Gallery alloc] initWithDictionary:dictionary andUserFolder:self.user.userFolder];
-        [gallery setDataProvider:[[PhotoProvider alloc] init]];
+        
+        if (self.isUserOwner) {
+            [gallery setDataProvider:[[LocalPhotosProvider alloc] init]];
+        } else {
+            [gallery setDataProvider:[[PhotoProvider alloc] init]];
+        }
         
         [self.galleries addObject:gallery];
     }
@@ -50,8 +61,9 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     [self.dataProvider getGalleriesForUser:self.user.userID use:[self handleRequestResult]];
 }
 
-- (ReturnResult)handleRequestResult{
+- (ReturnResult)handleRequestResult {
     __weak typeof(self) weakSelf = self;
+    
     ReturnResult block = ^(NSArray * _Nullable result) {
         __strong typeof(self) strongSelf = weakSelf;
         
@@ -90,7 +102,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     });
 }
 
-- (void)getPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger) index{
+- (void)getPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger)index {
     NSDictionary *dictionary = @{locationKey:[gallery getLocalPathForPrimaryPhoto], galleryIndex:[NSNumber numberWithInteger:index]};
     
     NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:PrimaryPhotoDownloadComplite object:dictionary];

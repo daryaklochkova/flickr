@@ -132,8 +132,10 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (void)getAdditionalContent{
-    [self.dataProvider getAdditionalPhotosForGallery:self.galleryID use:[self getResponseHandler]];
+- (void)getAdditionalContent {
+    if ([self.dataProvider respondsToSelector:@selector(getAdditionalPhotosForGallery:use:)]) {
+        [self.dataProvider getAdditionalPhotosForGallery:self.galleryID use:[self getResponseHandler]];
+    }
 }
 
 
@@ -153,13 +155,15 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (void)cancelGetData{
+- (void)cancelGetData {
     @synchronized (self) {
         self.isUpdateCanceld = YES;
     }
     
     for (Photo *photo in self.photos) {
-        [self.dataProvider cancelTasksByURL:photo.remoteURL];
+        if ([self.dataProvider respondsToSelector:@selector(cancelTasksByURL:)]) {
+            [self.dataProvider cancelTasksByURL:photo.remoteURL];
+        }
     }
 }
 
@@ -184,13 +188,15 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (void)getPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification{
+- (void)getPhoto:(Photo *) photo sucsessNotification:(NSNotification *)notification {
     
-    NSURL *fileURL = [NSURL fileURLWithPath:[self getLocalPathForPhoto:photo]];
-    NSURL *remoteURL = [photo remoteURL];
-    
-    [self.dataProvider getFileFrom:remoteURL saveIn:fileURL sucsessNotification:notification];
+    if ([self.dataProvider respondsToSelector:@selector(getFileFrom:saveIn:sucsessNotification:)]) {
+        
+        NSURL *fileURL = [NSURL fileURLWithPath:[self getLocalPathForPhoto:photo]];
+        NSURL *remoteURL = [photo remoteURL];
+        
+        [self.dataProvider getFileFrom:remoteURL saveIn:fileURL sucsessNotification:notification];
+    }
 }
-
 
 @end

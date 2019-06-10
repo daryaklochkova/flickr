@@ -210,15 +210,18 @@
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([collectionView isEqual:self.mainCollectionView]) {
-        CGSize cellSize = self.view.frame.size;
-        NSLog(@"%@ seze width - %f height - %f", NSStringFromSelector(_cmd),cellSize.width, cellSize.height);
-        
+        UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+
+        CGSize cellSize = collectionView.frame.size;
+        cellSize.height = cellSize.height - layout.sectionInset.bottom + layout.sectionInset.top;
+        NSLog(@"%@ size: width - %f height - %f", NSStringFromSelector(_cmd),cellSize.width, cellSize.height);
+
         id<PhotoCell> photoCell = (id<PhotoCell>)[self.mainCollectionView cellForItemAtIndexPath:indexPath];
         [photoCell configureViewWithSize:cellSize];
-        
+
         return cellSize;
     }
-    
+
     return [(UICollectionViewFlowLayout *)collectionViewLayout itemSize];
 }
 

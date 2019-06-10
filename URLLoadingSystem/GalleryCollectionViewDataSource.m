@@ -19,7 +19,8 @@
 
 @implementation GalleryCollectionViewDataSource
 
-- (instancetype)initWithGallery:(Gallery *) gallery andCellReuseIdentifier:(NSString *) cellIdentifier{
+- (instancetype)initWithGallery:(Gallery *) gallery
+         andCellReuseIdentifier:(NSString *) cellIdentifier {
     self = [super init];
     
     if (!self) return nil;
@@ -36,6 +37,7 @@
     return [self.gallery getPhotosCount];
 }
 
+
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellIdentifier forIndexPath:indexPath];
@@ -51,13 +53,15 @@
         
         [self setPhoto:photo toCell:photoCell];
     }
+    
     return cell;
 }
 
 
 #pragma mark - update Collection view
 
-- (void)collectionView:(UICollectionView *)collectionView reloadItemAtIndex:(NSIndexPath *)indexPath {
+- (void)collectionView:(UICollectionView *)collectionView
+     reloadItemAtIndex:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
     if (cell) {

@@ -59,7 +59,7 @@
 
 #pragma mark - Initialization
 
-- (void)subscribeToNotifications{
+- (void)subscribeToNotifications {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:) name:fileDownloadComplite object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPreviews:) name:PhotosInformationReceived object:nil];
@@ -74,11 +74,11 @@
                                                 // name:downloadFileError object:nil];
 }
 
-- (void)dealloc{
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)createGallery{
+- (void)createGallery {
     if (!self.gallery) {
         //self.gallery = [[Gallery alloc] initWithDictionary:@"72157704531735241"];
     }

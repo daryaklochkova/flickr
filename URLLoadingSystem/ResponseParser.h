@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Constants.h"
+#import "Photo.h"
 
 
 typedef void(^ReturnResult)(NSArray * _Nullable result);
