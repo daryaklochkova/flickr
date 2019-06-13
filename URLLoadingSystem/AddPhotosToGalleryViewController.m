@@ -22,13 +22,12 @@
 
 @implementation AddPhotosToGalleryViewController
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.selectedCellsIndexPath = [NSMutableSet set];
-    
     [self fetchAssetsFromPhotoLibrary];
 }
+
 
 #pragma mark - Work with PhotoKit
 
@@ -77,13 +76,33 @@
 
 #pragma mark - UICollectionViewDataSource
 
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return  2;
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView
      numberOfItemsInSection:(NSInteger)section {
+    if (section == 0) {
+        return  1;
+    }
     return self.assets.count;
+}
+
+- (BOOL)isCameraCell:(NSIndexPath *)indexPath {
+    if ([indexPath indexAtPosition:0] == 0) {
+        return YES;
+    }
+    
+    return NO;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isCameraCell:indexPath]) {
+        PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"CameraCell" forIndexPath:indexPath];
+        return cell;
+    }
     
     PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"PhotoCell" forIndexPath:indexPath];
     
@@ -107,6 +126,11 @@
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if ([self isCameraCell:indexPath]) {
+        [self launchCamera];
+        return;
+    }
     
     UICollectionViewCell *collectionViewCell = [collectionView cellForItemAtIndexPath:indexPath];
     PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)collectionViewCell;
@@ -133,5 +157,74 @@
     [self saveSelectedPhotos];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+- (void)launchCamera {
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        
+        [self showErrorAlertWithTitle:@"Error" andMessage:@"Device has no camera"];
+        
+    } else {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:nil];
+    }
+}
+
+- (void)showErrorAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+    UIAlertController *alert = [UIAlertController
+                                alertControllerWithTitle:title
+                                message:message
+                                preferredStyle:UIAlertControllerStyleAlert];
+    
+    
+    UIAlertAction *action = [UIAlertAction
+                             actionWithTitle:@"OK"
+                             style:UIAlertActionStyleCancel
+                             handler:nil];
+    
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerControllerDelegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    UIImage *image = info[UIImagePickerControllerEditedImage];
+    
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        [PHAssetChangeRequest creationRequestForAssetFromImage:image];
+    } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        if (error) {
+            NSLog (@"%@", error);
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self moveAllSelectedIndexes:1];
+                [self fetchAssetsFromPhotoLibrary];
+                [self.photosCollectionView reloadData];
+            });
+        }
+    }];
+    
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [picker dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)moveAllSelectedIndexes:(NSInteger)delta {
+    NSMutableSet *newIndexPathSet = [NSMutableSet set];
+    for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
+        NSInteger section = [indexPath indexAtPosition:0];
+        NSInteger row = [indexPath indexAtPosition:1];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
+        [newIndexPathSet addObject:newIndexPath];
+    }
+    self.selectedCellsIndexPath = newIndexPathSet;
+};
 
 @end

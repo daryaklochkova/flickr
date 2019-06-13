@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AddPhotosToGalleryViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface AddPhotosToGalleryViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *selectedImages;
 @end

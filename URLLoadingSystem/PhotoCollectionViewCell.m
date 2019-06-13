@@ -11,7 +11,7 @@
 @interface PhotoCollectionViewCell()
 @property (strong, nonatomic) IBOutlet UICollectionViewCell *cell;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-
+@property (weak, nonatomic) IBOutlet UIImageView *chooseLabel;
 
 
 @end
@@ -88,9 +88,12 @@
 - (void)selectItem {
     if (!self.isCellSelected) {
         self.imageView.alpha = 0.5;
+        [self.chooseLabel setHidden:NO];
         self.isCellSelected = YES;
-    } else {
+    }
+    else {
         self.imageView.alpha = 1;
+        [self.chooseLabel setHidden:YES];
         self.isCellSelected = NO;
     }
 }
