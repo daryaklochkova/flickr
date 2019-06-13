@@ -49,20 +49,24 @@ const NSNotificationName downloadFileError = @"downloadFileError";
 }
 
 
-- (void)getFileFrom:(NSURL *) remoteURL saveIn:(NSURL *) localFileURL sucsessNotification:(NSNotification *) notification {
-    
+- (void)getFileFrom:(NSURL *)remoteURL saveIn:(NSURL *)localFileURL sucsessNotification:(NSNotification *)notification {    
     successDownloadTaskBlock completionHandler = ^(NSURL * _Nullable location) {
         NSError *err = nil;
         NSFileManager *fileManager = [NSFileManager defaultManager];
         
-        if (location && [fileManager copyItemAtURL: location toURL: localFileURL error: &err]) {
+        NSString *localPath = [localFileURL.absoluteString substringFromIndex:6];
+        if (location && [fileManager fileExistsAtPath:localPath]) {
+            [fileManager removeItemAtURL:localFileURL error:nil];
+        }
+        
+        if (location && [fileManager copyItemAtURL:location toURL:localFileURL error:&err]) {
             
             dispatch_async(dispatch_get_main_queue(),^{
                 [[NSNotificationCenter defaultCenter] postNotification:notification];
             });
         }
         else {
-            NSLog(@"error - %@", err);
+            NSLog(@"%@", err);
         }
     };
     
@@ -70,7 +74,7 @@ const NSNotificationName downloadFileError = @"downloadFileError";
         
         NSString *path = localFileURL.absoluteString;
         
-        if ([[NSFileManager defaultManager] fileExistsAtPath:[path substringFromIndex:6]]){
+        if ([[NSFileManager defaultManager] fileExistsAtPath:[path substringFromIndex:6]]) {
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         }
         else {
@@ -81,7 +85,7 @@ const NSNotificationName downloadFileError = @"downloadFileError";
     [[NetworkManager defaultManager] downloadData:[NSURLRequest requestWithURL:remoteURL] using:completionHandler and:failBlock];
 }
 
-- (BOOL)continuationExist{
+- (BOOL)continuationExist {
     return ![self.continuation isEqualToString:[continuationEndValue copy]];
 }
 

@@ -213,8 +213,9 @@
         UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
 
         CGSize cellSize = collectionView.frame.size;
-        cellSize.height = cellSize.height - layout.sectionInset.bottom + layout.sectionInset.top;
-        NSLog(@"%@ size: width - %f height - %f", NSStringFromSelector(_cmd),cellSize.width, cellSize.height);
+        cellSize.height = cellSize.height - (layout.sectionInset.bottom + layout.sectionInset.top);
+       // cellSize.width = cellSize.width - (layout.sectionInset.left + layout.sectionInset.right);
+       // NSLog(@"%@ size: width - %f height - %f", NSStringFromSelector(_cmd),cellSize.width, cellSize.height);
 
         id<PhotoCell> photoCell = (id<PhotoCell>)[self.mainCollectionView cellForItemAtIndexPath:indexPath];
         [photoCell configureViewWithSize:cellSize];

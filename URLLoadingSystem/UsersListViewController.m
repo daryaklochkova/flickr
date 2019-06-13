@@ -21,6 +21,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+//    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:LocalGalleriesKey];
+    
     User *flickr = [[User alloc] initWithUserID:@"66956608@N06" andName:@"Flickr"];
     User *testUser = [[User alloc] initWithUserID:@"0" andName:@"Test user"];
     

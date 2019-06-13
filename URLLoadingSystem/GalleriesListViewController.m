@@ -54,6 +54,12 @@
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self loadListOfGalleries];
+    [self.listOfGalleriesCollectionView reloadData];
+}
+
 - (void)viewWillTransitionToSize:(CGSize)size
        withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
     [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
@@ -167,10 +173,13 @@
     if (cell && [cell isKindOfClass:[GalleryCell class]]){
         GalleryCell * galleryCell = (GalleryCell *)cell;
         Gallery *gallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
-        UIImage *image = [[UIImage alloc] initWithContentsOfFile:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
         
-        if (image) {
-            galleryCell.imageView.image = image;
+        @autoreleasepool {
+            UIImage *image = [UIImage imageNamed:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
+            
+            if (image) {
+                galleryCell.imageView.image = image;
+            }
         }
     }
 }
@@ -203,11 +212,13 @@
     
     NSString *primaryPhotoPath = [gallery getLocalPathForPhoto:gallery.primaryPhoto];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:primaryPhotoPath]){
-        UIImage *image = [[UIImage alloc] initWithContentsOfFile:primaryPhotoPath];
-        
-        if (image) {
-            cell.imageView.image = image;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:primaryPhotoPath]) {
+        @autoreleasepool {
+            UIImage *image = [UIImage imageNamed:primaryPhotoPath];
+            
+            if (image) {
+                cell.imageView.image = image;
+            }
         }
     }
     cell.lable.text = gallery.title;

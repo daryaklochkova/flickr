@@ -23,6 +23,9 @@ const NSString *continuationArgumentName = @"continuation";
 const NSString *shortLimitArgumentName = @"short_limit";
 const NSString *perPageArgumentName = @"per_page";
 const NSString *galleryIDArgumentName = @"gallery_id";
+const NSString *titleArgumentName = @"title";
+const NSString *descriptionArgumentName = @"description";
+const NSString *primaryPhotoIdArgumentName = @"primary_photo_id";
 
 const NSString *continuationStartValue = @"0";
 const NSString *continuationEndValue = @"-1";

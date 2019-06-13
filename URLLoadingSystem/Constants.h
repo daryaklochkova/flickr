@@ -26,6 +26,9 @@ extern const NSString *continuationArgumentName;
 extern const NSString *shortLimitArgumentName;
 extern const NSString *perPageArgumentName;
 extern const NSString *galleryIDArgumentName;
+extern const NSString *titleArgumentName;
+extern const NSString *descriptionArgumentName;
+extern const NSString *primaryPhotoIdArgumentName;
 
 extern const NSString *continuationStartValue;
 extern const NSString *continuationEndValue;

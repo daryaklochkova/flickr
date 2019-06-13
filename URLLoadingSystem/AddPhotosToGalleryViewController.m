@@ -16,6 +16,8 @@
 @property (strong, nonatomic) PHFetchResult<PHAsset *> *assets;
 
 @property (strong, nonatomic) NSMutableSet<NSIndexPath *> *selectedCellsIndexPath;
+@property (strong, nonatomic) PHCachingImageManager *cachingManager;
+
 @end
 
 @implementation AddPhotosToGalleryViewController
@@ -23,17 +25,60 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.selectedCellsIndexPath = [NSMutableSet set];
     
+    [self fetchAssetsFromPhotoLibrary];
+}
+
+#pragma mark - Work with PhotoKit
+
+- (void)cacheAssets {
+    NSMutableArray *assetsArray = [NSMutableArray array];
+    for (PHAsset *asset in self.assets) {
+        [assetsArray addObject:asset];
+    }
+    
+    CGSize cellSize = [self.photosCollectionView getCellSizeAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];
+    
+    self.cachingManager = [[PHCachingImageManager alloc] init];
+    [self.cachingManager startCachingImagesForAssets:assetsArray targetSize:cellSize contentMode:PHImageContentModeDefault options:imageOptions];
+}
+
+- (void)fetchAssetsFromPhotoLibrary {
     PHFetchOptions *options = [[PHFetchOptions alloc] init];
     options.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:NO]];
     self.assets = [PHAsset fetchAssetsWithOptions:options];
+    
+    [self cacheAssets];
+}
+
+- (void)saveSelectedPhotos {
+    PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];
+    imageOptions.synchronous = YES;
+    
+    __weak typeof(self) weakSelf = self;
+    
+    for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
+        NSUInteger index = [indexPath indexAtPosition:1];
+        PHAsset *asset = [self.assets objectAtIndex:index];
+        
+        CGSize size = CGSizeMake(asset.pixelWidth, asset.pixelWidth);
+        
+        @autoreleasepool {
+            [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+                __strong typeof(self) strongSelf = weakSelf;
+                [strongSelf.selectedImages addObject:result];
+            }];
+        }
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView
+     numberOfItemsInSection:(NSInteger)section {
     return self.assets.count;
 }
 
@@ -48,7 +93,7 @@
     NSUInteger index = [indexPath indexAtPosition:1];
     PHAsset *asset = [self.assets objectAtIndex:index];
     
-    [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:cellSize contentMode:PHImageContentModeDefault options:[[PHImageRequestOptions alloc] init] resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    [self.cachingManager requestImageForAsset:asset targetSize:cellSize contentMode:PHImageContentModeDefault options:[[PHImageRequestOptions alloc] init] resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         cell.imageView.image = result;
     }];
     
@@ -62,38 +107,30 @@
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
+    
     UICollectionViewCell *collectionViewCell = [collectionView cellForItemAtIndexPath:indexPath];
     PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)collectionViewCell;
     [cell selectItem];
     
     if ([self.selectedCellsIndexPath containsObject:indexPath]) {
         [self.selectedCellsIndexPath removeObject:indexPath];
-    } else {
+    }
+    else {
         [self.selectedCellsIndexPath addObject:indexPath];
     }
 }
 
+
 #pragma mark - IBActions
 
 - (IBAction)done:(id)sender {
+    
     if (!self.selectedImages) {
         [self.navigationController popViewControllerAnimated:YES];
         return;
     }
     
-    for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
-        NSUInteger index = [indexPath indexAtPosition:1];
-        PHAsset *asset = [self.assets objectAtIndex:index];
-        
-        PHImageRequestOptions *imageOptions = [[PHImageRequestOptions alloc] init];
-        
-        __weak typeof(self) weakSelf = self;
-        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-            __strong typeof(self) strongSelf = weakSelf;
-            [strongSelf.selectedImages addObject:result];
-        }];
-    }
-
+    [self saveSelectedPhotos];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

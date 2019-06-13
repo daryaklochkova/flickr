@@ -58,7 +58,7 @@
 }
 
 
-#pragma mark - update Collection view
+#pragma mark - Update Collection view
 
 - (void)collectionView:(UICollectionView *)collectionView
      reloadItemAtIndex:(NSIndexPath *)indexPath {
@@ -73,17 +73,19 @@
 }
 
 - (BOOL)setPhoto:(Photo *)photo toCell:(id <PhotoCell>)cell {
-    
-    UIImage *image = [[UIImage alloc] initWithContentsOfFile:[self.gallery getLocalPathForPhoto:photo]];
-    
-    if (image) {
-        [cell setImageToImageView:image];
-        return YES;
+    NSString *filePath = [self.gallery getLocalPathForPhoto:photo];
+    @autoreleasepool {
+        UIImage *image = [UIImage imageNamed:filePath];
+        if (image) {
+            [cell setImageToImageView:image];
+            return YES;
+        }
     }
     
     NSLog(@"%@ image doesn't exist", NSStringFromSelector(_cmd));
     [cell startActivityIndicator];
     return NO;
+
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {

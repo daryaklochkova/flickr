@@ -94,9 +94,6 @@
         UIEdgeInsets contentInsets = UIEdgeInsetsMake(-diff, 0.0, 0.0, 0.0);
         self.scrollView.contentInset = contentInsets;
         self.scrollView.scrollIndicatorInsets = contentInsets;
-        
-//        CGSize newSize = CGSizeMake(self.scrollView.contentSize.width, self.scrollView.contentSize.height + diff);
-//        self.scrollView.contentSize = newSize;
     }
 }
 
@@ -118,71 +115,95 @@
     NSLog(@"textFieldDidEndEditing");
 }
 
-
 #pragma mark - UI actions
 
-- (IBAction)cancelAddGallery:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (IBAction)saveNewGallery:(id)sender {
+- (BOOL)allRequiredFieldsAreFilled:(NSString **)message {
+    NSMutableString *mutableMessage = @"".mutableCopy;
     
     if ([self.galleryTitleTextField.text isEqualToString:@""]) {
-        [self showErrorAlertWithTitle:@"Error" andMessage:@"The title field is empty"];
+        [mutableMessage appendString:@"The title field is empty"];
     }
     
+    if (![mutableMessage isEqualToString:@""]) {
+        *message = mutableMessage;
+        return NO;
+    }
+    return YES;
+}
+
+- (void)saveImage:(UIImage *)image named:(NSString *)fileName byPath:(NSString *)path {
+    NSString *filePath = [path stringByAppendingPathComponent:fileName];
+    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+}
+
+- (void)saveGalleryInfoInUserdDefaults:(NSMutableDictionary *)galleryInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *userID = [userDefaults objectForKey:[LoginedUserID copy]];
-    
     NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
-    NSString *galleryID = @"";
-    
     if (localGalleriesInfo) {
-        galleryID = [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
-    } else {
-        galleryID = @"0";
+        NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
+        [mutableGalleriesInfo addObject:galleryInfo];
+        [userDefaults setObject:mutableGalleriesInfo forKey:[LocalGalleriesKey copy]];
     }
+    else {
+        [userDefaults setObject:@[galleryInfo] forKey:[LocalGalleriesKey copy]];
+    }
+}
+
+- (NSString *)getNextGalleryId {
+    NSArray *localGalleriesInfo = [[NSUserDefaults standardUserDefaults] objectForKey:[LocalGalleriesKey copy]];
+    if (localGalleriesInfo) {
+        return [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
+    } else {
+        return @"0";
+    }
+}
+
+- (NSMutableArray *)getPgotosArrayForGallery:(NSString *)galleryID byPath:(NSString *)path {
+    NSMutableArray *photos = [NSMutableArray array];
+    for (int i = 0; i < self.selectedImages.count; i++) {
+        UIImage *image = [self.selectedImages objectAtIndex:i];
+        NSString *fileName = [NSString stringWithFormat:@"%@_%ld", galleryID, (long)i];
+        [self saveImage:image named:fileName byPath:path];
+        [photos addObject:fileName];
+    }
+    return photos;
+}
+
+- (void)saveGalleryInUserDefaults {
+    NSString *userID = [[NSUserDefaults standardUserDefaults] objectForKey:[LoginedUserID copy]];
+    NSString *galleryID = [self getNextGalleryId];
     
     NSDictionary *galleryInfo = @{
-                                  @"gallery_id":galleryID,
-                                  @"title":self.galleryTitleTextField.text,
-                                  @"description":self.descriptionTextView.text,
-                                  @"user_id":userID,
-                                  @"primary_photo_id":@"primaryPhoto"
+                                  galleryIDArgumentName:galleryID,
+                                  titleArgumentName:self.galleryTitleTextField.text,
+                                  descriptionArgumentName:self.descriptionTextView.text,
+                                  userIDArgumentName:userID
                                   };
     
     self.galleryNew = [[Gallery alloc] initWithDictionary:galleryInfo andUserFolder:self.galleryOwner.userFolder];
-    
     NSString *path = self.galleryNew.folderPath;
-    NSString *filePath = [path stringByAppendingPathComponent:@"primaryPhoto"];
     
-    [UIImagePNGRepresentation(self.coverImageView.image) writeToFile:filePath atomically:YES];
-    
-    NSString *fileName;
-    NSInteger i = 0;
-    NSMutableArray *photos = [NSMutableArray array];
-    for (UIImage *image in self.selectedImages) {
-        fileName = [NSString stringWithFormat:@"%ld", (long)i];
-        [photos addObject:fileName];
-        filePath = [path stringByAppendingPathComponent:fileName];
-        
-        [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
-        
-        i++;
-    }
+    NSMutableArray * photos = [self getPgotosArrayForGallery:galleryID byPath:path];
     
     NSMutableDictionary *galleryInfoWithPhotos = [[NSMutableDictionary alloc] initWithDictionary:galleryInfo];
     [galleryInfoWithPhotos setValue:photos forKey:@"photos"];
     
-    if (localGalleriesInfo) {
-        NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
-        [mutableGalleriesInfo addObject:galleryInfoWithPhotos];
-        [userDefaults setObject:mutableGalleriesInfo forKey:[LocalGalleriesKey copy]];
-    }
-    else {
-        [userDefaults setObject:@[galleryInfoWithPhotos] forKey:[LocalGalleriesKey copy]];
+    if (![self.coverImageView.image isEqual:[UIImage imageNamed:@"Add photo"]]) {
+        NSString *primaryPhotoName = [NSString stringWithFormat:@"%@_primaryPhoto", galleryID];
+        [self saveImage:self.coverImageView.image named:primaryPhotoName byPath:path];
+        [galleryInfoWithPhotos setValue:primaryPhotoName forKey:[primaryPhotoIdArgumentName copy]];
     }
     
+    [self saveGalleryInfoInUserdDefaults:galleryInfoWithPhotos];
+}
+
+- (IBAction)saveNewGallery:(id)sender {
+    NSString *message;
+    if (![self allRequiredFieldsAreFilled:&message]) {
+        [self showErrorAlertWithTitle:@"Error" andMessage:message];
+        return;
+    }
+    [self saveGalleryInUserDefaults];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

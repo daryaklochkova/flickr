@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "581521984.376389"
+            timestampString = "582100840.062489"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "-deviceOrientationDidChanged:"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/UsersListViewController.m"
-            timestampString = "581520067.622866"
+            timestampString = "582100840.063357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/UsersListViewController.m"
-            timestampString = "581520067.622927"
+            timestampString = "582100840.063832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "-tableView:numberOfRowsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,13 +58,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/ListOfGalleries.m"
-            timestampString = "581521984.376923"
+            timestampString = "581954746.149358"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "24"
             endingLineNumber = "24"
-            landmarkName = "-initWithUser:"
-            landmarkType = "7">
+            landmarkName = "@implementation ListOfGalleries"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "581521984.3769881"
+            timestampString = "582100840.064104"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "48"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/UsersListViewController.m"
-            timestampString = "581520067.623071"
+            timestampString = "582100840.064253"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "44"
-            endingLineNumber = "44"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "-prepareForSegue:sender:"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/UsersListViewController.m"
-            timestampString = "581520067.623127"
+            timestampString = "582100840.064392"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "54"
-            endingLineNumber = "54"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
             landmarkName = "-tableView:didHighlightRowAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/ListOfGalleries.m"
-            timestampString = "581521984.377336"
+            timestampString = "581954746.1497869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "34"
             endingLineNumber = "34"
-            landmarkName = "-createGalleriesUsing:"
+            landmarkName = "-initWithUser:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "581521984.377435"
+            timestampString = "582100840.064714"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "200"
-            endingLineNumber = "200"
+            startingLineNumber = "209"
+            endingLineNumber = "209"
             landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "581521984.377753"
+            timestampString = "582100840.064869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "218"
-            endingLineNumber = "218"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
             landmarkName = "-collectionView:numberOfItemsInSection:"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,13 +202,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/ListOfGalleries.m"
-            timestampString = "581521984.378068"
+            timestampString = "581954746.150028"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "38"
             endingLineNumber = "38"
-            landmarkName = "-createGalleriesUsing:"
-            landmarkType = "7">
+            landmarkName = "@implementation ListOfGalleries"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -218,12 +218,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/AddGalleryViewController.m"
-            timestampString = "581521984.378129"
+            timestampString = "582100840.0650671"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "43"
             endingLineNumber = "43"
-            landmarkName = "-configureLayout"
+            landmarkName = "-tapRecognizer:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -234,12 +234,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/AddGalleryViewController.m"
-            timestampString = "581521984.378203"
+            timestampString = "582100840.066313"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "111"
-            endingLineNumber = "111"
-            landmarkName = "-textFieldDidEndEditing:"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "-textFieldShouldReturn:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/AddGalleryViewController.m"
-            timestampString = "581521984.378278"
+            timestampString = "582100840.067037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "-saveNewGallery:"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "581521984.37834"
+            timestampString = "582100840.067744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "91"
+            endingLineNumber = "91"
             landmarkName = "-loadListOfGalleries"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,12 +282,188 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "581521984.378651"
+            timestampString = "582100840.067881"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
             landmarkName = "-loadListOfGalleries"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/DataProviderNetwork.m"
+            timestampString = "582100840.0680341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-getFileFrom:saveIn:sucsessNotification:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/PhotoViewController.m"
+            timestampString = "582100840.068431"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
+            landmarkName = "-showPhoto:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/LocalGalleriesListProvider.m"
+            timestampString = "582100840.068785"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "-getGalleriesForUser:use:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/ListOfGalleries.m"
+            timestampString = "581954746.152163"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "-createGalleriesUsing:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ListOfGalleries createGalleriesUsing:]"
+                  moduleName = "URLLoadingSystem"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/DKlochkova/Documents/URLLoadingSystem/URLLoadingSystem/ListOfGalleries.m"
+                  timestampString = "581952860.3253289"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "772">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[ListOfGalleries createGalleriesUsing:]"
+                  moduleName = "URLLoadingSystem"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/DKlochkova/Documents/URLLoadingSystem/URLLoadingSystem/ListOfGalleries.m"
+                  timestampString = "581952860.3288161"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "50"
+                  endingLineNumber = "50"
+                  offsetFromSymbolStart = "792">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/ListOfGalleries.m"
+            timestampString = "581954746.152221"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "49"
+            endingLineNumber = "49"
+            landmarkName = "-createGalleriesUsing:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/GalleriesListViewController.m"
+            timestampString = "582100840.069249"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "215"
+            endingLineNumber = "215"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/GalleriesListViewController.m"
+            timestampString = "582100840.0693541"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "58"
+            endingLineNumber = "58"
+            landmarkName = "-viewWillAppear:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/AddGalleryViewController.m"
+            timestampString = "582100840.069465"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "-saveNewGallery:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "URLLoadingSystem/AddGalleryViewController.m"
+            timestampString = "582100840.070074"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "-allRequiredFieldsAreFilled:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

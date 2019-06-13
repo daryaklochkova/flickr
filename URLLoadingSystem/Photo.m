@@ -47,7 +47,12 @@
         _server = [dictionary objectForKey:@"primary_photo_server"];
         _farm = [dictionary objectForKey:@"primary_photo_farm"];
         _remoteURL = [self getPhotoURL];
-        _name = [self.remoteURL lastPathComponent];
+        
+        if (self.farm) {
+            _name = [self.remoteURL lastPathComponent];
+        } else {
+            _name = self.photoID;
+        }
         
     }
     return self;

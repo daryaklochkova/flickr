@@ -47,6 +47,7 @@
 		A0B2932B22AE683B0051358B /* LocalPhotosProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B2932A22AE683B0051358B /* LocalPhotosProvider.m */; };
 		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
 		A0F4C1E122A95AA80080E040 /* AddPhotosToGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1E022A95AA80080E040 /* AddPhotosToGalleryViewController.m */; };
+		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
