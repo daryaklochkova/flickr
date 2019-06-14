@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "PhotoCellProtocol.h"
+#import "SelectableCellProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 
-@interface PhotoCollectionViewCell : UICollectionViewCell <PhotoCell>
+@interface PhotoCollectionViewCell : UICollectionViewCell <PhotoCell, SelectableCellProtocol>
 
-@property (assign, nonatomic) BOOL isCellSelected;
+
 
 @end
 

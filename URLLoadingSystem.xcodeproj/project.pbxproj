@@ -123,6 +123,7 @@
 		A0862CE2229525BB00F1855B /* PhotoProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoProvider.m; sourceTree = "<group>"; };
 		A0862CE4229527C700F1855B /* GalleriesListProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListProvider.h; sourceTree = "<group>"; };
 		A0862CE5229527C700F1855B /* GalleriesListProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GalleriesListProvider.m; sourceTree = "<group>"; };
+		A0A2DA4522B3D8DE007189F0 /* SelectableCellProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SelectableCellProtocol.h; sourceTree = "<group>"; };
 		A0B2932622AE44570051358B /* UICollectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UICollectionView.h; sourceTree = "<group>"; };
 		A0B2932722AE44570051358B /* UICollectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UICollectionView.m; sourceTree = "<group>"; };
 		A0B2932922AE683B0051358B /* LocalPhotosProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LocalPhotosProvider.h; sourceTree = "<group>"; };
@@ -386,6 +387,7 @@
 			isa = PBXGroup;
 			children = (
 				A06C9A1722A120ED005A6AF3 /* PhotoCellProtocol.h */,
+				A0A2DA4522B3D8DE007189F0 /* SelectableCellProtocol.h */,
 			);
 			name = PhotoCell;
 			sourceTree = "<group>";

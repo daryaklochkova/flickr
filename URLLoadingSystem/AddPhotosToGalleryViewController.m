@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *photosCollectionView;
 @property (strong, nonatomic) PHFetchResult<PHAsset *> *assets;
 
-@property (strong, nonatomic) NSMutableSet<NSIndexPath *> *selectedCellsIndexPath;
 @property (strong, nonatomic) PHCachingImageManager *cachingManager;
 
 @end
@@ -24,7 +23,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.selectedCellsIndexPath = [NSMutableSet set];
+    self.photosCollectionView.selectedCellsIndexPaths = [NSMutableSet set];
     [self fetchAssetsFromPhotoLibrary];
 }
 
@@ -59,7 +58,9 @@
     
     __weak typeof(self) weakSelf = self;
     
-    for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
+    NSSet *indexes = self.photosCollectionView.selectedCellsIndexPaths;
+    
+    for (NSIndexPath *indexPath in indexes) {
         NSUInteger index = [indexPath indexAtPosition:1];
         PHAsset *asset = [self.assets objectAtIndex:index];
         
@@ -116,7 +117,7 @@
         cell.imageView.image = result;
     }];
     
-    if ([self.selectedCellsIndexPath containsObject:indexPath]) {
+    if ([collectionView.selectedCellsIndexPaths containsObject:indexPath]) {
         [cell selectItem];
     }
     
@@ -132,16 +133,7 @@
         return;
     }
     
-    UICollectionViewCell *collectionViewCell = [collectionView cellForItemAtIndexPath:indexPath];
-    PhotoCollectionViewCell *cell = (PhotoCollectionViewCell *)collectionViewCell;
-    [cell selectItem];
-    
-    if ([self.selectedCellsIndexPath containsObject:indexPath]) {
-        [self.selectedCellsIndexPath removeObject:indexPath];
-    }
-    else {
-        [self.selectedCellsIndexPath addObject:indexPath];
-    }
+    [collectionView selectItemAtIndexPath:indexPath];
 }
 
 
@@ -217,14 +209,16 @@
 }
 
 - (void)moveAllSelectedIndexes:(NSInteger)delta {
+    NSSet *indexes = self.photosCollectionView.selectedCellsIndexPaths;
     NSMutableSet *newIndexPathSet = [NSMutableSet set];
-    for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
+    
+    for (NSIndexPath *indexPath in indexes) {
         NSInteger section = [indexPath indexAtPosition:0];
         NSInteger row = [indexPath indexAtPosition:1];
         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
         [newIndexPathSet addObject:newIndexPath];
     }
-    self.selectedCellsIndexPath = newIndexPathSet;
+    indexes = newIndexPathSet;
 };
 
 @end

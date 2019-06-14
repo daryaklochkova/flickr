@@ -14,12 +14,17 @@
 #import "AddGalleryViewController.h"
 #import "LocalGalleriesListProvider.h"
 #import "PermissionManager.h"
+#import "WorkModes.h"
+#import "UICollectionView.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
 @property (strong, nonatomic) Gallery *selectedGallery;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *addButton;
+@property (weak, nonatomic) IBOutlet UIToolbar *editGalleriesToolbar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *trashItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *selectItem;
 
 
 @property (strong, nonatomic) FooterCollectionReusableView *collectionViewFooter;
@@ -31,6 +36,9 @@
 @property (assign, nonatomic) NSInteger minSpacing;
 @property (assign, nonatomic) CGFloat aspectRatio;
 @property (assign, nonatomic) NSIndexPath *displayItem;
+
+@property (assign, nonatomic) WorkMode workMode;
+
 @end
 
 @implementation GalleriesListViewController
@@ -40,18 +48,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.isUserOwner =  [[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.owner];
-    if (self.isUserOwner) {
-        [self.addButton setHidden:NO];
-    }
+    if ([[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.owner]) {
+        [self.selectItem setEnabled:YES];
+        self.isUserOwner = YES;
+    }        
     
+    self.workMode = readMode;
     [self.activityIndicator startAnimating];
     [self loadListOfGalleries];
     [self subscribeToNotifications];
     self.isUpdateStarted = NO;
     
     [self setCellSizeAndSpacing];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -204,7 +212,8 @@
     return nil;
 }
 
-- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                           cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     GalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GalleryCell" forIndexPath:indexPath];
     
@@ -222,6 +231,11 @@
         }
     }
     cell.lable.text = gallery.title;
+    
+    if ([collectionView.selectedCellsIndexPaths containsObject:indexPath]) {
+        [cell selectItem];
+    }
+    
     return cell;
 }
 
@@ -229,7 +243,7 @@
     return [self.listOfGalleries countOfGalleries];
 }
 
-#pragma mark - Prepare for seque
+#pragma mark - Segue methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
@@ -241,6 +255,12 @@
     }
 }
 
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(nullable id)sender {
+    if (self.workMode == editMode) {
+        return NO;
+    }
+    return YES;
+}
 
 #pragma mark - UIScrollViewDelegate
 
@@ -267,7 +287,17 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger index = [indexPath indexAtPosition:1];
-    self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:index];
+    if (self.workMode != editMode) {
+        self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:index];
+    } else {
+        [collectionView selectItemAtIndexPath:indexPath];
+        
+        if (self.listOfGalleriesCollectionView.selectedCellsIndexPaths.count > 0) {
+            [self.trashItem setEnabled:YES];
+        } else {
+            [self.trashItem setEnabled:NO];
+        }
+    }
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
@@ -303,6 +333,16 @@
     nextViewController.galleryOwner = self.owner;
     nextViewController.galleries = self.listOfGalleries;
     [self.navigationController pushViewController:nextViewController animated:YES];
+}
+
+- (IBAction)EnableEditMode:(id)sender {
+    self.workMode = editMode;
+    [self.editGalleriesToolbar setHidden:NO];
+}
+
+- (IBAction)editingDone:(id)sender {
+    self.workMode = readMode;
+    [self.editGalleriesToolbar setHidden:YES];
 }
 
 @end

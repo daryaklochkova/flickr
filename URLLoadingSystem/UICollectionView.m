@@ -7,8 +7,47 @@
 //
 
 #import "UICollectionView.h"
+#import "SelectableCellProtocol.h"
+#import <objc/runtime.h>
 
 @implementation UICollectionView(getCellSize)
+
+static char UIB_PROPERTY_KEY;
+@dynamic selectedCellsIndexPaths;
+
+//- (instancetype)initWithCoder:(NSCoder *)aDecoder
+//{
+//    self = [super initWithCoder:aDecoder];
+//    if (self) {
+//        self.selectedCellsIndexPaths = [NSMutableSet set];
+//    }
+//    return self;
+//}
+
+-(NSObject*)selectedCellsIndexPaths
+{
+    return (NSObject*)objc_getAssociatedObject(self, &UIB_PROPERTY_KEY);
+}
+
+- (void)setSelectedCellsIndexPaths:(NSMutableSet<NSIndexPath *> *)selectedCellsIndexPaths {
+    objc_setAssociatedObject(self, &UIB_PROPERTY_KEY, selectedCellsIndexPaths, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)selectItemAtIndexPath:(NSIndexPath *)indexPath {
+    UICollectionViewCell *collectionViewCell = [self cellForItemAtIndexPath:indexPath];
+    
+    if ([collectionViewCell conformsToProtocol:@protocol(SelectableCellProtocol)]) {
+        id<SelectableCellProtocol> cell = (id<SelectableCellProtocol>)collectionViewCell;
+        [cell selectItem];
+    }
+    
+    if ([self.selectedCellsIndexPaths containsObject:indexPath]) {
+        [self.selectedCellsIndexPaths removeObject:indexPath];
+    }
+    else {
+        [self.selectedCellsIndexPaths addObject:indexPath];
+    }
+}
 
 - (CGSize)getCellSizeAtIndexPath:(NSIndexPath *)indexPath {
     

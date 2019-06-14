@@ -8,12 +8,19 @@
 
 #import "GalleryCell.h"
 
+@interface GalleryCell()
+
+@end
+
 @implementation GalleryCell
+
+@synthesize isCellSelected;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.isCellSelected = NO;
         [self configureLayerSettings];
     }
     return self;
@@ -38,6 +45,24 @@
 - (void)prepareForReuse {
     self.imageView.image = nil;
     self.lable.text = @"";
+    self.isCellSelected = NO;
+    self.imageView.alpha = 1;
+    [self.chooseLabel setHidden:YES];
 }
+
+- (void)selectItem {
+    if (!self.isCellSelected) {
+        self.imageView.alpha = 0.5;
+        [self.chooseLabel setHidden:NO];
+        self.isCellSelected = YES;
+    }
+    else {
+        self.imageView.alpha = 1;
+        [self.chooseLabel setHidden:YES];
+        self.isCellSelected = NO;
+    }
+}
+
+
 
 @end

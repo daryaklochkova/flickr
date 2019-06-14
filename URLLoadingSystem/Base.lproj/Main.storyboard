@@ -18,6 +18,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PWm-Te-bhY">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                            </activityIndicatorView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Ikx-W2-3Ig">
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -35,8 +38,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="173" height="236"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="orP-ot-bsC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="175" height="237"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="orP-ot-bsC">
+                                                    <rect key="frame" x="0.0" y="0.0" width="173" height="236"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jOK-pb-mMr">
                                                             <rect key="frame" x="0.0" y="0.0" width="173" height="175.66666666666666"/>
@@ -64,15 +67,25 @@
                                                         <constraint firstItem="Do5-Ti-3Pz" firstAttribute="height" secondItem="jOK-pb-mMr" secondAttribute="height" multiplier="1:3" id="8NF-2s-rkU"/>
                                                     </constraints>
                                                 </stackView>
+                                                <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Choose" translatesAutoresizingMaskIntoConstraints="NO" id="FhM-z1-UuH" userLabel="choose label">
+                                                    <rect key="frame" x="141" y="2" width="30" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="30" id="JsG-wE-OGo"/>
+                                                        <constraint firstAttribute="width" constant="30" id="ZGq-rf-C1x"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                         </view>
                                         <constraints>
                                             <constraint firstItem="orP-ot-bsC" firstAttribute="top" secondItem="kFh-cm-k6t" secondAttribute="top" id="Fst-po-A8k"/>
                                             <constraint firstItem="orP-ot-bsC" firstAttribute="leading" secondItem="kFh-cm-k6t" secondAttribute="leading" id="Lth-gH-om9"/>
+                                            <constraint firstItem="FhM-z1-UuH" firstAttribute="top" secondItem="kFh-cm-k6t" secondAttribute="top" constant="2" id="a0a-nn-2pV"/>
                                             <constraint firstAttribute="trailing" secondItem="orP-ot-bsC" secondAttribute="trailing" id="cRL-qA-pIr"/>
+                                            <constraint firstAttribute="trailing" secondItem="FhM-z1-UuH" secondAttribute="trailing" constant="2" id="mkK-12-RFo"/>
                                             <constraint firstAttribute="bottom" secondItem="orP-ot-bsC" secondAttribute="bottom" id="v87-OW-pMZ"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="chooseLabel" destination="FhM-z1-UuH" id="oPg-13-XcI"/>
                                             <outlet property="imageView" destination="jOK-pb-mMr" id="xlg-O4-AlL"/>
                                             <outlet property="lable" destination="utn-gB-RfG" id="1JJ-mV-Pgl"/>
                                             <segue destination="BYZ-38-t0r" kind="show" animates="NO" id="vuV-Qb-yQp"/>
@@ -88,9 +101,6 @@
                                     <outlet property="delegate" destination="P79-Fx-J5R" id="qwD-M5-osC"/>
                                 </connections>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PWm-Te-bhY">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
-                            </activityIndicatorView>
                             <toolbar hidden="YES" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uJC-2m-7gY">
                                 <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <constraints>
@@ -102,25 +112,22 @@
                                             <action selector="deletSelectedItems:" destination="BYZ-38-t0r" id="bgX-DJ-HsD"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" width="334.66665649414062" id="RaU-jx-ce0"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="ppr-KU-eqd"/>
+                                    <barButtonItem systemItem="add" id="mJm-zl-6ZS">
+                                        <connections>
+                                            <action selector="addGalleryPressed:" destination="P79-Fx-J5R" id="r9U-fP-dCw"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="99k-yC-1YY"/>
+                                    <barButtonItem enabled="NO" systemItem="edit" id="RaU-jx-ce0"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="6Nw-ow-lki"/>
                                     <barButtonItem systemItem="done" id="nnZ-yl-fvt">
                                         <connections>
-                                            <action selector="editingDone:" destination="BYZ-38-t0r" id="vDB-PP-QuD"/>
+                                            <action selector="editingDone:" destination="P79-Fx-J5R" id="11I-Et-QzD"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jf2-OW-fA4">
-                                <rect key="frame" x="173" y="740" width="68" height="68"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="68" id="8Zh-Uc-hai"/>
-                                    <constraint firstAttribute="width" constant="68" id="qv8-uh-NEj"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="AddButton"/>
-                                <connections>
-                                    <action selector="addGalleryPressed:" destination="P79-Fx-J5R" eventType="touchUpInside" id="pjT-el-jvF"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -129,10 +136,8 @@
                             <constraint firstItem="Ikx-W2-3Ig" firstAttribute="leading" secondItem="vd5-8J-5qE" secondAttribute="leading" id="440-Bk-NJf" userLabel="List Of Galleries Collection View.leading = Safe Area.leading"/>
                             <constraint firstItem="PWm-Te-bhY" firstAttribute="bottom" secondItem="vd5-8J-5qE" secondAttribute="bottom" id="5vq-P3-8V0"/>
                             <constraint firstItem="uJC-2m-7gY" firstAttribute="trailing" secondItem="vd5-8J-5qE" secondAttribute="trailing" id="FCS-23-fJ4"/>
-                            <constraint firstItem="Jf2-OW-fA4" firstAttribute="centerX" secondItem="vd5-8J-5qE" secondAttribute="centerX" id="L4u-py-wYv"/>
                             <constraint firstItem="Ikx-W2-3Ig" firstAttribute="top" secondItem="vd5-8J-5qE" secondAttribute="top" id="WcF-kc-1Mg"/>
                             <constraint firstItem="vd5-8J-5qE" firstAttribute="trailing" secondItem="Ikx-W2-3Ig" secondAttribute="trailing" id="dOu-9q-q42" userLabel="Safe Area.trailing = List Of Galleries Collection View.trailing"/>
-                            <constraint firstItem="uJC-2m-7gY" firstAttribute="top" secondItem="Jf2-OW-fA4" secondAttribute="bottom" constant="5" id="ee1-hK-Pr1"/>
                             <constraint firstItem="PWm-Te-bhY" firstAttribute="trailing" secondItem="vd5-8J-5qE" secondAttribute="trailing" id="rg3-Kd-sGe"/>
                             <constraint firstItem="vd5-8J-5qE" firstAttribute="bottom" secondItem="Ikx-W2-3Ig" secondAttribute="bottom" id="tWD-yr-R1O"/>
                             <constraint firstItem="uJC-2m-7gY" firstAttribute="leading" secondItem="vd5-8J-5qE" secondAttribute="leading" id="u7X-Ge-Nh3"/>
@@ -142,11 +147,19 @@
                     </view>
                     <navigationItem key="navigationItem" title="Galleries" id="cMp-ER-VQJ">
                         <barButtonItem key="backBarButtonItem" title="Back" id="Gwq-yS-hL7"/>
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Select" id="Lve-Hp-c2a">
+                            <connections>
+                                <action selector="EnableEditMode:" destination="P79-Fx-J5R" id="zJU-yE-TyE"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="activityIndicator" destination="PWm-Te-bhY" id="TP1-Ym-h9A"/>
-                        <outlet property="addButton" destination="Jf2-OW-fA4" id="fnG-Yf-aXN"/>
+                        <outlet property="editGalleriesToolbar" destination="uJC-2m-7gY" id="mmE-BP-K1R"/>
+                        <outlet property="editItem" destination="RaU-jx-ce0" id="DZY-JH-o7T"/>
                         <outlet property="listOfGalleriesCollectionView" destination="Ikx-W2-3Ig" id="2gV-rw-3cU"/>
+                        <outlet property="selectItem" destination="Lve-Hp-c2a" id="Hjg-Tn-u8q"/>
+                        <outlet property="trashItem" destination="G44-VT-FAc" id="GMG-nX-LkN"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w3h-dY-6Kq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -282,7 +295,14 @@
                                             <action selector="deletSelectedItems:" destination="BYZ-38-t0r" id="rMX-zj-vcs"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem enabled="NO" width="334.66666666666663" id="bjC-bM-5vs"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="gIL-6h-wL6"/>
+                                    <barButtonItem systemItem="add" id="bjC-bM-5vs">
+                                        <inset key="largeContentSizeImageInsets" minX="1" minY="0.0" maxX="1" maxY="0.0"/>
+                                        <connections>
+                                            <action selector="addPhotosToGallery:" destination="BYZ-38-t0r" id="zBm-x3-2c5"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="2Pk-2b-Zyd"/>
                                     <barButtonItem systemItem="done" id="7gU-Kk-yT9">
                                         <connections>
                                             <action selector="editingDone:" destination="BYZ-38-t0r" id="coQ-GQ-n0H"/>
@@ -290,18 +310,6 @@
                                     </barButtonItem>
                                 </items>
                             </toolbar>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FcT-B3-Ewl">
-                                <rect key="frame" x="173" y="696" width="68" height="68"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="68" id="dXQ-Zu-52r"/>
-                                    <constraint firstAttribute="height" constant="68" id="qhf-cj-dLd"/>
-                                </constraints>
-                                <state key="normal" title="Button" image="AddButton"/>
-                                <connections>
-                                    <action selector="addGalleryPressed:" destination="P79-Fx-J5R" eventType="touchUpInside" id="qBz-7F-3tI"/>
-                                    <action selector="addPhotosToGallery:" destination="BYZ-38-t0r" eventType="touchUpInside" id="1Ee-Yu-8aa"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -316,8 +324,6 @@
                             <constraint firstItem="l5p-jh-q3n" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ara-az-kqA"/>
                             <constraint firstItem="O1r-C4-En9" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hI5-eo-bGz"/>
                             <constraint firstItem="HPe-h9-OSU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="hMt-bx-xgV"/>
-                            <constraint firstItem="O1r-C4-En9" firstAttribute="top" secondItem="FcT-B3-Ewl" secondAttribute="bottom" constant="5" id="n9R-jE-bbx"/>
-                            <constraint firstItem="FcT-B3-Ewl" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="pdY-oC-jzI"/>
                             <constraint firstItem="O1r-C4-En9" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="ydn-9G-BfF"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -334,7 +340,6 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="activityIndicator" destination="HPe-h9-OSU" id="xXf-qO-ApU"/>
-                        <outlet property="addButton" destination="FcT-B3-Ewl" id="GmH-qu-11g"/>
                         <outlet property="editItem" destination="EQo-mg-LAd" id="1eG-r4-Y7y"/>
                         <outlet property="galleryCollectionView" destination="l5p-jh-q3n" id="AfY-x7-3ZV"/>
                         <outlet property="toolBar" destination="O1r-C4-En9" id="Tfx-LU-dAS"/>
@@ -452,7 +457,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AddButton" width="68" height="68"/>
+        <image name="Choose" width="102" height="102"/>
         <image name="backArrow" width="18" height="13"/>
     </resources>
 </document>

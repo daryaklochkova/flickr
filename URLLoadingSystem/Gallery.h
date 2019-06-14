@@ -42,8 +42,6 @@ extern NSNotificationName const PhotosInformationReceived;
 - (void)getAdditionalContent;
 - (void)cancelGetData;
 
-- (void)saveContent;
-
 - (Photo *)nextPhoto;
 - (Photo *)previousPhoto;
 - (Photo *)currentPhoto;

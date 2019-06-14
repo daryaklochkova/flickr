@@ -19,6 +19,7 @@
 @implementation PhotoCollectionViewCell
 
 @synthesize imageView;
+@synthesize isCellSelected;
 
 #pragma mark - Init functions
 

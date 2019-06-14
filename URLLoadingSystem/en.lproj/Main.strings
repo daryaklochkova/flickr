@@ -1,0 +1,21 @@
+
+/* Class = "UITextView"; text = "Gallery title"; ObjectID = "7Mu-fu-xQj"; */
+"7Mu-fu-xQj.text" = "Gallery title";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "Gwq-yS-hL7"; */
+"Gwq-yS-hL7.title" = "Back";
+
+/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "Jf2-OW-fA4"; */
+"Jf2-OW-fA4.normalTitle" = "Button";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "RxM-HQ-sfS"; */
+"RxM-HQ-sfS.title" = "Back";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Z5n-9H-VoZ"; */
+"Z5n-9H-VoZ.text" = "Title";
+
+/* Class = "UINavigationItem"; title = "Galleries"; ObjectID = "cMp-ER-VQJ"; */
+"cMp-ER-VQJ.title" = "Galleries";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "utn-gB-RfG"; */
+"utn-gB-RfG.text" = "Label";

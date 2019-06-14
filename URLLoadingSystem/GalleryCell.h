@@ -9,12 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "SelectableCellProtocol.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GalleryCell : UICollectionViewCell
+@interface GalleryCell : UICollectionViewCell <SelectableCellProtocol>
+
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UILabel *lable;
-
+@property (weak, nonatomic) IBOutlet UIImageView *chooseLabel;
 
 @end
 

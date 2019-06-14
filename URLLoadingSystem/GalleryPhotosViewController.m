@@ -180,7 +180,6 @@
     } else {
         [self.trash setEnabled:NO];
     }
-    
 }
 
 //- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
