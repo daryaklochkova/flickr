@@ -23,7 +23,7 @@ extern NSNotificationName const ListOfGalleriesSuccessfulRecieved;
 @interface ListOfGalleries : NSObject // TODO impliment protocol <NSFastEnumeration>
 
 
-@property (strong, nonatomic, readonly) User *user;
+@property (weak, nonatomic, readonly) User *owner;
 
 
 - (instancetype)initWithUser:(User *) user;
@@ -32,7 +32,9 @@ extern NSNotificationName const ListOfGalleriesSuccessfulRecieved;
 - (void)updateContent;
 - (void)getAdditionalContent;
 
-- (void)addGallery:(Gallery *)gallery;
+//- (void)addGallery:(Gallery *)gallery;
+
+- (Gallery *)addNewGallery:(NSDictionary *)galleryInfo;
 
 - (Gallery *)getGalleryAtIndex:(NSInteger)index;
 - (NSInteger)countOfGalleries;

@@ -22,4 +22,39 @@
     }
 }
 
+- (void)saveGallery:(Gallery *)gallery {
+    NSDictionary *galleryInfo = @{
+                                  galleryIDArgumentName:gallery.galleryID,
+                                  titleArgumentName:gallery.title,
+                                  descriptionArgumentName:gallery.description,
+                                  userIDArgumentName:gallery.owner.userID,
+                                  @"photos":[NSMutableArray array]
+                                  };
+    
+    [self saveGalleryInfoInUserDefaults:galleryInfo.mutableCopy];
+}
+
+- (NSString *)getNextGalleryId {
+    NSArray *localGalleriesInfo = [[NSUserDefaults standardUserDefaults] objectForKey:[LocalGalleriesKey copy]];
+    if (localGalleriesInfo) {
+        return [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
+    } else {
+        return @"0";
+    }
+}
+
+- (void)saveGalleryInfoInUserDefaults:(NSMutableDictionary *)galleryInfo {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
+    if (localGalleriesInfo) {
+        NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
+        [mutableGalleriesInfo addObject:galleryInfo];
+        [userDefaults setObject:mutableGalleriesInfo forKey:[LocalGalleriesKey copy]];
+    }
+    else {
+        [userDefaults setObject:@[galleryInfo] forKey:[LocalGalleriesKey copy]];
+    }
+}
+
+
 @end

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GalleriesListProviderProtocol.h"
+#import "Gallery.h"
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -16,7 +16,7 @@
 @interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) ListOfGalleries *listOfGalleries;
-@property (strong, nonatomic) User *user;
+@property (strong, nonatomic) User *owner;
 
 @end
 

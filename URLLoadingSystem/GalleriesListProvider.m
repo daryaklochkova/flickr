@@ -53,4 +53,14 @@
     }
 }
 
+- (nonnull NSString *)getNextGalleryId {
+    return @"";
+}
+
+
+- (void)saveGallery:(nonnull Gallery *)gallery {
+    
+}
+
+
 @end

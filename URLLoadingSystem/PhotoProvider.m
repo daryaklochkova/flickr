@@ -40,6 +40,17 @@
     }
 }
 
+- (void)savePhotos:(nonnull NSArray *)images forGalleryID:(nonnull NSString *)gallery byPath:(nonnull NSString *)path {
+    
+}
+
+
+- (void)savePrimaryPhoto:(id)image forGalleryID:(nonnull NSString *)galleryID byPath:(nonnull NSString *)path {
+    
+}
+
+
+
 - (NSDictionary *)GetRequestFields:(NSString *)galleryID {
 
     NSDictionary *requestFields = @{

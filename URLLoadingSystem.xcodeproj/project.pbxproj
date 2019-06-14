@@ -14,6 +14,8 @@
 		A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = A02798132296B006002B42FE /* GalleryCollectionViewDataSource.m */; };
 		A027981B2296C770002B42FE /* UIScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A027981A2296C770002B42FE /* UIScrollView.m */; };
 		A027981E2296D917002B42FE /* FooterCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A027981D2296D917002B42FE /* FooterCollectionReusableView.m */; };
+		A037AE9322B24CC20058A5BF /* PermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A037AE9222B24CC20058A5BF /* PermissionManager.m */; };
+		A037AE9622B251BA0058A5BF /* WorkModes.h in Sources */ = {isa = PBXBuildFile; fileRef = A037AE9522B251BA0058A5BF /* WorkModes.h */; };
 		A03E2D222282FC3E00CD9DF6 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D212282FC3E00CD9DF6 /* PhotoViewController.m */; };
 		A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D2422896D1E00CD9DF6 /* ListOfGalleries.m */; };
 		A03E2D3222898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D3122898CEA00CD9DF6 /* GetListOfGalleriesResponseParser.m */; };
@@ -47,7 +49,6 @@
 		A0B2932B22AE683B0051358B /* LocalPhotosProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0B2932A22AE683B0051358B /* LocalPhotosProvider.m */; };
 		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
 		A0F4C1E122A95AA80080E040 /* AddPhotosToGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1E022A95AA80080E040 /* AddPhotosToGalleryViewController.m */; };
-		A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A0F4C1DA22A94C770080E040 /* LocalGalleriesListProvider.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,6 +66,9 @@
 		A027981A2296C770002B42FE /* UIScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIScrollView.m; sourceTree = "<group>"; };
 		A027981C2296D917002B42FE /* FooterCollectionReusableView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FooterCollectionReusableView.h; sourceTree = "<group>"; };
 		A027981D2296D917002B42FE /* FooterCollectionReusableView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FooterCollectionReusableView.m; sourceTree = "<group>"; };
+		A037AE9122B24CC20058A5BF /* PermissionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PermissionManager.h; sourceTree = "<group>"; };
+		A037AE9222B24CC20058A5BF /* PermissionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PermissionManager.m; sourceTree = "<group>"; };
+		A037AE9522B251BA0058A5BF /* WorkModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkModes.h; sourceTree = "<group>"; };
 		A03E2D202282FC3E00CD9DF6 /* PhotoViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
 		A03E2D212282FC3E00CD9DF6 /* PhotoViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoViewController.m; sourceTree = "<group>"; };
 		A03E2D2322896D1E00CD9DF6 /* ListOfGalleries.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListOfGalleries.h; sourceTree = "<group>"; };
@@ -214,6 +218,15 @@
 			name = Footer;
 			sourceTree = "<group>";
 		};
+		A037AE9422B24CC90058A5BF /* Permissions */ = {
+			isa = PBXGroup;
+			children = (
+				A037AE9122B24CC20058A5BF /* PermissionManager.h */,
+				A037AE9222B24CC20058A5BF /* PermissionManager.m */,
+			);
+			name = Permissions;
+			sourceTree = "<group>";
+		};
 		A03E2D3D2289A80900CD9DF6 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,7 +286,6 @@
 		A04BF47F22A7F629006895F6 /* AddGallery */ = {
 			isa = PBXGroup;
 			children = (
-				A04BF48222A7F65E006895F6 /* AddGallery.storyboard */,
 				A04BF48422A80338006895F6 /* AddGalleryViewController.h */,
 				A04BF48522A80338006895F6 /* AddGalleryViewController.m */,
 			);
@@ -299,6 +311,7 @@
 		A055BEDB228019ED00400256 /* URLLoadingSystem */ = {
 			isa = PBXGroup;
 			children = (
+				A037AE9422B24CC90058A5BF /* Permissions */,
 				A066485A229C1A7700066CEA /* Views */,
 				A0664859229C1A6300066CEA /* Constants */,
 				A02798182296C734002B42FE /* Extensions */,
@@ -309,12 +322,14 @@
 				A0862CAB2292B5DB00F1855B /* Data provider */,
 				A055BEDC228019ED00400256 /* AppDelegate.h */,
 				A055BEDD228019ED00400256 /* AppDelegate.m */,
+				A04BF48222A7F65E006895F6 /* AddGallery.storyboard */,
 				A055BEE2228019ED00400256 /* Main.storyboard */,
 				A055BEE8228019F100400256 /* Assets.xcassets */,
 				A055BEEA228019F100400256 /* LaunchScreen.storyboard */,
 				A055BEED228019F100400256 /* Info.plist */,
 				A055BEEE228019F100400256 /* main.m */,
 				A055BEE5228019ED00400256 /* URLLoadingSystem.xcdatamodeld */,
+				A037AE9522B251BA0058A5BF /* WorkModes.h */,
 			);
 			path = URLLoadingSystem;
 			sourceTree = "<group>";
@@ -510,6 +525,7 @@
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
 				A04BF47E22A7B992006895F6 /* User.m in Sources */,
 				A0664858229C16AB00066CEA /* ParserProvider.m in Sources */,
+				A037AE9622B251BA0058A5BF /* WorkModes.h in Sources */,
 				A055BEDE228019ED00400256 /* AppDelegate.m in Sources */,
 				A0F4C1DB22A94C770080E040 /* LocalGalleriesListProvider.m in Sources */,
 				A0862CE3229525BB00F1855B /* PhotoProvider.m in Sources */,
@@ -518,6 +534,7 @@
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
 				A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */,
 				A04BF47B22A7B502006895F6 /* UsersListViewController.m in Sources */,
+				A037AE9322B24CC20058A5BF /* PermissionManager.m in Sources */,
 				A0B2932822AE44570051358B /* UICollectionView.m in Sources */,
 				A08503D1229805850083FEB7 /* Constants.m in Sources */,
 				A027981B2296C770002B42FE /* UIScrollView.m in Sources */,

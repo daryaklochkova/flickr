@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "ResponseParser.h"
+#import "Gallery.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)getAdditionalGalleriesForUser:(NSString * _Nullable)userID use:(ReturnGalleriesResult _Nullable ) completionHandler;
 - (void)getGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler;
+
+- (NSString *)getNextGalleryId;
+- (void)saveGallery:(Gallery *)gallery;
 
 @end
 

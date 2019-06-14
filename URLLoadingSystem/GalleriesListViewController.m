@@ -13,6 +13,7 @@
 #import "Constants.h"
 #import "AddGalleryViewController.h"
 #import "LocalGalleriesListProvider.h"
+#import "PermissionManager.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
@@ -39,8 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *logdedInUserID = [[NSUserDefaults standardUserDefaults] objectForKey:[LoginedUserID copy]];
-    self.isUserOwner = [self.user.userID isEqualToString:logdedInUserID];
+    self.isUserOwner =  [[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.owner];
     if (self.isUserOwner) {
         [self.addButton setHidden:NO];
     }
@@ -80,11 +80,11 @@
 
 - (void)loadListOfGalleries {
     
-    if (!self.user) {
-        self.user = [[User alloc] initWithUserID:@"66956608@N06" andName:@""];//26144115@N06 @"66956608@N06"
+    if (!self.owner) {
+        self.owner = [[User alloc] initWithUserID:@"66956608@N06" andName:@""];//26144115@N06 @"66956608@N06"
     }
     
-    self.listOfGalleries = [[ListOfGalleries alloc] initWithUser:self.user];
+    self.listOfGalleries = [[ListOfGalleries alloc] initWithUser:self.owner];
     
     id <GalleriesListProviderProtocol> dataProvider;
     if (self.isUserOwner) {
@@ -300,7 +300,8 @@
 - (IBAction)addGalleryPressed:(id)sender {
     UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"AddGallery" bundle:nil];
     AddGalleryViewController *nextViewController = [nextStoryBoard instantiateInitialViewController];
-    nextViewController.galleryOwner = self.user;
+    nextViewController.galleryOwner = self.owner;
+    nextViewController.galleries = self.listOfGalleries;
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
 

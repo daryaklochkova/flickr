@@ -46,7 +46,7 @@
     if ([destinationVC isKindOfClass:[GalleriesListViewController class]]){
         GalleriesListViewController *galleriesListVC = (GalleriesListViewController *)destinationVC;
         NSInteger index = [self.selectedRow indexAtPosition:1];
-        galleriesListVC.user = [self.usersList objectAtIndex:index];
+        galleriesListVC.owner = [self.usersList objectAtIndex:index];
     }
 }
 

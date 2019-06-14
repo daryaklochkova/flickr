@@ -8,9 +8,11 @@
 
 #import "Gallery.h"
 
+
 @interface Gallery()
 @property (assign, nonatomic) BOOL isUpdateCanceld;
 @property (strong, nonatomic) NSMutableArray<Photo *> *mutablePhotos;
+
 @end
 
 @implementation Gallery
@@ -22,15 +24,16 @@ NSNotificationName const fileDownloadComplite = @"fileDownloadComplite";
 NSString * const locationKey = @"locationKey";
 NSString * const photoIndex = @"photoIndex";
 
-- (instancetype)initWithDictionary:(NSDictionary *) dictionary andUserFolder:(NSString *) folder {
+- (instancetype)initWithDictionary:(NSDictionary *) dictionary andOwnerUser:(User *) user {
     self = [super init];
     
     if (self) {
-        _galleryID = [dictionary objectForKey:@"gallery_id"];
-        _folderPath = [self createGalleryFolder:folder];
+        _galleryID = [dictionary objectForKey:galleryIDArgumentName];
+        _folderPath = [self createGalleryFolder:user.userFolder];
+        _owner = user;
         self.currentPage = 0;
-        self.title = [dictionary objectForKey:@"title"];
-        self.galleryDescription = [dictionary objectForKey:@"description"];
+        self.title = [dictionary objectForKey:titleArgumentName];
+        self.galleryDescription = [dictionary objectForKey:descriptionArgumentName];
         self.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:dictionary];
         self.isUpdateCanceld = NO;
         self.mutablePhotos = [NSMutableArray array];
@@ -131,6 +134,29 @@ NSString * const photoIndex = @"photoIndex";
     [self.dataProvider getPhotosForGallery:self.galleryID use:[self getResponseHandler]];
 }
 
+- (void)addPhotos:(NSArray<UIImage *> *)photos {
+    if (photos.count > 0) {
+    [self.dataProvider savePhotos:photos forGalleryID:self.galleryID byPath:self.folderPath];
+    }
+}
+
+- (void)deletePhotosByIndexes:(NSArray<NSNumber *> *)indexes {
+    
+    NSMutableSet<NSString *> *deletedPhotosNames = [NSMutableSet set];
+    
+    for (NSNumber *index in indexes) {
+        Photo *deletedPhoto = [self.photos objectAtIndex:index.integerValue];
+        NSString *deletedName = deletedPhoto.name;
+        [deletedPhotosNames addObject:deletedName];
+    }
+    
+    [self.dataProvider deletPhotos:deletedPhotosNames inGallery:self.galleryID byGalleryPath:self.folderPath];
+}
+
+- (void)addPrimaryPhoto:(UIImage *)cover {
+    [self.dataProvider savePrimaryPhoto:cover forGalleryID:self.galleryID byPath:self.folderPath];
+}
+
 
 - (void)getAdditionalContent {
     if ([self.dataProvider respondsToSelector:@selector(getAdditionalPhotosForGallery:use:)]) {
@@ -198,5 +224,7 @@ NSString * const photoIndex = @"photoIndex";
         [self.dataProvider getFileFrom:remoteURL saveIn:fileURL sucsessNotification:notification];
     }
 }
+
+
 
 @end

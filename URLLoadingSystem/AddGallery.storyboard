@@ -143,7 +143,7 @@
                     <navigationItem key="navigationItem" id="qcH-41-saf">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="gsG-dg-z4W">
                             <connections>
-                                <action selector="saveNewGallery:" destination="kbB-Zz-4gU" id="RL1-d9-Urh"/>
+                                <action selector="createNewGallery:" destination="kbB-Zz-4gU" id="NUp-ca-yUu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -167,7 +167,7 @@
         <!--Add Photos To Gallery View Controller-->
         <scene sceneID="GOv-Yd-dwR">
             <objects>
-                <viewController id="ySs-FY-dUF" customClass="AddPhotosToGalleryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddPhotosVC" id="ySs-FY-dUF" customClass="AddPhotosToGalleryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="qol-oL-k6J">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

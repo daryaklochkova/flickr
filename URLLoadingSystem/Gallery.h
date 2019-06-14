@@ -7,8 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "Photo.h"
 #import "PhotoProvider.h"
+#import "User.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,12 +34,15 @@ extern NSNotificationName const PhotosInformationReceived;
 @property (assign, nonatomic) NSInteger selectedImageIndex;
 @property (strong, nonatomic, readonly) NSString *galleryID;
 @property (strong, nonatomic, readonly) NSString *folderPath;
+@property (strong, nonatomic, readonly) User *owner;
 
-- (instancetype)initWithDictionary:(NSDictionary *) dictionary andUserFolder:(NSString *) folder;
+- (instancetype)initWithDictionary:(NSDictionary *) dictionary andOwnerUser:(User *) user;
 
 - (void)reloadContent;
 - (void)getAdditionalContent;
 - (void)cancelGetData;
+
+- (void)saveContent;
 
 - (Photo *)nextPhoto;
 - (Photo *)previousPhoto;
@@ -52,6 +57,11 @@ extern NSNotificationName const PhotosInformationReceived;
 - (void)getPhoto:(Photo *) photo sucsessNotification:(NSNotification *) notification;
 
 - (void)setDataProvider:(id<PhotoProviderProtocol>)dataProvider;
+
+- (void)addPhotos:(NSArray<UIImage *> *)photos;
+- (void)addPrimaryPhoto:(UIImage *)cover;
+
+- (void)deletePhotosByIndexes:(NSArray<NSNumber *> *)indexes;
 
 @end
 

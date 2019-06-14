@@ -8,6 +8,7 @@
 
 #import "ListOfGalleries.h"
 #import "LocalPhotosProvider.h"
+#import "PermissionManager.h"
 
 NSNotificationName const PrimaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
 NSString *const galleryIndex = @"galleryIndex";
@@ -22,32 +23,49 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 
 @implementation ListOfGalleries
 
-- (instancetype)initWithUser:(User *) user{
+- (instancetype)initWithUser:(User *)user {
     self = [super init];
     
     if (self) {
         self.galleries = [[NSMutableArray alloc] init];
-        _user = user;
+        _owner = user;
         
-        NSString *logdedInUserID = [[NSUserDefaults standardUserDefaults] objectForKey:[LoginedUserID copy]];
-        self.isUserOwner = [self.user.userID isEqualToString:logdedInUserID];
+        self.isUserOwner = [[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.owner];
         
     }
     return self;
 }
 
+- (Gallery *)createGalleryWith:(NSDictionary *)dictionary {
+    Gallery *gallery = [[Gallery alloc] initWithDictionary:dictionary andOwnerUser:self.owner];
+    
+    if (self.isUserOwner) {
+        [gallery setDataProvider:[[LocalPhotosProvider alloc] init]];
+    } else {
+        [gallery setDataProvider:[[PhotoProvider alloc] init]];
+    }
+    
+    [self.galleries addObject:gallery];
+    return gallery;
+}
+
 - (void)createGalleriesUsing:(NSArray<NSDictionary *> *)dictionaries {
     for (NSDictionary *dictionary in dictionaries) {
-        Gallery *gallery = [[Gallery alloc] initWithDictionary:dictionary andUserFolder:self.user.userFolder];
-        
-        if (self.isUserOwner) {
-            [gallery setDataProvider:[[LocalPhotosProvider alloc] init]];
-        } else {
-            [gallery setDataProvider:[[PhotoProvider alloc] init]];
-        }
-        
-        [self.galleries addObject:gallery];
+        [self createGalleryWith:dictionary];
     }
+}
+
+- (Gallery *)addNewGallery:(NSDictionary *)galleryInfo {
+    NSString *galleryID = [self.dataProvider getNextGalleryId];
+    NSMutableDictionary *mutableInfo = [NSMutableDictionary dictionaryWithDictionary:galleryInfo];
+    [mutableInfo setValue:galleryID forKey:[galleryIDArgumentName copy]];
+    [mutableInfo setValue:self.owner.userID forKey:[userIDArgumentName copy]];
+    
+    Gallery *gallery = [self createGalleryWith:mutableInfo];
+    
+    [self.dataProvider saveGallery:gallery];
+
+    return gallery;
 }
 
 
@@ -58,7 +76,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
          self.galleries = [NSMutableArray array];
     }
    
-    [self.dataProvider getGalleriesForUser:self.user.userID use:[self handleRequestResult]];
+    [self.dataProvider getGalleriesForUser:self.owner.userID use:[self handleRequestResult]];
 }
 
 - (ReturnResult)handleRequestResult {
@@ -82,7 +100,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 }
 
 - (void)getAdditionalContent{
-     [self.dataProvider getAdditionalGalleriesForUser:self.user.userID use:[self handleRequestResult]];
+     [self.dataProvider getAdditionalGalleriesForUser:self.owner.userID use:[self handleRequestResult]];
 }
 
 - (void)cancelGetListOfGalleriesTask{

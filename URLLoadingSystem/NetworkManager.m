@@ -20,8 +20,7 @@
     return _sharedObject;
 }
 
-
-- (instancetype)init{
+- (instancetype)init {
     self = [super init];
     
     if (self) {
@@ -31,8 +30,7 @@
     return self;
 }
 
-
-- (void)createConnection{
+- (void)createConnection {
     NSURLSessionConfiguration *defaultConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     
     NSString *cachesDirectory = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES).firstObject;
