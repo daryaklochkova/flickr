@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  URLLoadingSystem
+
+  Created by Darya Klochkova on 18/06/2019.
+  Copyright © 2019 Darya Klochkova. All rights reserved.
+*/
+
+"NSCameraUsageDescription" = "Need accsess to the camera";
+"NSPhotoLibraryUsageDescription" = "Need accsess to the photos roll";

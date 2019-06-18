@@ -15,6 +15,8 @@
 @property (assign, nonatomic) NSInteger minSpacing;
 @property (assign, nonatomic) CGFloat aspectRatio;
 
+@property (assign, nonatomic) CGSize previousCollectionViewSize;
+
 @end
 
 @implementation CellSizeProvider
@@ -27,6 +29,7 @@
         self.minSpacing = minSpacing;
         self.cellSize = self.minCellSize;
         self.aspectRatio = self.minCellSize.width / self.minCellSize.height;
+        self.previousCollectionViewSize = CGSizeMake(0, 0);
     }
     return self;
 }
@@ -34,13 +37,16 @@
 #pragma mark - Calculate values for collection view
 
 - (void)recalculateCellSize:(CGSize)collectionViewSize {
-    NSInteger cellsWidth = collectionViewSize.width - self.minSpacing;
-    NSInteger columnCount = cellsWidth / (self.minCellSize.width + self.minSpacing);
-    
-    NSInteger newCellWidth = (cellsWidth - (self.minSpacing * columnCount + self.minSpacing)) / columnCount;
-    NSInteger newCellHeight = newCellWidth / self.aspectRatio;
-    
-    self.cellSize = CGSizeMake(newCellWidth, newCellHeight);
+    if (!CGSizeEqualToSize(collectionViewSize, self.previousCollectionViewSize)) {
+        self.previousCollectionViewSize = collectionViewSize;
+        NSInteger cellsWidth = collectionViewSize.width - self.minSpacing;
+        NSInteger columnCount = cellsWidth / (self.minCellSize.width + self.minSpacing);
+        
+        NSInteger newCellWidth = (cellsWidth - (self.minSpacing * columnCount + self.minSpacing)) / columnCount;
+        NSInteger newCellHeight = newCellWidth / self.aspectRatio;
+        
+        self.cellSize = CGSizeMake(newCellWidth, newCellHeight);
+    }
 }
 
 - (CGSize)getCellSize {

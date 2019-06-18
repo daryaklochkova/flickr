@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  URLLoadingSystem
+
+  Created by Darya Klochkova on 18/06/2019.
+  Copyright © 2019 Darya Klochkova. All rights reserved.
+*/
+
+"NSCameraUsageDescription" = "Необходим доступ к фотокамере";
+"NSPhotoLibraryUsageDescription" = "Необходим доступ к фотопленке";

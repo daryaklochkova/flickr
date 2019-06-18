@@ -13,6 +13,7 @@
 		A00C308A22B8BEED005DEFA2 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A00C308922B8BEED005DEFA2 /* AlertManager.m */; };
 		A00C308F22B8CE3B005DEFA2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A00C309122B8CE3B005DEFA2 /* Localizable.strings */; };
 		A00C309822B8D152005DEFA2 /* AddGallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A00C309A22B8D152005DEFA2 /* AddGallery.storyboard */; };
+		A00C30BB22B8E311005DEFA2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A00C30BD22B8E311005DEFA2 /* InfoPlist.strings */; };
 		A0147FF322817D4F00A4D94F /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF222817D4F00A4D94F /* Gallery.m */; };
 		A0147FF62282B21D00A4D94F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF52282B21C00A4D94F /* Photo.m */; };
 		A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */; };
@@ -71,6 +72,8 @@
 		A00C309522B8CF0F005DEFA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A00C309D22B8D468005DEFA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddGallery.storyboard; sourceTree = "<group>"; };
 		A00C309E22B8D493005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AddGallery.strings; sourceTree = "<group>"; };
+		A00C30BC22B8E311005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		A00C30BE22B8E317005DEFA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A0147FF122817D4F00A4D94F /* Gallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gallery.h; sourceTree = "<group>"; };
 		A0147FF222817D4F00A4D94F /* Gallery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Gallery.m; sourceTree = "<group>"; };
 		A0147FF42282B21C00A4D94F /* Photo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -172,6 +175,14 @@
 			name = AlertManager;
 			sourceTree = "<group>";
 		};
+		A00C30BF22B8EA33005DEFA2 /* GalleriesViewProtocol */ = {
+			isa = PBXGroup;
+			children = (
+				A00C308622B7DD81005DEFA2 /* GalleriesListViewProtocol.h */,
+			);
+			name = GalleriesViewProtocol;
+			sourceTree = "<group>";
+		};
 		A0109EF8228BFF280055F946 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,10 +205,10 @@
 		A02798152296C499002B42FE /* GalleriesListViewController */ = {
 			isa = PBXGroup;
 			children = (
+				A00C30BF22B8EA33005DEFA2 /* GalleriesViewProtocol */,
 				A03E2D452289C7CB00CD9DF6 /* GalleryCell */,
 				A055BEDF228019ED00400256 /* GalleriesListViewController.h */,
 				A055BEE0228019ED00400256 /* GalleriesListViewController.m */,
-				A00C308622B7DD81005DEFA2 /* GalleriesListViewProtocol.h */,
 			);
 			name = GalleriesListViewController;
 			sourceTree = "<group>";
@@ -359,6 +370,7 @@
 				A055BEE8228019F100400256 /* Assets.xcassets */,
 				A055BEEA228019F100400256 /* LaunchScreen.storyboard */,
 				A055BEED228019F100400256 /* Info.plist */,
+				A00C30BD22B8E311005DEFA2 /* InfoPlist.strings */,
 				A055BEEE228019F100400256 /* main.m */,
 				A055BEE5228019ED00400256 /* URLLoadingSystem.xcdatamodeld */,
 				A037AE9522B251BA0058A5BF /* WorkModes.h */,
@@ -540,6 +552,7 @@
 				A055BEE4228019ED00400256 /* Main.storyboard in Resources */,
 				A00C309822B8D152005DEFA2 /* AddGallery.storyboard in Resources */,
 				A06C9A1622A01A6D005A6AF3 /* MainPhotoCell.xib in Resources */,
+				A00C30BB22B8E311005DEFA2 /* InfoPlist.strings in Resources */,
 				A06C9A11229FC734005A6AF3 /* PhotoCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -611,6 +624,15 @@
 				A00C309E22B8D493005DEFA2 /* ru */,
 			);
 			name = AddGallery.storyboard;
+			sourceTree = "<group>";
+		};
+		A00C30BD22B8E311005DEFA2 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A00C30BC22B8E311005DEFA2 /* ru */,
+				A00C30BE22B8E317005DEFA2 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		A055BEE2228019ED00400256 /* Main.storyboard */ = {

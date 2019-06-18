@@ -220,7 +220,7 @@
         self.workMode = editMode;
         [self.toolBar setHidden:NO];
         [self.addButton setHidden:NO];
-        self.editItem.title = @"Done";
+        self.editItem.title = NSLocalizedString(@"Done", nil);
     }
     else {
         self.workMode = readMode;

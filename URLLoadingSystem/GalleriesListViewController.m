@@ -115,6 +115,8 @@
     });
 }
 
+#pragma mark - Subscribe to notifications
+
 - (void)subscribeToNotifications {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
@@ -158,6 +160,29 @@
 }
 
 #pragma mark - Update interface
+
+- (void)setImageFor:(GalleryCell *)cell byPath:(NSString *)path {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        @autoreleasepool {
+            UIImage *image = [UIImage imageNamed:path];
+            [cell setImage:image];
+        }
+    }
+}
+
+- (void)switchNavigationItems {
+    if ([self isAllowDeleteGallery]) {
+        [self.trashItem setEnabled:YES];
+    } else {
+        [self.trashItem setEnabled:NO];
+    }
+    if ([self isAllowEditGallery]) {
+        [self.editItem setEnabled:YES];
+    }
+    else {
+        [self.editItem setEnabled:NO];
+    }
+}
 
 - (void)showAlert:(NSNotification *)notification {
     
@@ -286,8 +311,7 @@
     return [self.cellSizeProvider getCellSize];
 }
 
-
-#pragma mark - User actions
+#pragma mark - Navigation
 
 - (void)pushAddGalleryViewController:(Gallery *)editGallery {
     UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"AddGallery" bundle:nil];
@@ -301,6 +325,8 @@
     
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
+
+#pragma mark - User actions
 
 - (IBAction)addGalleryPressed:(id)sender {
     [self pushAddGalleryViewController: nil];
@@ -349,19 +375,7 @@
     }
 }
 
-
-
-
-
-
-- (void)setImageFor:(GalleryCell *)cell byPath:(NSString *)path {
-    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
-        @autoreleasepool {
-            UIImage *image = [UIImage imageNamed:path];
-            [cell setImage:image];
-        }
-    }
-}
+#pragma mark - Check some conditions
 
 - (BOOL)isCellByIndexPathWasSelected:(NSIndexPath *)indexPath {
     NSSet *selectedItems = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
@@ -377,22 +391,5 @@
     NSSet *selectedItems = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
     return selectedItems.count == 1;
 }
-
-- (void)switchNavigationItems {
-    if ([self isAllowDeleteGallery]) {
-        [self.trashItem setEnabled:YES];
-    } else {
-        [self.trashItem setEnabled:NO];
-    }
-    
-    if ([self isAllowEditGallery]) {
-        [self.editItem setEnabled:YES];
-    } else {
-        [self.editItem setEnabled:NO];
-    }
-}
-
-
-
 
 @end
