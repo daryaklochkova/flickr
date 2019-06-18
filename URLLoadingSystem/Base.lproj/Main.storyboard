@@ -130,22 +130,22 @@
                                 </items>
                             </toolbar>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PWm-Te-bhY">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="uJC-2m-7gY" firstAttribute="bottom" secondItem="vd5-8J-5qE" secondAttribute="bottom" id="2Eg-Gp-dhE"/>
-                            <constraint firstItem="PWm-Te-bhY" firstAttribute="top" secondItem="wB7-SC-Cgo" secondAttribute="top" id="43X-L0-x6I"/>
                             <constraint firstItem="Ikx-W2-3Ig" firstAttribute="leading" secondItem="vd5-8J-5qE" secondAttribute="leading" id="440-Bk-NJf" userLabel="List Of Galleries Collection View.leading = Safe Area.leading"/>
-                            <constraint firstItem="PWm-Te-bhY" firstAttribute="bottom" secondItem="vd5-8J-5qE" secondAttribute="bottom" id="5vq-P3-8V0"/>
                             <constraint firstItem="uJC-2m-7gY" firstAttribute="trailing" secondItem="vd5-8J-5qE" secondAttribute="trailing" id="FCS-23-fJ4"/>
+                            <constraint firstItem="PWm-Te-bhY" firstAttribute="leading" secondItem="vd5-8J-5qE" secondAttribute="leading" id="Gxc-M9-0qQ"/>
                             <constraint firstItem="Ikx-W2-3Ig" firstAttribute="top" secondItem="vd5-8J-5qE" secondAttribute="top" id="WcF-kc-1Mg"/>
                             <constraint firstItem="vd5-8J-5qE" firstAttribute="trailing" secondItem="Ikx-W2-3Ig" secondAttribute="trailing" id="dOu-9q-q42" userLabel="Safe Area.trailing = List Of Galleries Collection View.trailing"/>
-                            <constraint firstItem="PWm-Te-bhY" firstAttribute="trailing" secondItem="vd5-8J-5qE" secondAttribute="trailing" id="rg3-Kd-sGe"/>
+                            <constraint firstItem="PWm-Te-bhY" firstAttribute="top" secondItem="wB7-SC-Cgo" secondAttribute="top" id="fGR-f8-I0E"/>
                             <constraint firstItem="vd5-8J-5qE" firstAttribute="bottom" secondItem="Ikx-W2-3Ig" secondAttribute="bottom" id="tWD-yr-R1O"/>
                             <constraint firstItem="uJC-2m-7gY" firstAttribute="leading" secondItem="vd5-8J-5qE" secondAttribute="leading" id="u7X-Ge-Nh3"/>
-                            <constraint firstItem="PWm-Te-bhY" firstAttribute="leading" secondItem="vd5-8J-5qE" secondAttribute="leading" id="wl8-Fj-X4l"/>
+                            <constraint firstItem="uJC-2m-7gY" firstAttribute="top" secondItem="PWm-Te-bhY" secondAttribute="bottom" id="w4e-zA-q0j"/>
+                            <constraint firstItem="PWm-Te-bhY" firstAttribute="trailing" secondItem="vd5-8J-5qE" secondAttribute="trailing" id="yQa-dr-GdE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="vd5-8J-5qE"/>
                     </view>
@@ -296,7 +296,7 @@
                                 <items>
                                     <barButtonItem enabled="NO" systemItem="trash" id="TMG-tw-sax">
                                         <connections>
-                                            <action selector="deletSelectedItems:" destination="BYZ-38-t0r" id="rMX-zj-vcs"/>
+                                            <action selector="deleteSelectedItems:" destination="BYZ-38-t0r" id="B7C-wC-dZa"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="gIL-6h-wL6"/>

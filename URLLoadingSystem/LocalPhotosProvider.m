@@ -52,6 +52,7 @@ sucsessNotification:(nonnull NSNotification *)notification {
     NSMutableDictionary *mutableInfo = targetInfo.mutableCopy;
     
     NSArray *photos = [targetInfo objectForKey:@"photos"];
+    
     NSString *lastPhotoName = [photos lastObject];
     int lastNumber = [[lastPhotoName componentsSeparatedByString:@"_"][1] intValue];
     NSMutableArray *matablePhotos = [NSMutableArray arrayWithArray:photos];
@@ -66,6 +67,7 @@ sucsessNotification:(nonnull NSNotification *)notification {
     [mutableInfo setValue:matablePhotos forKey:@"photos"];
     [self.userDefaults resaveInfoForGallery:galleryID newInfo:mutableInfo];
 }
+
 
 - (void)savePrimaryPhoto:(UIImage *)image
             forGalleryID:(NSString *)galleryID

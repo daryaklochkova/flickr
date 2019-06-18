@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-    editMode,
-    readMode
+    readMode = 0,
+    editMode 
 } WorkMode;

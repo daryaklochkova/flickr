@@ -11,6 +11,7 @@
 #import "Gallery.h"
 #import "PhotoViewController.h"
 #import "JSONParser.h"
+#import "WorkModes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -18,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
                                                             UIScrollViewDelegate>
 
 @property (strong, nonatomic) Gallery *gallery;
+@property (assign, nonatomic) WorkMode workMode;
 
 @end
 

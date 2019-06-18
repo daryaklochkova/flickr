@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *)getNextGalleryId;
 - (void)saveGallery:(Gallery *)gallery;
+- (void)updateGalleryInfo:(Gallery *)gallery;
 
 @end
 

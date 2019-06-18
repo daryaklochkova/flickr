@@ -41,7 +41,7 @@
     NSDictionary *galleryInfo = @{
                                   galleryIDArgumentName:gallery.galleryID,
                                   titleArgumentName:gallery.title,
-                                  descriptionArgumentName:gallery.description,
+                                  descriptionArgumentName:gallery.galleryDescription,
                                   userIDArgumentName:gallery.owner.userID,
                                   @"photos":[NSMutableArray array]
                                   };
@@ -55,10 +55,30 @@
         
         if (localGalleriesInfo) {
             return [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
-        } else {
+        }
+        else {
             return @"0";
         }
     }
+}
+
+- (void)updateGalleryInfo:(Gallery *)gallery {
+    NSDictionary *info = [self.userDefaults getInfoForGallery:gallery.galleryID];
+    NSMutableDictionary *galleryInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                        gallery.galleryID, [galleryIDArgumentName copy],
+                                        gallery.title, [titleArgumentName copy],
+                                        gallery.galleryDescription, [descriptionArgumentName copy],
+                                        gallery.owner.userID, [userIDArgumentName copy], nil];
+    
+    if ([info objectForKey:primaryPhotoIdArgumentName])
+        [galleryInfo setValue:[info objectForKey:primaryPhotoIdArgumentName]
+                       forKey:[primaryPhotoIdArgumentName copy]];
+    
+    if ([info objectForKey:@"photos"])
+        [galleryInfo setValue:[info objectForKey:@"photos"]
+                       forKey:@"photos"];
+    
+    [self.userDefaults resaveInfoForGallery:gallery.galleryID newInfo:galleryInfo];
 }
 
 - (void)deleteGalleries:(NSSet<NSString *> *)galleryIDs inFolder:(NSString *)path {

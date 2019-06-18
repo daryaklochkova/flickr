@@ -35,6 +35,7 @@ extern NSNotificationName const ListOfGalleriesSuccessfulRecieved;
 - (void)deleteGallery:(NSSet<NSString *> *)galleryIDs;
 
 - (Gallery *)addNewGallery:(NSDictionary *)galleryInfo;
+- (void)changeGalleryInfo:(Gallery *)gallery;
 
 - (Gallery *)getGalleryAtIndex:(NSInteger)index;
 - (NSInteger)countOfGalleries;

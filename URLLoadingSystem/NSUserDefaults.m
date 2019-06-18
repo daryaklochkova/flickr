@@ -55,6 +55,7 @@
 - (void)saveGalleryInfoInUserDefaults:(NSMutableDictionary *)galleryInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
+    
     if (localGalleriesInfo) {
         NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
         [mutableGalleriesInfo addObject:galleryInfo];

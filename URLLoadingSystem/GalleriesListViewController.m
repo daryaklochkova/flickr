@@ -70,6 +70,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    if (self.workMode == editMode) {
+        [self editingDone:self.editItem];
+    }    
+    
     if (self.needReloadContent) {
         [self loadListOfGalleries];
         [self.listOfGalleriesCollectionView reloadData];
@@ -164,7 +168,7 @@
 - (void)setImageFor:(GalleryCell *)cell byPath:(NSString *)path {
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         @autoreleasepool {
-            UIImage *image = [UIImage imageNamed:path];
+            UIImage *image = [UIImage imageWithContentsOfFile:path];
             [cell setImage:image];
         }
     }
@@ -219,7 +223,7 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
-    if (kind == UICollectionElementKindSectionFooter){
+    if (kind == UICollectionElementKindSectionFooter) {
         
         UICollectionReusableView *supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
         
@@ -350,6 +354,8 @@
     self.workMode = readMode;
     [self.editGalleriesToolbar setHidden:YES];
     [self.listOfGalleriesCollectionView cancelItemsSelection];
+    [self.trashItem setEnabled:NO];
+    [self.editItem setEnabled:NO];
     self.selectItem.title = NSLocalizedString(@"Select", nil);
 }
 
@@ -387,7 +393,7 @@
     return selectedItems.count > 0;
 }
 
--(BOOL)isAllowEditGallery {
+- (BOOL)isAllowEditGallery {
     NSSet *selectedItems = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
     return selectedItems.count == 1;
 }

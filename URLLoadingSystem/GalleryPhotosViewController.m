@@ -12,7 +12,6 @@
 #import "UIScrollView.h"
 #import "GalleryHeaderCollectionReusableView.h"
 #import "PermissionManager.h"
-#import "WorkModes.h"
 #import "AddPhotosToGalleryViewController.h"
 #import "PhotoCollectionViewCell.h"
 #import "AlertManager.h"
@@ -27,7 +26,6 @@
 
 
 @property (strong, nonatomic) GalleryCollectionViewDataSource *collectionViewDataSource;
-@property (assign, nonatomic) WorkMode workMode;
 
 @property (strong, nonatomic) NSMutableArray *selectedImages;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editItem;
@@ -50,11 +48,13 @@
     self.galleryCollectionView.dataSource = self.collectionViewDataSource;
     self.galleryCollectionView.delegate = self;
     
-    
-    self.workMode = readMode;
     if ([[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.gallery.owner]) {
         [self.editItem setEnabled:YES];
         self.editItem.title = NSLocalizedString(@"Edit", nil);
+    }
+    
+    if (self.workMode == editMode) {
+        [self setEditeMode];
     }
 }
 
@@ -215,18 +215,26 @@
     [self.navigationController pushViewController:addPhotocVC animated:YES];
 }
 
+- (void)setEditeMode {
+    self.workMode = editMode;
+    [self.toolBar setHidden:NO];
+    [self.addButton setHidden:NO];
+    self.editItem.title = NSLocalizedString(@"Done", nil);
+}
+
+- (void)setWorkMode {
+    self.workMode = readMode;
+    [self.toolBar setHidden:YES];
+    [self.addButton setHidden:YES];
+    self.editItem.title = NSLocalizedString(@"Edit", nil);
+}
+
 - (IBAction)editPressed:(id)sender {
     if (self.workMode == readMode) {
-        self.workMode = editMode;
-        [self.toolBar setHidden:NO];
-        [self.addButton setHidden:NO];
-        self.editItem.title = NSLocalizedString(@"Done", nil);
+        [self setEditeMode];
     }
     else {
-        self.workMode = readMode;
-        [self.toolBar setHidden:YES];
-        [self.addButton setHidden:YES];
-        self.editItem.title = NSLocalizedString(@"Edit", nil);
+        [self setWorkMode];
     }
 }
 

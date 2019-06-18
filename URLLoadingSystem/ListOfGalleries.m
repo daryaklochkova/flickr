@@ -69,6 +69,10 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     return gallery;
 }
 
+- (void)changeGalleryInfo:(Gallery *)gallery {
+    [self.dataProvider updateGalleryInfo:gallery];
+}
+
 
 #pragma mark - Update content
 
@@ -91,7 +95,8 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesSuccessfulRecieved object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:ListOfGalleriesSuccessfulRecieved
+                                                                object:nil];
         });
         
         [self getPrimaryPhotosFor:strongSelf.galleries];

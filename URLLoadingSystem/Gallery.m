@@ -24,7 +24,7 @@ NSNotificationName const fileDownloadComplite = @"fileDownloadComplite";
 NSString * const locationKey = @"locationKey";
 NSString * const photoIndex = @"photoIndex";
 
-- (instancetype)initWithDictionary:(NSDictionary *) dictionary andOwnerUser:(User *) user {
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary andOwnerUser:(User *) user {
     self = [super init];
     
     if (self) {
@@ -137,7 +137,7 @@ NSString * const photoIndex = @"photoIndex";
 
 - (void)addPhotos:(NSArray<UIImage *> *)photos {
     if (photos.count > 0) {
-    [self.dataProvider savePhotos:photos forGalleryID:self.galleryID byPath:self.folderPath];
+        [self.dataProvider savePhotos:photos forGalleryID:self.galleryID byPath:self.folderPath];
     }
 }
 

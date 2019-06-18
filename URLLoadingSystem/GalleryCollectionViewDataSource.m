@@ -75,7 +75,7 @@
 - (BOOL)setPhoto:(Photo *)photo toCell:(id <PhotoCell>)cell {
     NSString *filePath = [self.gallery getLocalPathForPhoto:photo];
     @autoreleasepool {
-        UIImage *image = [UIImage imageNamed:filePath];
+        UIImage *image = [UIImage imageWithContentsOfFile:filePath];
         if (image) {
             [cell setImageToImageView:image];
             return YES;

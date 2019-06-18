@@ -13,12 +13,15 @@
 #import "GalleryPhotosViewController.h"
 #import "GalleriesListViewProtocol.h"
 #import "AlertManager.h"
+#import "WorkModes.h"
 
 @interface AddGalleryViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UITextField *galleryTitleTextField;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
+@property (strong, nonatomic) UIImage *coverImage;
 
 @property (strong, nonatomic) NSMutableArray<UIImage *> *selectedImages;
 
@@ -34,15 +37,15 @@
     
     if (self.editGallery) {
         self.galleryTitleTextField.text  = self.editGallery.title;
-        self.descriptionTextView.text = self.editGallery.description;
+        self.descriptionTextView.text = self.editGallery.galleryDescription;
         self.selectedImages = [NSMutableArray array];
         
         NSString *filePath = [self.editGallery getLocalPathForPrimaryPhoto];
-        UIImage *image = [UIImage imageNamed:filePath];
+        UIImage *image = [UIImage imageWithContentsOfFile:filePath];
         self.coverImageView.image = image;
         
-    } else {
-        self.editGallery = [[Gallery alloc] initWithDictionary:@{} andOwnerUser:self.galleryOwner];
+    }
+    else {
         self.selectedImages = [NSMutableArray array];
     }
     
@@ -133,7 +136,7 @@
     NSMutableString *mutableMessage = @"".mutableCopy;
     
     if ([self.galleryTitleTextField.text isEqualToString:@""]) {
-        [mutableMessage appendString:@"The title field is empty"];
+        [mutableMessage appendString:NSLocalizedString(@"The title field is empty", nil)];
     }
     
     if (![mutableMessage isEqualToString:@""]) {
@@ -147,24 +150,37 @@
 - (IBAction)saveGallery:(id)sender {
     NSString *message;
     if (![self allRequiredFieldsAreFilled:&message]) {
-        [self showErrorAlertWithTitle:@"Error" andMessage:message];
+        [self showErrorAlertWithTitle:NSLocalizedString(@"Error", nil)  andMessage:message];
         return;
     }
     
-    self.editGallery.title = self.galleryTitleTextField.text;
-    self.editGallery.galleryDescription = self.descriptionTextView.text;
-    
-    if (!self.editGallery.galleryID && self.galleries) {
+    if (!self.editGallery && self.galleries) {
         NSDictionary *info = @{
                                descriptionArgumentName:self.descriptionTextView.text,
                                titleArgumentName:self.galleryTitleTextField.text,
                                };
         
         self.editGallery = [self.galleries addNewGallery:info];
+        
+        if (self.selectedImages.count > 0) {
+            [self.editGallery addPhotos:self.selectedImages];
+        }
+        
+        if (self.coverImage) {
+            [self.editGallery addPrimaryPhoto:self.coverImage];
+        }
+    }
+    else {
+        self.editGallery.title = self.galleryTitleTextField.text;
+        self.editGallery.galleryDescription = self.descriptionTextView.text;
+        [self.galleries changeGalleryInfo:self.editGallery];
+        
+        if (self.coverImage) {
+            [self.editGallery addPrimaryPhoto:self.coverImage];
+        }
     }
     
-    [self.editGallery addPhotos:self.selectedImages];
-    [self.editGallery addPrimaryPhoto:self.coverImageView.image];
+
     
     NSArray *viewControllers = [self.navigationController viewControllers];
     UIViewController *parentViewController = [viewControllers objectAtIndex:viewControllers.count - 2];
@@ -179,7 +195,7 @@
 - (IBAction)tapToImage:(UITapGestureRecognizer *)sender {
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]) {
         
-        [self showErrorAlertWithTitle:@"Error" andMessage:@"Device has no camera"];
+        [self showErrorAlertWithTitle:NSLocalizedString(@"Error", nil)  andMessage:NSLocalizedString(@"Device has no camera", nil)];
         
     } else {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -199,6 +215,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     self.coverImageView.image = info[UIImagePickerControllerEditedImage];
+    self.coverImage = info[UIImagePickerControllerEditedImage];
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -224,6 +241,7 @@
         UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         GalleryPhotosViewController *nextViewController = [nextStoryBoard instantiateViewControllerWithIdentifier:@"galleryPhotosVC"];
         nextViewController.gallery = self.editGallery;
+        nextViewController.workMode = editMode;
         [self.navigationController pushViewController:nextViewController animated:YES];
     }
     else {
