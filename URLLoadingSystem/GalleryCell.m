@@ -10,6 +10,7 @@
 
 @interface GalleryCell()
 
+
 @end
 
 @implementation GalleryCell
@@ -63,6 +64,15 @@
     }
 }
 
+- (void)setText:(NSString *)text {
+    self.lable.text = text;
+}
+
+- (void)setImage:(UIImage *)image {
+    if (image) {
+        self.imageView.image = image;
+    }
+}
 
 
 @end

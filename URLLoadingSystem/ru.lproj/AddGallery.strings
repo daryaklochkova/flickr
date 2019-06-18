@@ -1,0 +1,12 @@
+
+/* Class = "UIButton"; normalTitle = "Edit photos"; ObjectID = "GAX-Ma-2vZ"; */
+"GAX-Ma-2vZ.normalTitle" = "Редактировать фотографии";
+
+/* Class = "UILabel"; text = "Gallery title"; ObjectID = "J99-xp-kui"; */
+"J99-xp-kui.text" = "Название галереи";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "PZE-n2-Vbj"; */
+"PZE-n2-Vbj.text" = "Описание";
+
+/* Class = "UITextField"; placeholder = "Gallery title"; ObjectID = "Yz9-Px-jSF"; */
+"Yz9-Px-jSF.placeholder" = "Название галереи";

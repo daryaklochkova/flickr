@@ -1,0 +1,15 @@
+/* 
+  Localizeable.strings
+  URLLoadingSystem
+
+  Created by Darya Klochkova on 18/06/2019.
+  Copyright © 2019 Darya Klochkova. All rights reserved.
+*/
+
+"OK" = "OK";
+"Error" = "Error";
+"Device has no camera" = "Device has no camera";
+"Data loading failed" = "Data loading failed";
+"Select" = "Select";
+"Cancel" = "Cancel";
+"Edit" = "Edit";

@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (CGSize)getCellSizeAtIndexPath:(NSIndexPath *)indexPath;
 - (void)selectItemAtIndexPath:(NSIndexPath *)indexPath;
+- (void)cancelItemsSelection;
+- (void)moveAllSelectedIndexes:(NSInteger)delta;
+
 @end
 
 NS_ASSUME_NONNULL_END

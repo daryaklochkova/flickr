@@ -57,6 +57,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 
 - (Gallery *)addNewGallery:(NSDictionary *)galleryInfo {
     NSString *galleryID = [self.dataProvider getNextGalleryId];
+    
     NSMutableDictionary *mutableInfo = [NSMutableDictionary dictionaryWithDictionary:galleryInfo];
     [mutableInfo setValue:galleryID forKey:[galleryIDArgumentName copy]];
     [mutableInfo setValue:self.owner.userID forKey:[userIDArgumentName copy]];
@@ -147,6 +148,11 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 
 - (NSArray<Gallery *> *)getGalleries{
     return self.galleries;
+}
+
+- (void)deleteGallery:(NSSet<NSString *> *)galleryIDs {
+    [self.dataProvider deleteGalleries:galleryIDs inFolder:self.owner.userFolder];    
+    [self updateContent];
 }
 
 @end

@@ -23,8 +23,8 @@
     
 //    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:LocalGalleriesKey];
     
-    User *flickr = [[User alloc] initWithUserID:@"66956608@N06" andName:@"Flickr"];
-    User *testUser = [[User alloc] initWithUserID:@"0" andName:@"Test user"];
+    User *flickr = [[User alloc] initWithUserID:@"66956608@N06" andName:@"Flickr" andFolderDirectory:NSCachesDirectory];
+    User *testUser = [[User alloc] initWithUserID:@"0" andName:@"Test user" andFolderDirectory:NSDocumentDirectory];
     
     self.usersList = [NSMutableArray arrayWithObjects: flickr, testUser, nil];
 }

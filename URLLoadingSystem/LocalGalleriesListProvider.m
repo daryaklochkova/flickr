@@ -7,15 +7,30 @@
 //
 
 #import "LocalGalleriesListProvider.h"
+#import "NSUserDefaults.h"
+
+@interface LocalGalleriesListProvider()
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
+@end
+
 
 @implementation LocalGalleriesListProvider
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.userDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    return self;
+}
 
 - (void)getAdditionalGalleriesForUser:(NSString * _Nullable)userID use:(ReturnGalleriesResult _Nullable ) completionHandler {
     
 }
 
 - (void)getGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler {
-    NSArray *localGalleriesInfo = [[NSUserDefaults standardUserDefaults] objectForKey:[LocalGalleriesKey copy]];
+    NSArray *localGalleriesInfo = [self.userDefaults getLocalGalleriesInfo];
     
     if (localGalleriesInfo) {
         completionHandler(localGalleriesInfo);
@@ -31,30 +46,36 @@
                                   @"photos":[NSMutableArray array]
                                   };
     
-    [self saveGalleryInfoInUserDefaults:galleryInfo.mutableCopy];
+    [self.userDefaults saveGalleryInfoInUserDefaults:galleryInfo.mutableCopy];
 }
 
 - (NSString *)getNextGalleryId {
-    NSArray *localGalleriesInfo = [[NSUserDefaults standardUserDefaults] objectForKey:[LocalGalleriesKey copy]];
-    if (localGalleriesInfo) {
-        return [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
-    } else {
-        return @"0";
+    @synchronized (self) {
+        NSArray *localGalleriesInfo = [[NSUserDefaults standardUserDefaults] objectForKey:[LocalGalleriesKey copy]];
+        
+        if (localGalleriesInfo) {
+            return [NSString stringWithFormat:@"%lu",(unsigned long)localGalleriesInfo.count];
+        } else {
+            return @"0";
+        }
     }
 }
 
-- (void)saveGalleryInfoInUserDefaults:(NSMutableDictionary *)galleryInfo {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
-    if (localGalleriesInfo) {
-        NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];
-        [mutableGalleriesInfo addObject:galleryInfo];
-        [userDefaults setObject:mutableGalleriesInfo forKey:[LocalGalleriesKey copy]];
-    }
-    else {
-        [userDefaults setObject:@[galleryInfo] forKey:[LocalGalleriesKey copy]];
+- (void)deleteGalleries:(NSSet<NSString *> *)galleryIDs inFolder:(NSString *)path {
+    //1) clear userDefaults
+    //2) delete gallery folder and all photos
+    
+    for (NSString *galleryID in galleryIDs) {
+        [self.userDefaults deleteGalleryInfoByID:galleryID];
+        
+        NSString *pathPart = [NSString stringWithFormat:@"Assets/%@", galleryID];
+        NSString *folderPath = [path stringByAppendingPathComponent:pathPart];
+        NSError *error;
+        [[NSFileManager defaultManager] removeItemAtPath:folderPath error:&error];
+        if (error) {
+            NSLog(@"%@", error);
+        }
     }
 }
-
 
 @end

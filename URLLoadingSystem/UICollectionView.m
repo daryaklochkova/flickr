@@ -63,4 +63,30 @@ static char UIB_PROPERTY_KEY;
     }
 }
 
+- (void)cancelItemsSelection {
+    for (NSIndexPath *indexPath in self.selectedCellsIndexPaths) {
+        UICollectionViewCell *collectionViewCell = [self cellForItemAtIndexPath:indexPath];
+        
+        if ([collectionViewCell conformsToProtocol:@protocol(SelectableCellProtocol)]) {
+            id<SelectableCellProtocol> cell = (id<SelectableCellProtocol>)collectionViewCell;
+            [cell selectItem];
+        }
+    }
+    
+    self.selectedCellsIndexPaths = [NSMutableSet set];
+}
+
+- (void)moveAllSelectedIndexes:(NSInteger)delta {
+    NSSet *indexes = self.selectedCellsIndexPaths;
+    NSMutableSet *newIndexPathSet = [NSMutableSet set];
+    
+    for (NSIndexPath *indexPath in indexes) {
+        NSInteger section = [indexPath indexAtPosition:0];
+        NSInteger row = [indexPath indexAtPosition:1];
+        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
+        [newIndexPathSet addObject:newIndexPath];
+    }
+    indexes = newIndexPathSet;
+};
+
 @end

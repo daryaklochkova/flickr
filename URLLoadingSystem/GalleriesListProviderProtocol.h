@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)getAdditionalGalleriesForUser:(NSString * _Nullable)userID use:(ReturnGalleriesResult _Nullable ) completionHandler;
 - (void)getGalleriesForUser:(NSString *)userID use:(ReturnResult) completionHandler;
 
+- (void)deleteGalleries:(NSSet<NSString *> *)galleryIDs inFolder:(NSString *)path;
+
 - (NSString *)getNextGalleryId;
 - (void)saveGallery:(Gallery *)gallery;
 

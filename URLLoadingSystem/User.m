@@ -10,18 +10,18 @@
 
 @implementation User
 
-- (instancetype)initWithUserID:(NSString *)userID andName:(NSString *)userName {
+- (instancetype)initWithUserID:(NSString *)userID andName:(NSString *)userName andFolderDirectory:(NSSearchPathDirectory)directory {
     self = [super init];
     if (self) {
         self.userID = userID;
         self.userName = userName;
-        self.userFolder = [self createUserFolder];
+        self.userFolder = [self createUserFolder:directory];
     }
     return self;
 }
 
-- (NSString *)createUserFolder {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+- (NSString *)createUserFolder:(NSSearchPathDirectory) baseDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(baseDirectory, NSUserDomainMask, YES);
     
     NSString *directory = [paths objectAtIndex:0];
     NSString *userDir = [directory stringByAppendingPathComponent:self.userID];

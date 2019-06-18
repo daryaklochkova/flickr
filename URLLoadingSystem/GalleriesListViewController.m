@@ -16,56 +16,65 @@
 #import "PermissionManager.h"
 #import "WorkModes.h"
 #import "UICollectionView.h"
+#import "CellSizeProvider.h"
+#import "AlertManager.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
-@property (strong, nonatomic) Gallery *selectedGallery;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIToolbar *editGalleriesToolbar;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *trashItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *editItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *selectItem;
 
-
+@property (strong, nonatomic) Gallery *selectedGalleryForSegue;
 @property (strong, nonatomic) FooterCollectionReusableView *collectionViewFooter;
 @property (assign, nonatomic) BOOL isUpdateStarted;
 @property (assign, nonatomic) BOOL isUserOwner;
 
-@property (assign, nonatomic) CGSize minCellSize;
-@property (assign, nonatomic) CGSize cellSize;
-@property (assign, nonatomic) NSInteger minSpacing;
-@property (assign, nonatomic) CGFloat aspectRatio;
 @property (assign, nonatomic) NSIndexPath *displayItem;
-
 @property (assign, nonatomic) WorkMode workMode;
+
+@property (strong, nonatomic) id<CellSizeProvider> cellSizeProvider;
 
 @end
 
 @implementation GalleriesListViewController
+@synthesize needReloadContent;
 
 #pragma mark - UIViewController methods
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.listOfGalleriesCollectionView.selectedCellsIndexPaths = [NSMutableSet set];
     
     if ([[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.owner]) {
         [self.selectItem setEnabled:YES];
+        self.selectItem.title = NSLocalizedString(@"Select", nil);
         self.isUserOwner = YES;
-    }        
-    
+    }
     self.workMode = readMode;
-    [self.activityIndicator startAnimating];
+    
     [self loadListOfGalleries];
+    [self.activityIndicator startAnimating];
     [self subscribeToNotifications];
     self.isUpdateStarted = NO;
     
-    [self setCellSizeAndSpacing];
+    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)self.listOfGalleriesCollectionView.collectionViewLayout;
+    
+    self.cellSizeProvider = [[CellSizeProvider alloc] initWithMinCellSize:layout.itemSize minSpacing:layout.minimumLineSpacing];
+    self.displayItem = 0;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self loadListOfGalleries];
-    [self.listOfGalleriesCollectionView reloadData];
+    
+    if (self.needReloadContent) {
+        [self loadListOfGalleries];
+        [self.listOfGalleriesCollectionView reloadData];
+        self.needReloadContent = NO;
+    }
 }
 
 - (void)viewWillTransitionToSize:(CGSize)size
@@ -76,7 +85,8 @@
 }
 
 - (void)viewDidLayoutSubviews {
-    [self recalculateCellSize];
+    CGSize collectionViewSize = self.listOfGalleriesCollectionView.frame.size;
+    [self.cellSizeProvider recalculateCellSize:collectionViewSize];
     [super viewDidLayoutSubviews];
 }
 
@@ -87,11 +97,6 @@
 #pragma mark - Initialization
 
 - (void)loadListOfGalleries {
-    
-    if (!self.owner) {
-        self.owner = [[User alloc] initWithUserID:@"66956608@N06" andName:@""];//26144115@N06 @"66956608@N06"
-    }
-    
     self.listOfGalleries = [[ListOfGalleries alloc] initWithUser:self.owner];
     
     id <GalleriesListProviderProtocol> dataProvider;
@@ -110,36 +115,32 @@
     });
 }
 
-- (void)setCellSizeAndSpacing {
-    UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout *)[self.listOfGalleriesCollectionView collectionViewLayout];
-    
-    self.minCellSize = [collectionViewLayout itemSize];
-    self.cellSize = self.minCellSize;
-    self.minSpacing = [collectionViewLayout minimumLineSpacing];
-    self.aspectRatio = self.minCellSize.width / self.minCellSize.height;
-    self.displayItem = 0;
-}
-
 - (void)subscribeToNotifications {
     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
     
-    [notificationCenter addObserver:self selector:@selector(listOfGalleriesRecieved:)
+    [notificationCenter addObserver:self
+                           selector:@selector(listOfGalleriesRecieved:)
                                name:ListOfGalleriesSuccessfulRecieved
                              object:nil];
     
-    [notificationCenter addObserver:self selector:@selector(reloadItem:)
+    [notificationCenter addObserver:self
+                           selector:@selector(reloadItem:)
                                name:PrimaryPhotoDownloadComplite
                              object:nil];
     
-    [notificationCenter addObserver:self selector:@selector(showAlert:)
+    [notificationCenter addObserver:self
+                           selector:@selector(showAlert:)
                                name:dataFetchError
                              object:nil];
     
-    [notificationCenter addObserver:self selector:@selector(showAlert:)
+    [notificationCenter addObserver:self
+                           selector:@selector(showAlert:)
                                name:dataParsingFailed
                              object:nil];
     
-    [notificationCenter addObserver:self selector:@selector(deviceOrientationDidChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+    [notificationCenter addObserver:self
+                           selector:@selector(deviceOrientationDidChanged:)
+                               name:UIDeviceOrientationDidChangeNotification object:nil];
 }
 
 #pragma mark - Notifications handlers
@@ -162,9 +163,7 @@
     
     NSError *error = [[notification userInfo] objectForKey:errorKey];
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Data loading failed" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:action];
+    UIAlertController *alertController = [[AlertManager defaultManager] showErrorAlertWithTitle:NSLocalizedString(@"Data loading failed", nil) andMessage:[error localizedDescription]];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
@@ -172,23 +171,21 @@
     [self.listOfGalleriesCollectionView reloadData];
 }
 
+- (Gallery *)getGalleryForCellAtIndexPath:(NSIndexPath *)indexPath {
+    return [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
+}
+
 - (void)reloadItem:(NSNotification *)notification {
     NSNumber * number = [[notification object] valueForKey:galleryIndex];
     NSInteger index = [number integerValue];
     NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    
     UICollectionViewCell *cell = [self.listOfGalleriesCollectionView cellForItemAtIndexPath:indexPath];
     
     if (cell && [cell isKindOfClass:[GalleryCell class]]){
-        GalleryCell * galleryCell = (GalleryCell *)cell;
-        Gallery *gallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
-        
-        @autoreleasepool {
-            UIImage *image = [UIImage imageNamed:[gallery getLocalPathForPhoto:gallery.primaryPhoto]];
-            
-            if (image) {
-                galleryCell.imageView.image = image;
-            }
-        }
+        Gallery *gallery = [self getGalleryForCellAtIndexPath:indexPath];
+        NSString *path = [gallery getLocalPathForPhoto:gallery.primaryPhoto];
+        [self setImageFor:(GalleryCell *)cell byPath:path];
     }
 }
 
@@ -212,27 +209,18 @@
     return nil;
 }
 
+
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                            cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     GalleryCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GalleryCell" forIndexPath:indexPath];
     
-    Gallery *gallery = [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
+    Gallery *gallery = [self getGalleryForCellAtIndexPath:indexPath];
     
-    NSString *primaryPhotoPath = [gallery getLocalPathForPhoto:gallery.primaryPhoto];
+    [self setImageFor:cell byPath:[gallery getLocalPathForPrimaryPhoto]];
+    [cell setText:gallery.title];
     
-    if ([[NSFileManager defaultManager] fileExistsAtPath:primaryPhotoPath]) {
-        @autoreleasepool {
-            UIImage *image = [UIImage imageNamed:primaryPhotoPath];
-            
-            if (image) {
-                cell.imageView.image = image;
-            }
-        }
-    }
-    cell.lable.text = gallery.title;
-    
-    if ([collectionView.selectedCellsIndexPaths containsObject:indexPath]) {
+    if ([self isCellByIndexPathWasSelected:indexPath]) {
         [cell selectItem];
     }
     
@@ -251,7 +239,7 @@
     
     if ([destinationVC isKindOfClass:[GalleryPhotosViewController class]]){
         GalleryPhotosViewController *destinationController = (GalleryPhotosViewController *)destinationVC;
-        destinationController.gallery = self.selectedGallery;
+        destinationController.gallery = self.selectedGalleryForSegue;
     }
 }
 
@@ -275,74 +263,136 @@
     }
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    NSLog(@"scrollViewDidEndDragging");
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    //NSLog(@"scrollViewDidScroll");
-}
-
 #pragma mark - UICollectionViewDelegate
 
 - (void)collectionView:(UICollectionView *)collectionView didHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSInteger index = [indexPath indexAtPosition:1];
-    if (self.workMode != editMode) {
-        self.selectedGallery = [self.listOfGalleries getGalleryAtIndex:index];
-    } else {
+    if (self.workMode == readMode) {
+        self.selectedGalleryForSegue = [self getGalleryForCellAtIndexPath:indexPath];
+    } else if (self.workMode == editMode) {
         [collectionView selectItemAtIndexPath:indexPath];
-        
-        if (self.listOfGalleriesCollectionView.selectedCellsIndexPaths.count > 0) {
-            [self.trashItem setEnabled:YES];
-        } else {
-            [self.trashItem setEnabled:NO];
-        }
+        [self switchNavigationItems];
     }
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
                         layout:(UICollectionViewLayout *)collectionViewLayout
         insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(10, self.minSpacing, 10, self.minSpacing);
+    return [self.cellSizeProvider getEdgeInsets];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(self.cellSize.width, self.cellSize.height);
+    return [self.cellSizeProvider getCellSize];
 }
 
-#pragma mark - Calculate values for collection view
-
-- (void)recalculateCellSize {
-    CGSize collectionViewSize = self.listOfGalleriesCollectionView.frame.size;
-    NSInteger cellsWidth = collectionViewSize.width - self.minSpacing;
-    NSInteger columnCount = cellsWidth / (self.minCellSize.width + self.minSpacing);
-    
-    NSInteger newCellWidth = (cellsWidth - (self.minSpacing * columnCount + self.minSpacing)) / columnCount;
-    NSInteger newCellHeight = newCellWidth / self.aspectRatio;
-    
-    self.cellSize = CGSizeMake(newCellWidth, newCellHeight);
-}
 
 #pragma mark - User actions
 
-- (IBAction)addGalleryPressed:(id)sender {
+- (void)pushAddGalleryViewController:(Gallery *)editGallery {
     UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"AddGallery" bundle:nil];
     AddGalleryViewController *nextViewController = [nextStoryBoard instantiateInitialViewController];
     nextViewController.galleryOwner = self.owner;
     nextViewController.galleries = self.listOfGalleries;
+    
+    if (editGallery) {
+        nextViewController.editGallery = editGallery;
+    }
+    
     [self.navigationController pushViewController:nextViewController animated:YES];
 }
 
+- (IBAction)addGalleryPressed:(id)sender {
+    [self pushAddGalleryViewController: nil];
+}
+
 - (IBAction)EnableEditMode:(id)sender {
-    self.workMode = editMode;
-    [self.editGalleriesToolbar setHidden:NO];
+    if (self.workMode == readMode) {
+        self.workMode = editMode;
+        [self.editGalleriesToolbar setHidden:NO];
+        self.selectItem.title = NSLocalizedString(@"Cancel", nil);
+    }
+    else {
+        self.workMode = readMode;
+        [self.editGalleriesToolbar setHidden:YES];
+        [self.listOfGalleriesCollectionView cancelItemsSelection];
+        self.selectItem.title = NSLocalizedString(@"Select", nil);
+    }
 }
 
 - (IBAction)editingDone:(id)sender {
     self.workMode = readMode;
     [self.editGalleriesToolbar setHidden:YES];
+    [self.listOfGalleriesCollectionView cancelItemsSelection];
+    self.selectItem.title = NSLocalizedString(@"Select", nil);
 }
+
+- (IBAction)deleteItems:(id)sender {
+    NSMutableSet *galleryIDs = [NSMutableSet set];
+    
+    for (NSIndexPath *indexPath in self.listOfGalleriesCollectionView.selectedCellsIndexPaths) {
+        NSString *galleryID = [self getGalleryForCellAtIndexPath:indexPath].galleryID;
+        [galleryIDs addObject:galleryID];
+    }
+    
+    [self.listOfGalleries deleteGallery:galleryIDs];
+    [self.listOfGalleriesCollectionView cancelItemsSelection];
+    [self.listOfGalleriesCollectionView reloadData];
+}
+
+- (IBAction)editGalleryInfo:(id)sender {
+    NSSet *indexes = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
+    if (indexes.count == 1) {
+        NSIndexPath *index = [indexes.allObjects firstObject];
+        Gallery *editGallery = [self getGalleryForCellAtIndexPath:index];
+        [self pushAddGalleryViewController:editGallery];
+    }
+}
+
+
+
+
+
+
+- (void)setImageFor:(GalleryCell *)cell byPath:(NSString *)path {
+    if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
+        @autoreleasepool {
+            UIImage *image = [UIImage imageNamed:path];
+            [cell setImage:image];
+        }
+    }
+}
+
+- (BOOL)isCellByIndexPathWasSelected:(NSIndexPath *)indexPath {
+    NSSet *selectedItems = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
+    return [selectedItems containsObject:indexPath];
+}
+
+- (BOOL)isAllowDeleteGallery {
+    NSSet *selectedItems = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
+    return selectedItems.count > 0;
+}
+
+-(BOOL)isAllowEditGallery {
+    NSSet *selectedItems = self.listOfGalleriesCollectionView.selectedCellsIndexPaths;
+    return selectedItems.count == 1;
+}
+
+- (void)switchNavigationItems {
+    if ([self isAllowDeleteGallery]) {
+        [self.trashItem setEnabled:YES];
+    } else {
+        [self.trashItem setEnabled:NO];
+    }
+    
+    if ([self isAllowEditGallery]) {
+        [self.editItem setEnabled:YES];
+    } else {
+        [self.editItem setEnabled:NO];
+    }
+}
+
+
+
 
 @end

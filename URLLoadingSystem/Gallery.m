@@ -134,11 +134,13 @@ NSString * const photoIndex = @"photoIndex";
     [self.dataProvider getPhotosForGallery:self.galleryID use:[self getResponseHandler]];
 }
 
+
 - (void)addPhotos:(NSArray<UIImage *> *)photos {
     if (photos.count > 0) {
     [self.dataProvider savePhotos:photos forGalleryID:self.galleryID byPath:self.folderPath];
     }
 }
+
 
 - (void)deletePhotosByIndexes:(NSArray<NSNumber *> *)indexes {
     
@@ -150,7 +152,7 @@ NSString * const photoIndex = @"photoIndex";
         [deletedPhotosNames addObject:deletedName];
     }
     
-    [self.dataProvider deletPhotos:deletedPhotosNames inGallery:self.galleryID byGalleryPath:self.folderPath];
+    [self.dataProvider deletePhotos:deletedPhotosNames inGallery:self.galleryID byGalleryPath:self.folderPath];
 }
 
 - (void)addPrimaryPhoto:(UIImage *)cover {
@@ -165,7 +167,7 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
-- (ReturnResult)getResponseHandler{
+- (ReturnResult)getResponseHandler {
     __weak typeof(self) weakSelf = self;
     
     ReturnResult block = ^(NSArray * _Nullable result) {

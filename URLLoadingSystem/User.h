@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) NSString *userFolder;
 
-- (instancetype)initWithUserID:(NSString *)userID andName:(NSString *)userName;
+- (instancetype)initWithUserID:(NSString *)userID andName:(NSString *)userName andFolderDirectory:(NSSearchPathDirectory)directory;
 
 @end
 

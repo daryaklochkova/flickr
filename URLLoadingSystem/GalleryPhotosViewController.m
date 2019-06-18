@@ -15,6 +15,7 @@
 #import "WorkModes.h"
 #import "AddPhotosToGalleryViewController.h"
 #import "PhotoCollectionViewCell.h"
+#import "AlertManager.h"
 
 @interface GalleryPhotosViewController()
 
@@ -53,7 +54,7 @@
     self.workMode = readMode;
     if ([[PermissionManager defaultManager] isLoginedUserHasPermissionForEditing:self.gallery.owner]) {
         [self.editItem setEnabled:YES];
-        
+        self.editItem.title = NSLocalizedString(@"Edit", nil);
     }
 }
 
@@ -78,9 +79,7 @@
     
     NSError *error = [[notification userInfo] objectForKey:errorKey];
     
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Data loading failed" message:[error localizedDescription] preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *action = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:action];
+    UIAlertController *alertController = [[AlertManager defaultManager] showErrorAlertWithTitle:NSLocalizedString(@"Data loading failed", nil) andMessage:[error localizedDescription]];
     [self presentViewController:alertController animated:YES completion:nil];
 }
 
@@ -97,9 +96,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
                                                  name:dataParsingFailed object:nil];
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:)
-                                                // name:downloadFileError object:nil];
 }
 
 - (void)dealloc {
@@ -220,12 +216,21 @@
 }
 
 - (IBAction)editPressed:(id)sender {
-    self.workMode = editMode;
-    [self.toolBar setHidden:NO];
-    [self.addButton setHidden:NO];
+    if (self.workMode == readMode) {
+        self.workMode = editMode;
+        [self.toolBar setHidden:NO];
+        [self.addButton setHidden:NO];
+        self.editItem.title = @"Done";
+    }
+    else {
+        self.workMode = readMode;
+        [self.toolBar setHidden:YES];
+        [self.addButton setHidden:YES];
+        self.editItem.title = NSLocalizedString(@"Edit", nil);
+    }
 }
 
-- (IBAction)deletSelectedItems:(id)sender {
+- (IBAction)deleteSelectedItems:(id)sender {
     if (self.selectedCellsIndexPath > 0) {
         NSMutableArray *deleteIndexes = [NSMutableArray array];
         for (NSIndexPath *indexPath in self.selectedCellsIndexPath) {
@@ -244,6 +249,7 @@
     self.workMode = readMode;
     [self.toolBar setHidden:YES];
     [self.addButton setHidden:YES];
+    self.editItem.title = NSLocalizedString(@"Edit", nil);
 }
 
 @end

@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *lable;
 @property (weak, nonatomic) IBOutlet UIImageView *chooseLabel;
 
+- (void)setText:(NSString *)text;
+- (void)setImage:(UIImage *)image;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -10,6 +10,7 @@
 #import <Photos/Photos.h>
 #import "PhotoCollectionViewCell.h"
 #import "UICollectionView.h"
+#import "AlertManager.h"
 
 @interface AddPhotosToGalleryViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *photosCollectionView;
@@ -154,7 +155,8 @@
 - (void)launchCamera {
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         
-        [self showErrorAlertWithTitle:@"Error" andMessage:@"Device has no camera"];
+        UIAlertController *alert = [[AlertManager defaultManager] showErrorAlertWithTitle:NSLocalizedString(@"Error", nil) andMessage:NSLocalizedString(@"Device has no camera", nil)];
+        [self presentViewController:alert animated:YES completion:nil];
         
     } else {
         UIImagePickerController *picker = [[UIImagePickerController alloc] init];
@@ -163,22 +165,6 @@
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
         [self presentViewController:picker animated:YES completion:nil];
     }
-}
-
-- (void)showErrorAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:title
-                                message:message
-                                preferredStyle:UIAlertControllerStyleAlert];
-    
-    
-    UIAlertAction *action = [UIAlertAction
-                             actionWithTitle:@"OK"
-                             style:UIAlertActionStyleCancel
-                             handler:nil];
-    
-    [alert addAction:action];
-    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - UIImagePickerControllerDelegate
@@ -193,7 +179,7 @@
             NSLog (@"%@", error);
         } else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self moveAllSelectedIndexes:1];
+                [self.photosCollectionView moveAllSelectedIndexes:1];
                 [self fetchAssetsFromPhotoLibrary];
                 [self.photosCollectionView reloadData];
             });
@@ -208,17 +194,5 @@
     [picker dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)moveAllSelectedIndexes:(NSInteger)delta {
-    NSSet *indexes = self.photosCollectionView.selectedCellsIndexPaths;
-    NSMutableSet *newIndexPathSet = [NSMutableSet set];
-    
-    for (NSIndexPath *indexPath in indexes) {
-        NSInteger section = [indexPath indexAtPosition:0];
-        NSInteger row = [indexPath indexAtPosition:1];
-        NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
-        [newIndexPathSet addObject:newIndexPath];
-    }
-    indexes = newIndexPathSet;
-};
 
 @end

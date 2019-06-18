@@ -49,7 +49,7 @@
     
 }
 
-- (void)deletPhotos:(nonnull NSSet<NSString *> *)deletedPhotoNames inGallery:(nonnull NSString *)galleryID byGalleryPath:(nonnull NSString *)path {
+- (void)deletePhotos:(nonnull NSSet<NSString *> *)deletedPhotoNames inGallery:(nonnull NSString *)galleryID byGalleryPath:(nonnull NSString *)path {
     
 }
 

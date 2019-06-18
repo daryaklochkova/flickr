@@ -1,0 +1,15 @@
+/* 
+  Localizeable.strings
+  URLLoadingSystem
+
+  Created by Darya Klochkova on 18/06/2019.
+  Copyright © 2019 Darya Klochkova. All rights reserved.
+*/
+
+"OK" = "Хорошо";
+"Error" = "Ошибка";
+"Device has no camera" = "Устройство не имеет фотокамеры";
+"Data loading failed" = "Загрузка данных не удалась";
+"Select" = "Выбрать";
+"Cancel" = "Отменить";
+"Edit" = "Редактировать";

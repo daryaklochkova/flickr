@@ -1,0 +1,12 @@
+
+/* Class = "UIButton"; normalTitle = "Edit photos"; ObjectID = "GAX-Ma-2vZ"; */
+"GAX-Ma-2vZ.normalTitle" = "Edit photos";
+
+/* Class = "UILabel"; text = "Gallery title"; ObjectID = "J99-xp-kui"; */
+"J99-xp-kui.text" = "Gallery title";
+
+/* Class = "UILabel"; text = "Description"; ObjectID = "PZE-n2-Vbj"; */
+"PZE-n2-Vbj.text" = "Description";
+
+/* Class = "UITextField"; placeholder = "Gallery title"; ObjectID = "Yz9-Px-jSF"; */
+"Yz9-Px-jSF.placeholder" = "Gallery title";

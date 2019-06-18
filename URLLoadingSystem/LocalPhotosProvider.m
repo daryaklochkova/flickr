@@ -7,9 +7,22 @@
 //
 
 #import "LocalPhotosProvider.h"
+#import "NSUserDefaults.h"
 
+@interface LocalPhotosProvider()
+@property (strong, nonatomic) NSUserDefaults *userDefaults;
+@end
 
 @implementation LocalPhotosProvider 
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.userDefaults = [NSUserDefaults standardUserDefaults];
+    }
+    return self;
+}
 
 - (void)getFileFrom:(nonnull NSURL *)remoteURL
              saveIn:(nonnull NSURL *)localFileURL
@@ -21,7 +34,7 @@ sucsessNotification:(nonnull NSNotification *)notification {
 
 - (void)getPhotosForGallery:(NSString * _Nullable)galleryID
                         use:(ReturnPhotosResult _Nullable)completionHandler {
-    NSArray *photosInfo = [self getPhotoInfoArrayForGallery:galleryID];
+    NSArray *photosInfo = [self.userDefaults getPhotoInfoArrayForGallery:galleryID];
     NSMutableArray *photos = [NSMutableArray array];
 
     for (NSString *photoID in photosInfo) {
@@ -31,16 +44,11 @@ sucsessNotification:(nonnull NSNotification *)notification {
     completionHandler(photos);
 }
 
-- (NSArray *)getPhotoInfoArrayForGallery:(NSString *)galleryID {
-    NSDictionary *targetGalleryInfo = [self getInfoForGallery:galleryID];
-    return [targetGalleryInfo valueForKey:@"photos"];
-}
-
 - (void)savePhotos:(nonnull NSArray<UIImage *> *)images
       forGalleryID:(nonnull NSString *)galleryID
             byPath:(nonnull NSString *)path {
     
-    NSDictionary *targetInfo = [self getInfoForGallery:galleryID];
+    NSDictionary *targetInfo = [self.userDefaults getInfoForGallery:galleryID];
     NSMutableDictionary *mutableInfo = targetInfo.mutableCopy;
     
     NSArray *photos = [targetInfo objectForKey:@"photos"];
@@ -56,38 +64,25 @@ sucsessNotification:(nonnull NSNotification *)notification {
     }
     
     [mutableInfo setValue:matablePhotos forKey:@"photos"];
-    [self resaveInfoForGallery:galleryID newInfo:mutableInfo];
+    [self.userDefaults resaveInfoForGallery:galleryID newInfo:mutableInfo];
 }
 
 - (void)savePrimaryPhoto:(UIImage *)image
             forGalleryID:(NSString *)galleryID
                   byPath:(NSString *)path {
-    NSDictionary *targetInfo = [self getInfoForGallery:galleryID];
+    NSDictionary *targetInfo = [self.userDefaults getInfoForGallery:galleryID];
     NSMutableDictionary *mutableInfo = targetInfo.mutableCopy;
     
     NSString *fileName = [NSString stringWithFormat:@"primary_%@", galleryID];
-    [self saveImage:image named:fileName byPath:path];
-    [mutableInfo setValue:fileName forKey:[primaryPhotoIdArgumentName copy]];
-    [self resaveInfoForGallery:galleryID newInfo:mutableInfo];
-}
-
-- (void)resaveInfoForGallery:(NSString *)galleryID
-                     newInfo:(NSDictionary *)newGalleryInfo {
-    NSArray *localGalleriesInfo = [self getLocalGalleriesInfo];
+    NSString *filePath = [path stringByAppendingPathComponent:fileName];
     
-    NSMutableArray *newLocalGalleriesInfo = [NSMutableArray array];
-    for (NSDictionary *galleryInfo in localGalleriesInfo) {
-        NSString *tmpGalleryID = [galleryInfo objectForKey:galleryIDArgumentName];
-        if ([tmpGalleryID isEqualToString:galleryID]) {
-            [newLocalGalleriesInfo addObject:newGalleryInfo];
-        }
-        else {
-            [newLocalGalleriesInfo addObject:galleryInfo];
-        }
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject:newLocalGalleriesInfo
-                                              forKey:[LocalGalleriesKey copy]];
+    [self saveImage:image named:fileName byPath:path];
+    [mutableInfo setValue:fileName forKey:[primaryPhotoIdArgumentName copy]];
+    [self.userDefaults resaveInfoForGallery:galleryID newInfo:mutableInfo];
 }
 
 - (void)saveImage:(UIImage *)image named:(NSString *)fileName byPath:(NSString *)path {
@@ -95,26 +90,11 @@ sucsessNotification:(nonnull NSNotification *)notification {
     [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
 }
 
-- (NSDictionary *)getInfoForGallery:(NSString * _Nullable)galleryID {
-    NSArray *localGalleriesInfo = [self getLocalGalleriesInfo];
-    for (NSDictionary *galleryInfo in localGalleriesInfo) {
-        NSString *tmpGalleryID = [galleryInfo objectForKey:galleryIDArgumentName];
-        if ([tmpGalleryID isEqualToString:galleryID]) {
-            return galleryInfo;
-        }
-    }
-    return nil;
-}
 
-- (NSArray *)getLocalGalleriesInfo {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    return [userDefaults objectForKey:[LocalGalleriesKey copy]];
-}
-
-- (void)deletPhotos:(NSSet<NSString *> *)deletedPhotoNames
+- (void)deletePhotos:(NSSet<NSString *> *)deletedPhotoNames
           inGallery:(NSString *)galleryID
       byGalleryPath:(NSString *)path {
-    NSArray *photosInfo = [self getPhotoInfoArrayForGallery:galleryID];
+    NSArray *photosInfo = [self.userDefaults getPhotoInfoArrayForGallery:galleryID];
     
     NSMutableArray *newPhotos = [NSMutableArray array];
     for (NSString *photoName in photosInfo) {
@@ -127,9 +107,9 @@ sucsessNotification:(nonnull NSNotification *)notification {
         }
     }
     
-    NSMutableDictionary *newGalleryInfo = [self getInfoForGallery:galleryID].mutableCopy;
+    NSMutableDictionary *newGalleryInfo = [self.userDefaults getInfoForGallery:galleryID].mutableCopy;
     [newGalleryInfo setValue:newPhotos forKey:@"photos"];
-    [self resaveInfoForGallery:galleryID newInfo:newGalleryInfo];
+    [self.userDefaults resaveInfoForGallery:galleryID newInfo:newGalleryInfo];
 }
 
 

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "User.h"
 #import "ListOfGalleries.h"
+#import "Gallery.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong, nonatomic) User *galleryOwner;
 @property (strong, nonatomic) ListOfGalleries *galleries;
+
+@property (strong, nonatomic) Gallery *editGallery;
 @end
 
 NS_ASSUME_NONNULL_END

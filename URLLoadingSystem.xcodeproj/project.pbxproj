@@ -8,6 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A009EFD6228EF8D900839F5D /* DataProviderNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */; };
+		A00C308222B77588005DEFA2 /* NSUserDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = A00C308122B77588005DEFA2 /* NSUserDefaults.m */; };
+		A00C308522B7CF0F005DEFA2 /* CellSizeProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A00C308422B7CF0F005DEFA2 /* CellSizeProvider.m */; };
+		A00C308A22B8BEED005DEFA2 /* AlertManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A00C308922B8BEED005DEFA2 /* AlertManager.m */; };
+		A00C308F22B8CE3B005DEFA2 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A00C309122B8CE3B005DEFA2 /* Localizable.strings */; };
+		A00C309822B8D152005DEFA2 /* AddGallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A00C309A22B8D152005DEFA2 /* AddGallery.storyboard */; };
 		A0147FF322817D4F00A4D94F /* Gallery.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF222817D4F00A4D94F /* Gallery.m */; };
 		A0147FF62282B21D00A4D94F /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF52282B21C00A4D94F /* Photo.m */; };
 		A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0147FF82282CB9B00A4D94F /* GalleryPhotosViewController.m */; };
@@ -22,7 +27,6 @@
 		A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A03E2D472289C7E500CD9DF6 /* GalleryCell.m */; };
 		A04BF47B22A7B502006895F6 /* UsersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A04BF47A22A7B502006895F6 /* UsersListViewController.m */; };
 		A04BF47E22A7B992006895F6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = A04BF47D22A7B992006895F6 /* User.m */; };
-		A04BF48322A7F65E006895F6 /* AddGallery.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A04BF48222A7F65E006895F6 /* AddGallery.storyboard */; };
 		A04BF48622A80338006895F6 /* AddGalleryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A04BF48522A80338006895F6 /* AddGalleryViewController.m */; };
 		A055BEDE228019ED00400256 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A055BEDD228019ED00400256 /* AppDelegate.m */; };
 		A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A055BEE0228019ED00400256 /* GalleriesListViewController.m */; };
@@ -54,6 +58,19 @@
 /* Begin PBXFileReference section */
 		A009EFD4228EF8D900839F5D /* DataProviderNetwork.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataProviderNetwork.h; sourceTree = "<group>"; };
 		A009EFD5228EF8D900839F5D /* DataProviderNetwork.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataProviderNetwork.m; sourceTree = "<group>"; };
+		A00C308022B77588005DEFA2 /* NSUserDefaults.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSUserDefaults.h; sourceTree = "<group>"; };
+		A00C308122B77588005DEFA2 /* NSUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaults.m; sourceTree = "<group>"; };
+		A00C308322B7CF0F005DEFA2 /* CellSizeProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellSizeProvider.h; sourceTree = "<group>"; };
+		A00C308422B7CF0F005DEFA2 /* CellSizeProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellSizeProvider.m; sourceTree = "<group>"; };
+		A00C308622B7DD81005DEFA2 /* GalleriesListViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListViewProtocol.h; sourceTree = "<group>"; };
+		A00C308822B8BEED005DEFA2 /* AlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlertManager.h; sourceTree = "<group>"; };
+		A00C308922B8BEED005DEFA2 /* AlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlertManager.m; sourceTree = "<group>"; };
+		A00C308D22B8CDC5005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
+		A00C308E22B8CDC5005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		A00C309022B8CE3B005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A00C309522B8CF0F005DEFA2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		A00C309D22B8D468005DEFA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/AddGallery.storyboard; sourceTree = "<group>"; };
+		A00C309E22B8D493005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AddGallery.strings; sourceTree = "<group>"; };
 		A0147FF122817D4F00A4D94F /* Gallery.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Gallery.h; sourceTree = "<group>"; };
 		A0147FF222817D4F00A4D94F /* Gallery.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Gallery.m; sourceTree = "<group>"; };
 		A0147FF42282B21C00A4D94F /* Photo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -81,7 +98,6 @@
 		A04BF47A22A7B502006895F6 /* UsersListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UsersListViewController.m; sourceTree = "<group>"; };
 		A04BF47C22A7B992006895F6 /* User.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		A04BF47D22A7B992006895F6 /* User.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		A04BF48222A7F65E006895F6 /* AddGallery.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = AddGallery.storyboard; sourceTree = "<group>"; };
 		A04BF48422A80338006895F6 /* AddGalleryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddGalleryViewController.h; sourceTree = "<group>"; };
 		A04BF48522A80338006895F6 /* AddGalleryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddGalleryViewController.m; sourceTree = "<group>"; };
 		A055BED9228019ED00400256 /* URLLoadingSystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = URLLoadingSystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +163,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A00C308722B8BED1005DEFA2 /* AlertManager */ = {
+			isa = PBXGroup;
+			children = (
+				A00C308822B8BEED005DEFA2 /* AlertManager.h */,
+				A00C308922B8BEED005DEFA2 /* AlertManager.m */,
+			);
+			name = AlertManager;
+			sourceTree = "<group>";
+		};
 		A0109EF8228BFF280055F946 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
@@ -172,6 +197,7 @@
 				A03E2D452289C7CB00CD9DF6 /* GalleryCell */,
 				A055BEDF228019ED00400256 /* GalleriesListViewController.h */,
 				A055BEE0228019ED00400256 /* GalleriesListViewController.m */,
+				A00C308622B7DD81005DEFA2 /* GalleriesListViewProtocol.h */,
 			);
 			name = GalleriesListViewController;
 			sourceTree = "<group>";
@@ -205,6 +231,8 @@
 				A027981A2296C770002B42FE /* UIScrollView.m */,
 				A0B2932622AE44570051358B /* UICollectionView.h */,
 				A0B2932722AE44570051358B /* UICollectionView.m */,
+				A00C308022B77588005DEFA2 /* NSUserDefaults.h */,
+				A00C308122B77588005DEFA2 /* NSUserDefaults.m */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -271,6 +299,8 @@
 			children = (
 				A03E2D462289C7E500CD9DF6 /* GalleryCell.h */,
 				A03E2D472289C7E500CD9DF6 /* GalleryCell.m */,
+				A00C308322B7CF0F005DEFA2 /* CellSizeProvider.h */,
+				A00C308422B7CF0F005DEFA2 /* CellSizeProvider.m */,
 			);
 			name = GalleryCell;
 			sourceTree = "<group>";
@@ -312,6 +342,7 @@
 		A055BEDB228019ED00400256 /* URLLoadingSystem */ = {
 			isa = PBXGroup;
 			children = (
+				A00C308722B8BED1005DEFA2 /* AlertManager */,
 				A037AE9422B24CC90058A5BF /* Permissions */,
 				A066485A229C1A7700066CEA /* Views */,
 				A0664859229C1A6300066CEA /* Constants */,
@@ -323,7 +354,7 @@
 				A0862CAB2292B5DB00F1855B /* Data provider */,
 				A055BEDC228019ED00400256 /* AppDelegate.h */,
 				A055BEDD228019ED00400256 /* AppDelegate.m */,
-				A04BF48222A7F65E006895F6 /* AddGallery.storyboard */,
+				A00C309A22B8D152005DEFA2 /* AddGallery.storyboard */,
 				A055BEE2228019ED00400256 /* Main.storyboard */,
 				A055BEE8228019F100400256 /* Assets.xcassets */,
 				A055BEEA228019F100400256 /* LaunchScreen.storyboard */,
@@ -340,6 +371,7 @@
 			children = (
 				A08503CF229805850083FEB7 /* Constants.h */,
 				A08503D0229805850083FEB7 /* Constants.m */,
+				A00C309122B8CE3B005DEFA2 /* Localizable.strings */,
 			);
 			name = Constants;
 			sourceTree = "<group>";
@@ -484,6 +516,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = A055BED0228019ED00400256;
 			productRefGroup = A055BEDA228019ED00400256 /* Products */;
@@ -501,12 +534,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				A055BEEC228019F100400256 /* LaunchScreen.storyboard in Resources */,
+				A00C308F22B8CE3B005DEFA2 /* Localizable.strings in Resources */,
 				A055BEE9228019F100400256 /* Assets.xcassets in Resources */,
 				A08503D9229836F10083FEB7 /* Footer.xib in Resources */,
 				A055BEE4228019ED00400256 /* Main.storyboard in Resources */,
+				A00C309822B8D152005DEFA2 /* AddGallery.storyboard in Resources */,
 				A06C9A1622A01A6D005A6AF3 /* MainPhotoCell.xib in Resources */,
 				A06C9A11229FC734005A6AF3 /* PhotoCell.xib in Resources */,
-				A04BF48322A7F65E006895F6 /* AddGallery.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,6 +558,7 @@
 				A06C9A04229FB65B005A6AF3 /* MainPhotoCollectionViewCell.m in Sources */,
 				A055BEE1228019ED00400256 /* GalleriesListViewController.m in Sources */,
 				A03E2D482289C7E500CD9DF6 /* GalleryCell.m in Sources */,
+				A00C308522B7CF0F005DEFA2 /* CellSizeProvider.m in Sources */,
 				A03E2D2522896D1E00CD9DF6 /* ListOfGalleries.m in Sources */,
 				A04BF47E22A7B992006895F6 /* User.m in Sources */,
 				A0664858229C16AB00066CEA /* ParserProvider.m in Sources */,
@@ -534,8 +569,10 @@
 				A04BF48622A80338006895F6 /* AddGalleryViewController.m in Sources */,
 				A0147FF92282CB9B00A4D94F /* GalleryPhotosViewController.m in Sources */,
 				A05C2A21228D379A009BF7BA /* JSONParser.m in Sources */,
+				A00C308A22B8BEED005DEFA2 /* AlertManager.m in Sources */,
 				A02798142296B006002B42FE /* GalleryCollectionViewDataSource.m in Sources */,
 				A04BF47B22A7B502006895F6 /* UsersListViewController.m in Sources */,
+				A00C308222B77588005DEFA2 /* NSUserDefaults.m in Sources */,
 				A037AE9322B24CC20058A5BF /* PermissionManager.m in Sources */,
 				A0B2932822AE44570051358B /* UICollectionView.m in Sources */,
 				A08503D1229805850083FEB7 /* Constants.m in Sources */,
@@ -558,10 +595,29 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		A00C309122B8CE3B005DEFA2 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A00C309022B8CE3B005DEFA2 /* ru */,
+				A00C309522B8CF0F005DEFA2 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A00C309A22B8D152005DEFA2 /* AddGallery.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A00C309D22B8D468005DEFA2 /* Base */,
+				A00C309E22B8D493005DEFA2 /* ru */,
+			);
+			name = AddGallery.storyboard;
+			sourceTree = "<group>";
+		};
 		A055BEE2228019ED00400256 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				A055BEE3228019ED00400256 /* Base */,
+				A00C308D22B8CDC5005DEFA2 /* ru */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -570,6 +626,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				A055BEEB228019F100400256 /* Base */,
+				A00C308E22B8CDC5005DEFA2 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -581,6 +638,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -640,6 +698,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

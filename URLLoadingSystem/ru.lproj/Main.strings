@@ -1,0 +1,18 @@
+
+/* Class = "UITextView"; text = "Gallery title"; ObjectID = "7Mu-fu-xQj"; */
+"7Mu-fu-xQj.text" = "Название галереи";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "Gwq-yS-hL7"; */
+"Gwq-yS-hL7.title" = "Назад";
+
+/* Class = "UIBarButtonItem"; title = "Back"; ObjectID = "RxM-HQ-sfS"; */
+"RxM-HQ-sfS.title" = "Назад";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Z5n-9H-VoZ"; */
+"Z5n-9H-VoZ.text" = "Заголовок";
+
+/* Class = "UINavigationItem"; title = "Galleries"; ObjectID = "cMp-ER-VQJ"; */
+"cMp-ER-VQJ.title" = "Галереи";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "utn-gB-RfG"; */
+"utn-gB-RfG.text" = "Метка";

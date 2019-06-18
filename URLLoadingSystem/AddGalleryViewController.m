@@ -7,10 +7,12 @@
 //
 
 #import "AddGalleryViewController.h"
-#import "Gallery.h"
 #import "Constants.h"
 #import "AddPhotosToGalleryViewController.h"
 #import "LocalGalleriesListProvider.h"
+#import "GalleryPhotosViewController.h"
+#import "GalleriesListViewProtocol.h"
+#import "AlertManager.h"
 
 @interface AddGalleryViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -18,9 +20,7 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImageView;
 
-@property (strong, nonatomic) NSMutableArray *selectedImages;
-
-@property (strong, nonatomic) Gallery *galleryNew;
+@property (strong, nonatomic) NSMutableArray<UIImage *> *selectedImages;
 
 @end
 
@@ -32,7 +32,19 @@
     [self configureLayout];
     [self subscribeToNotifications];
     
-    self.selectedImages = [NSMutableArray array];
+    if (self.editGallery) {
+        self.galleryTitleTextField.text  = self.editGallery.title;
+        self.descriptionTextView.text = self.editGallery.description;
+        self.selectedImages = [NSMutableArray array];
+        
+        NSString *filePath = [self.editGallery getLocalPathForPrimaryPhoto];
+        UIImage *image = [UIImage imageNamed:filePath];
+        self.coverImageView.image = image;
+        
+    } else {
+        self.editGallery = [[Gallery alloc] initWithDictionary:@{} andOwnerUser:self.galleryOwner];
+        self.selectedImages = [NSMutableArray array];
+    }
     
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognizer:)];
     [self.view addGestureRecognizer:recognizer];
@@ -132,23 +144,35 @@
 }
 
 
-- (IBAction)createNewGallery:(id)sender {
+- (IBAction)saveGallery:(id)sender {
     NSString *message;
     if (![self allRequiredFieldsAreFilled:&message]) {
         [self showErrorAlertWithTitle:@"Error" andMessage:message];
         return;
     }
-    if (self.galleries) {
-    NSDictionary *galleryInfo = @{
-                                  titleArgumentName:self.galleryTitleTextField.text,
-                                  descriptionArgumentName:self.descriptionTextView.text,
-                                  @"photos":[NSMutableArray array]
-                                  };
-
-        Gallery* gallery = [self.galleries addNewGallery:galleryInfo];
-        [gallery addPhotos:self.selectedImages];
-        [gallery addPrimaryPhoto:self.coverImageView.image];
+    
+    self.editGallery.title = self.galleryTitleTextField.text;
+    self.editGallery.galleryDescription = self.descriptionTextView.text;
+    
+    if (!self.editGallery.galleryID && self.galleries) {
+        NSDictionary *info = @{
+                               descriptionArgumentName:self.descriptionTextView.text,
+                               titleArgumentName:self.galleryTitleTextField.text,
+                               };
+        
+        self.editGallery = [self.galleries addNewGallery:info];
     }
+    
+    [self.editGallery addPhotos:self.selectedImages];
+    [self.editGallery addPrimaryPhoto:self.coverImageView.image];
+    
+    NSArray *viewControllers = [self.navigationController viewControllers];
+    UIViewController *parentViewController = [viewControllers objectAtIndex:viewControllers.count - 2];
+    
+    if ([parentViewController conformsToProtocol:@protocol(GalleriesListViewProtocol)]) {
+        ((id <GalleriesListViewProtocol>)parentViewController).needReloadContent = YES;
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -167,18 +191,7 @@
 }
 
 - (void)showErrorAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
-    UIAlertController *alert = [UIAlertController
-                                alertControllerWithTitle:title
-                                message:message
-                                preferredStyle:UIAlertControllerStyleAlert];
-    
-    
-    UIAlertAction *action = [UIAlertAction
-                             actionWithTitle:@"OK"
-                             style:UIAlertActionStyleCancel
-                             handler:nil];
-    
-    [alert addAction:action];
+    UIAlertController *alert = [[AlertManager defaultManager] showErrorAlertWithTitle:title andMessage:message];
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -195,7 +208,7 @@
 
 #pragma mark - Navigation
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue  *)segue sender:(id)sender {
     [super prepareForSegue:segue sender:sender];
     
     UIViewController *destinationController = segue.destinationViewController;
@@ -206,5 +219,19 @@
     }
 }
 
+- (IBAction)editPhotos:(id)sender {
+    if (self.editGallery.galleryID) {
+        UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        GalleryPhotosViewController *nextViewController = [nextStoryBoard instantiateViewControllerWithIdentifier:@"galleryPhotosVC"];
+        nextViewController.gallery = self.editGallery;
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
+    else {
+        UIStoryboard *nextStoryBoard = [UIStoryboard storyboardWithName:@"AddGallery" bundle:nil];
+        AddPhotosToGalleryViewController *nextViewController = [nextStoryBoard instantiateViewControllerWithIdentifier:@"AddPhotosVC"];
+        nextViewController.selectedImages = self.selectedImages;
+        [self.navigationController pushViewController:nextViewController animated:YES];
+    }
+}
 
 @end

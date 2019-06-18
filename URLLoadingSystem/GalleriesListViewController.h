@@ -12,8 +12,9 @@
 #import "GalleryPhotosViewController.h"
 #import "GalleriesListProvider.h"
 #import "User.h"
+#import "GalleriesListViewProtocol.h"
 
-@interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface GalleriesListViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, GalleriesListViewProtocol>
 
 @property (strong, nonatomic) ListOfGalleries *listOfGalleries;
 @property (strong, nonatomic) User *owner;
