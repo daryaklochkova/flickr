@@ -52,9 +52,9 @@
     return [targetGalleryInfo valueForKey:@"photos"];
 }
 
-- (void)saveGalleryInfoInUserDefaults:(NSMutableDictionary *)galleryInfo {
+- (void)saveGalleryInfo:(NSMutableDictionary *)galleryInfo {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray *localGalleriesInfo = [userDefaults objectForKey:[LocalGalleriesKey copy]];
+    NSArray *localGalleriesInfo = [self getLocalGalleriesInfo];
     
     if (localGalleriesInfo) {
         NSMutableArray *mutableGalleriesInfo = [NSMutableArray arrayWithArray:localGalleriesInfo];

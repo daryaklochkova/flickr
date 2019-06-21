@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSArray *)getLocalGalleriesInfo;
 - (NSArray *)getPhotoInfoArrayForGallery:(NSString *)galleryID;
-- (NSDictionary *)getInfoForGallery:(NSString * _Nullable)galleryID;
+- (NSDictionary * _Nullable)getInfoForGallery:(NSString * _Nullable)galleryID;
 
-- (void)saveGalleryInfoInUserDefaults:(NSMutableDictionary *)galleryInfo;
+- (void)saveGalleryInfo:(NSMutableDictionary *)galleryInfo;
 - (void)deleteGalleryInfoByID:(NSString *)galleryID;
 - (void)resaveInfoForGallery:(NSString *)galleryID newInfo:(NSDictionary *)newGalleryInfo;
 

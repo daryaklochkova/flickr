@@ -40,6 +40,8 @@ extern NSNotificationName const ListOfGalleriesSuccessfulRecieved;
 - (Gallery *)getGalleryAtIndex:(NSInteger)index;
 - (NSInteger)countOfGalleries;
 - (NSArray<Gallery *> *)getGalleries;
+
+- (NSInteger)getIndexForGallery:(NSString *)galleryID;
 @end
 
 NS_ASSUME_NONNULL_END

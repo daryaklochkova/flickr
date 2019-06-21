@@ -59,8 +59,18 @@
 
 
 - (void)saveGallery:(nonnull Gallery *)gallery {
-    
+   //flickr.galleries.create
 }
+
+- (void)deleteGalleries:(nonnull NSSet<NSString *> *)galleryIDs inFolder:(nonnull NSString *)path {
+    //flickr.galleries.removePhoto
+}
+
+
+- (void)updateGalleryInfo:(nonnull Gallery *)gallery {
+    //flickr.galleries.editMeta
+}
+
 
 
 @end

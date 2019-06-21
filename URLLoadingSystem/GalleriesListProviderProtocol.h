@@ -10,6 +10,8 @@
 #import "ResponseParser.h"
 #import "Gallery.h"
 
+extern const NSNotificationName _Nullable GalleriesInfoWasChanged;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol GalleriesListProviderProtocol <NSObject>

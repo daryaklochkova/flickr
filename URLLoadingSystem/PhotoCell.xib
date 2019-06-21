@@ -13,7 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PhotoCollectionViewCell">
             <connections>
                 <outlet property="activityIndicator" destination="MBG-A1-smd" id="XeX-Od-1sr"/>
-                <outlet property="cell" destination="66r-jE-8ha" id="jPh-yR-0YX"/>
+                <outlet property="cell" destination="66r-jE-8ha" id="K7I-Av-Bd0"/>
                 <outlet property="chooseLabel" destination="ERx-WF-eaX" id="bJV-Ye-Iya"/>
             </connections>
         </placeholder>

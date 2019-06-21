@@ -9,6 +9,9 @@
 #import "LocalPhotosProvider.h"
 #import "NSUserDefaults.h"
 
+const NSNotificationName PhotosInGalleryWasChanged = @"PhotosInGalleryWasChanged";
+const NSString *changedGalleryKey = @"PhotosInGalleryWasChangedKey";
+
 @interface LocalPhotosProvider()
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
 @end
@@ -44,6 +47,19 @@ sucsessNotification:(nonnull NSNotification *)notification {
     completionHandler(photos);
 }
 
+- (void)sendPhotosWasChangeInGallery:(NSString *)galleryID {
+    
+    NSDictionary *info = @{
+                           changedGalleryKey:galleryID
+                           };
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:PhotosInGalleryWasChanged
+         object:info];
+    });
+}
+
 - (void)savePhotos:(nonnull NSArray<UIImage *> *)images
       forGalleryID:(nonnull NSString *)galleryID
             byPath:(nonnull NSString *)path {
@@ -66,6 +82,8 @@ sucsessNotification:(nonnull NSNotification *)notification {
     
     [mutableInfo setValue:matablePhotos forKey:@"photos"];
     [self.userDefaults resaveInfoForGallery:galleryID newInfo:mutableInfo];
+    
+    [self sendPhotosWasChangeInGallery:galleryID];
 }
 
 
@@ -85,13 +103,15 @@ sucsessNotification:(nonnull NSNotification *)notification {
     [self saveImage:image named:fileName byPath:path];
     [mutableInfo setValue:fileName forKey:[primaryPhotoIdArgumentName copy]];
     [self.userDefaults resaveInfoForGallery:galleryID newInfo:mutableInfo];
+    
+    [self sendPhotosWasChangeInGallery:galleryID];
 }
+
 
 - (void)saveImage:(UIImage *)image named:(NSString *)fileName byPath:(NSString *)path {
     NSString *filePath = [path stringByAppendingPathComponent:fileName];
     [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
 }
-
 
 - (void)deletePhotos:(NSSet<NSString *> *)deletedPhotoNames
           inGallery:(NSString *)galleryID
@@ -112,6 +132,8 @@ sucsessNotification:(nonnull NSNotification *)notification {
     NSMutableDictionary *newGalleryInfo = [self.userDefaults getInfoForGallery:galleryID].mutableCopy;
     [newGalleryInfo setValue:newPhotos forKey:@"photos"];
     [self.userDefaults resaveInfoForGallery:galleryID newInfo:newGalleryInfo];
+    
+    [self sendPhotosWasChangeInGallery:galleryID];
 }
 
 

@@ -15,12 +15,12 @@
 #import "AddPhotosToGalleryViewController.h"
 #import "PhotoCollectionViewCell.h"
 #import "AlertManager.h"
+#import "LocalPhotosProvider.h"
 
 @interface GalleryPhotosViewController()
 
 @property (weak, nonatomic) IBOutlet UICollectionView *galleryCollectionView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
-@property (weak, nonatomic) IBOutlet UIButton *addButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *trash;
 
@@ -68,10 +68,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     if (self.workMode == editMode && self.selectedImages.count > 0) {
-        [self.gallery addPhotos:self.selectedImages];
-        self.selectedImages = [NSMutableArray array];
-        [self reloadGalleryContent];
+        
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf.gallery addPhotos:self.selectedImages];
+            strongSelf.selectedImages = [NSMutableArray array];
+        });  
     }
 }
 
@@ -84,19 +90,48 @@
 }
 
 
-#pragma mark - Initialization
+#pragma mark - Subscribe to notifications
 
 - (void)subscribeToNotifications {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadItem:) name:fileDownloadComplite object:nil];
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showPreviews:) name:PhotosInformationReceived object:nil];
+    [center addObserver:self
+               selector:@selector(reloadItem:)
+                   name:fileDownloadComplite
+                 object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
-                                                 name:dataFetchError object:nil];
+    [center addObserver:self
+               selector:@selector(showPreviews:)
+                   name:PhotosInformationReceived
+                 object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showAlert:)
-                                                 name:dataParsingFailed object:nil];
+    [center addObserver:self
+               selector:@selector(showAlert:)
+                   name:dataFetchError
+                 object:nil];
+    
+    [center addObserver:self
+               selector:@selector(showAlert:)
+                   name:dataParsingFailed
+                 object:nil];
+    
+    [center addObserver:self
+               selector:@selector(photosInGalleryWasChangedRecieved:)
+                   name:PhotosInGalleryWasChanged
+                 object:nil];
 }
+
+#pragma mark - Notifigation handlers
+
+- (void)photosInGalleryWasChangedRecieved:(NSNotification *)notification {
+    NSString *galleryID = [notification.object valueForKey:[changedGalleryKey copy]];
+    
+    if ([self.gallery.galleryID isEqualToString:galleryID]) {
+        [self reloadGalleryContent];
+    }
+}
+
+#pragma mark - Initialization
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -107,10 +142,13 @@
         //self.gallery = [[Gallery alloc] initWithDictionary:@"72157704531735241"];
     }
     
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.gallery reloadContent];
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf.gallery reloadContent];
     });
 }
+
 
 #pragma mark - Work with view
 
@@ -218,14 +256,12 @@
 - (void)setEditeMode {
     self.workMode = editMode;
     [self.toolBar setHidden:NO];
-    [self.addButton setHidden:NO];
     self.editItem.title = NSLocalizedString(@"Done", nil);
 }
 
 - (void)setWorkMode {
     self.workMode = readMode;
     [self.toolBar setHidden:YES];
-    [self.addButton setHidden:YES];
     self.editItem.title = NSLocalizedString(@"Edit", nil);
 }
 
@@ -245,10 +281,14 @@
             NSNumber *index = [NSNumber numberWithInteger:[indexPath indexAtPosition:1]];
             [deleteIndexes addObject:index];
         }
-        [self.gallery deletePhotosByIndexes:deleteIndexes];
+        
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            __strong typeof(self) strongSelf = weakSelf;
+            [strongSelf.gallery deletePhotosByIndexes:deleteIndexes];
+        });
     }
     
-    [self reloadGalleryContent];
     self.selectedCellsIndexPath = [NSMutableSet set];
     [self.trash setEnabled:NO];
 }
@@ -256,7 +296,6 @@
 - (IBAction)editingDone:(id)sender {
     self.workMode = readMode;
     [self.toolBar setHidden:YES];
-    [self.addButton setHidden:YES];
     self.editItem.title = NSLocalizedString(@"Edit", nil);
 }
 

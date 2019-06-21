@@ -89,11 +89,10 @@ const NSNotificationName downloadFileError = @"downloadFileError";
     return ![self.continuation isEqualToString:[continuationEndValue copy]];
 }
 
-- (ReturnResultWithContinuation)createReturnResultWithContinuationWith:(ReturnResult)returnResultBlock{
+- (ReturnResultWithContinuation)createReturnResultWithContinuationWith:(ReturnResult)returnResultBlock {
     __weak typeof(self) weakSelf = self;
     ReturnResultWithContinuation block = ^(NSArray * _Nullable result, NSString *continuation) {
-        __strong typeof(self) strongSelf = weakSelf;
-        strongSelf.continuation = continuation;
+        weakSelf.continuation = continuation;
         returnResultBlock(result);
     };
     

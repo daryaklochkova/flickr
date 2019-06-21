@@ -15,14 +15,6 @@
 static char UIB_PROPERTY_KEY;
 @dynamic selectedCellsIndexPaths;
 
-//- (instancetype)initWithCoder:(NSCoder *)aDecoder
-//{
-//    self = [super initWithCoder:aDecoder];
-//    if (self) {
-//        self.selectedCellsIndexPaths = [NSMutableSet set];
-//    }
-//    return self;
-//}
 
 -(NSObject*)selectedCellsIndexPaths
 {
@@ -86,7 +78,7 @@ static char UIB_PROPERTY_KEY;
         NSIndexPath *newIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:section];
         [newIndexPathSet addObject:newIndexPath];
     }
-    indexes = newIndexPathSet;
+    self.selectedCellsIndexPaths = newIndexPathSet;
 };
 
 @end

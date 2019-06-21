@@ -10,7 +10,9 @@
 
 @implementation UIScrollView (ZoomToPoint)
 
-- (void)zoomToPoint:(CGPoint)zoomPoint withScale: (CGFloat)scale animated: (BOOL)animated
+- (void)zoomToPoint:(CGPoint)zoomPoint
+          withScale:(CGFloat)scale
+           animated:(BOOL)animated
 {
     //Normalize current content size back to content scale of 1.0f
     CGSize contentSize;
@@ -39,13 +41,13 @@
 @end
 
 
-@implementation UIScrollView (IsEdgeReached)
+@implementation UIScrollView(IsEdgeReached)
 
-- (BOOL)isBottomReached{
+- (BOOL)isBottomReached {
     return (self.contentOffset.y >= (self.contentSize.height - self.frame.size.height));
 }
 
-- (BOOL)isTopReached{
+- (BOOL)isTopReached {
     return (self.contentOffset.y < 0);
 }
 

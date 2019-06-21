@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)defaultProvider;
 
-- (id <Parser>)getParser;
+- (id <Parser> _Nullable)getParser;
 
 @end
 

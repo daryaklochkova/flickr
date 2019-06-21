@@ -70,7 +70,10 @@
         @autoreleasepool {
             [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
                 __strong typeof(self) strongSelf = weakSelf;
-                [strongSelf.selectedImages addObject:result];
+                
+                @synchronized(strongSelf) {
+                    [strongSelf.selectedImages addObject:result];
+                }
             }];
         }
     }
@@ -178,10 +181,13 @@
         if (error) {
             NSLog (@"%@", error);
         } else {
+            
+            __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.photosCollectionView moveAllSelectedIndexes:1];
-                [self fetchAssetsFromPhotoLibrary];
-                [self.photosCollectionView reloadData];
+                __strong typeof(self) strongSelf = weakSelf;
+                [strongSelf.photosCollectionView moveAllSelectedIndexes:1];
+                [strongSelf fetchAssetsFromPhotoLibrary];
+                [strongSelf.photosCollectionView reloadData];
             });
         }
     }];

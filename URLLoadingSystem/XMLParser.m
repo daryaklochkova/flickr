@@ -15,7 +15,7 @@ const NSNotificationName dataParsingFailed = @"dataParsingFailed";
 
 @synthesize responseParser;
 
-- (void)parse:(NSData *) data{
+- (void)parse:(NSData *)data {
     NSXMLParser *nsXmlParser = [[NSXMLParser alloc] initWithData:data];
     [nsXmlParser setDelegate:self];
     [nsXmlParser parse];
@@ -27,12 +27,9 @@ const NSNotificationName dataParsingFailed = @"dataParsingFailed";
 - (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName
                                         namespaceURI:(NSString *)namespaceURI
                                         qualifiedName:(NSString *)qName
-                                        attributes:(NSDictionary *)attributeDict{
+                                        attributes:(NSDictionary *)attributeDict {
     
-    if ([elementName isEqualToString:@"err"]){
-        //        NSString *value = [attributeDict objectForKey:@"stat"];
-        //
-        //        if ([value isEqualToString:@"fail"]){
+    if ([elementName isEqualToString:@"err"]) {
         NSString *message = [attributeDict objectForKey:@"msg"];
         NSString *code = [attributeDict objectForKey:@"code"];
         

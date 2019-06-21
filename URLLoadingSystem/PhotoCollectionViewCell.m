@@ -9,7 +9,7 @@
 #import "PhotoCollectionViewCell.h"
 
 @interface PhotoCollectionViewCell()
-@property (strong, nonatomic) IBOutlet UICollectionViewCell *cell;
+@property (weak, nonatomic) IBOutlet UICollectionViewCell *cell;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;
 @property (weak, nonatomic) IBOutlet UIImageView *chooseLabel;
 

@@ -168,8 +168,8 @@ NSString * const photoIndex = @"photoIndex";
 
 
 - (ReturnResult)getResponseHandler {
-    __weak typeof(self) weakSelf = self;
     
+    __weak typeof(self) weakSelf = self;
     ReturnResult block = ^(NSArray * _Nullable result) {
         __strong typeof(self) strongSelf = weakSelf;
         @synchronized (strongSelf) {

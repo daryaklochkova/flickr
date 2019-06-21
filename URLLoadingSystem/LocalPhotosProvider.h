@@ -10,6 +10,9 @@
 #import <UIKit/UIKit.h>
 #import "PhotoProviderProtocol.h"
 
+extern const NSNotificationName PhotosInGalleryWasChanged;
+extern const NSString *changedGalleryKey;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LocalPhotosProvider : NSObject <PhotoProviderProtocol>

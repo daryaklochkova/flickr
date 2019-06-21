@@ -11,7 +11,6 @@
 #import "AddPhotosToGalleryViewController.h"
 #import "LocalGalleriesListProvider.h"
 #import "GalleryPhotosViewController.h"
-#import "GalleriesListViewProtocol.h"
 #import "AlertManager.h"
 #import "WorkModes.h"
 
@@ -100,6 +99,10 @@
     else if ([self.galleryTitleTextField isFirstResponder]) {
         fieldFrame = [self.galleryTitleTextField convertRect:self.galleryTitleTextField.frame toView:self.view];
     }
+    else {
+        return;
+    }
+ 
     fieldFrame.size.height += 5;
     
     if (CGRectIntersectsRect(fieldFrame, keyboardFrame)) {
@@ -111,6 +114,7 @@
         self.scrollView.scrollIndicatorInsets = contentInsets;
     }
 }
+
 
 - (void)keyboardWillHide:(NSNotification*)notification {
     UIEdgeInsets contentInsets = UIEdgeInsetsZero;
@@ -147,6 +151,42 @@
 }
 
 
+- (void)addNewGallery {
+    NSDictionary *info = @{
+                           descriptionArgumentName:self.descriptionTextView.text,
+                           titleArgumentName:self.galleryTitleTextField.text,
+                           };
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __strong typeof(self) strongSelf = weakSelf;
+        strongSelf.editGallery = [strongSelf.galleries addNewGallery:info];
+        
+        if (strongSelf.selectedImages.count > 0) {
+            [strongSelf.editGallery addPhotos:strongSelf.selectedImages];
+        }
+        
+        if (strongSelf.coverImage) {
+            [strongSelf.editGallery addPrimaryPhoto:strongSelf.coverImage];
+        }
+    });
+}
+
+- (void)changeGalleryInfo {
+    self.editGallery.title = self.galleryTitleTextField.text;
+    self.editGallery.galleryDescription = self.descriptionTextView.text;
+    
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf.galleries changeGalleryInfo:strongSelf.editGallery];
+        
+        if (strongSelf.coverImage) {
+            [strongSelf.editGallery addPrimaryPhoto:strongSelf.coverImage];
+        }
+    });
+}
+
 - (IBAction)saveGallery:(id)sender {
     NSString *message;
     if (![self allRequiredFieldsAreFilled:&message]) {
@@ -155,38 +195,10 @@
     }
     
     if (!self.editGallery && self.galleries) {
-        NSDictionary *info = @{
-                               descriptionArgumentName:self.descriptionTextView.text,
-                               titleArgumentName:self.galleryTitleTextField.text,
-                               };
-        
-        self.editGallery = [self.galleries addNewGallery:info];
-        
-        if (self.selectedImages.count > 0) {
-            [self.editGallery addPhotos:self.selectedImages];
-        }
-        
-        if (self.coverImage) {
-            [self.editGallery addPrimaryPhoto:self.coverImage];
-        }
+        [self addNewGallery];
     }
     else {
-        self.editGallery.title = self.galleryTitleTextField.text;
-        self.editGallery.galleryDescription = self.descriptionTextView.text;
-        [self.galleries changeGalleryInfo:self.editGallery];
-        
-        if (self.coverImage) {
-            [self.editGallery addPrimaryPhoto:self.coverImage];
-        }
-    }
-    
-
-    
-    NSArray *viewControllers = [self.navigationController viewControllers];
-    UIViewController *parentViewController = [viewControllers objectAtIndex:viewControllers.count - 2];
-    
-    if ([parentViewController conformsToProtocol:@protocol(GalleriesListViewProtocol)]) {
-        ((id <GalleriesListViewProtocol>)parentViewController).needReloadContent = YES;
+        [self changeGalleryInfo];
     }
     
     [self.navigationController popViewControllerAnimated:YES];

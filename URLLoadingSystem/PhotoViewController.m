@@ -109,15 +109,18 @@
         (swipe.direction & UISwipeGestureRecognizerDirectionDown))
     {
         [self showNavigationItems];
-        [self.navigationController popViewControllerAnimated:NO];
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
     }
     
     if (swipe.direction & UISwipeGestureRecognizerDirectionLeft){
         [self showPhoto:[self.gallery nextPhotoIndex]];
+        return;
     }
     
     if (swipe.direction & UISwipeGestureRecognizerDirectionRight){
         [self showPhoto:[self.gallery previousPhotoIndex]];
+        return;
     }
 }
 
@@ -177,7 +180,7 @@
     
     self.currentItemIndexPath = [NSIndexPath indexPathForItem:index inSection:0];
     
-    [self.mainCollectionView scrollToItemAtIndexPath:self.currentItemIndexPath  atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    [self.mainCollectionView scrollToItemAtIndexPath:self.currentItemIndexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
     
     [self.auxiliaryCollectionView scrollToItemAtIndexPath:self.currentItemIndexPath  atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
 }

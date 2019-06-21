@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "URLLoadingSystem/Gallery.m"
-            timestampString = "582561696.823298"
+            filePath = "URLLoadingSystem/GalleryCollectionViewDataSource.m"
+            timestampString = "582725846.545886"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
-            landmarkName = "-initWithDictionary:andOwnerUser:"
+            startingLineNumber = "45"
+            endingLineNumber = "45"
+            landmarkName = "-collectionView:cellForItemAtIndexPath:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "582561696.823763"
+            filePath = "URLLoadingSystem/PhotoCollectionViewCell.m"
+            timestampString = "582725846.546446"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "397"
-            endingLineNumber = "397"
-            landmarkName = "-isAllowEditGallery"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-setImageToImageView:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "582561696.82409"
+            filePath = "URLLoadingSystem/PhotoCollectionViewCell.m"
+            timestampString = "582725846.546743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "392"
-            endingLineNumber = "392"
-            landmarkName = "-isAllowDeleteGallery"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "-configureViewWithWidth:andHeight:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,45 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "URLLoadingSystem/GalleriesListViewController.m"
-            timestampString = "582561696.824168"
+            filePath = "URLLoadingSystem/PhotoCollectionViewCell.m"
+            timestampString = "582725846.546813"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "178"
-            endingLineNumber = "178"
-            landmarkName = "-switchNavigationItems"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "URLLoadingSystem/AddGalleryViewController.m"
-            timestampString = "582561696.824244"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "-editPhotos:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "URLLoadingSystem/GalleryPhotosViewController.m"
-            timestampString = "582561696.824507"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "-configureViewWithSize:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

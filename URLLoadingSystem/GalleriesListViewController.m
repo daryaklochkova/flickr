@@ -18,6 +18,7 @@
 #import "UICollectionView.h"
 #import "CellSizeProvider.h"
 #import "AlertManager.h"
+#import "LocalPhotosProvider.h"
 
 @interface GalleriesListViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionView *listOfGalleriesCollectionView;
@@ -41,7 +42,6 @@
 @end
 
 @implementation GalleriesListViewController
-@synthesize needReloadContent;
 
 #pragma mark - UIViewController methods
 
@@ -56,6 +56,7 @@
     }
     self.workMode = readMode;
     
+    [self setDataProvider];
     [self loadListOfGalleries];
     [self.activityIndicator startAnimating];
     [self subscribeToNotifications];
@@ -72,12 +73,6 @@
     
     if (self.workMode == editMode) {
         [self editingDone:self.editItem];
-    }    
-    
-    if (self.needReloadContent) {
-        [self loadListOfGalleries];
-        [self.listOfGalleriesCollectionView reloadData];
-        self.needReloadContent = NO;
     }
 }
 
@@ -100,7 +95,7 @@
 
 #pragma mark - Initialization
 
-- (void)loadListOfGalleries {
+- (void)setDataProvider {
     self.listOfGalleries = [[ListOfGalleries alloc] initWithUser:self.owner];
     
     id <GalleriesListProviderProtocol> dataProvider;
@@ -112,10 +107,14 @@
     }
     
     [self.listOfGalleries setDataProvider:dataProvider];
+}
+
+- (void)loadListOfGalleries {
+    self.isUpdateStarted = YES;
     
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        self.isUpdateStarted = YES;
-        [self.listOfGalleries updateContent];
+        [weakSelf.listOfGalleries updateContent];
     });
 }
 
@@ -147,6 +146,15 @@
     [notificationCenter addObserver:self
                            selector:@selector(deviceOrientationDidChanged:)
                                name:UIDeviceOrientationDidChangeNotification object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(loadListOfGalleries)
+                               name:GalleriesInfoWasChanged object:nil];
+    
+    [notificationCenter addObserver:self
+                           selector:@selector(photosInGalleryWasChangedHandle:)
+                               name:PhotosInGalleryWasChanged object:nil];
+    
 }
 
 #pragma mark - Notifications handlers
@@ -155,6 +163,16 @@
     [self.listOfGalleriesCollectionView scrollToItemAtIndexPath:self.displayItem
                                                atScrollPosition:UICollectionViewScrollPositionCenteredVertically
                                                        animated:NO];
+}
+
+- (void)photosInGalleryWasChangedHandle:(NSNotification *)notification {
+    NSString *galleryID = [notification.object valueForKey:[changedGalleryKey copy]];
+    
+    NSInteger index = [self.listOfGalleries getIndexForGallery:galleryID];
+    
+    if (index != -1) {
+        [self reloadGalleryItemAt:[NSIndexPath indexPathForRow:index inSection:0]];
+    }
 }
 
 - (void)listOfGalleriesRecieved:(NSNotification *)notification {
@@ -204,11 +222,7 @@
     return [self.listOfGalleries getGalleryAtIndex:[indexPath indexAtPosition:1]];
 }
 
-- (void)reloadItem:(NSNotification *)notification {
-    NSNumber * number = [[notification object] valueForKey:galleryIndex];
-    NSInteger index = [number integerValue];
-    NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    
+- (void)reloadGalleryItemAt:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [self.listOfGalleriesCollectionView cellForItemAtIndexPath:indexPath];
     
     if (cell && [cell isKindOfClass:[GalleryCell class]]){
@@ -218,24 +232,27 @@
     }
 }
 
+- (void)reloadItem:(NSNotification *)notification {
+    NSNumber * number = [notification.object valueForKey:galleryIndex];
+    NSInteger index = [number integerValue];
+    NSIndexPath * indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    
+    [self reloadGalleryItemAt:indexPath];
+}
+
 
 #pragma mark - UICollectionViewDataSource
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
     
-    if (kind == UICollectionElementKindSectionFooter) {
+    if ([supplementaryElement isKindOfClass:[FooterCollectionReusableView class]]) {
+        FooterCollectionReusableView *footer = (FooterCollectionReusableView *)supplementaryElement;
         
-        UICollectionReusableView *supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
-        
-        if ([supplementaryElement isKindOfClass:[FooterCollectionReusableView class]]) {
-            FooterCollectionReusableView *footer = (FooterCollectionReusableView *)supplementaryElement;
-            
-            self.collectionViewFooter = footer;
-            return footer;
-        }
+        self.collectionViewFooter = footer;
+        return footer;
     }
-    
-    return nil;
+    return supplementaryElement;
 }
 
 

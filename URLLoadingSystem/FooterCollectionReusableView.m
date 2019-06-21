@@ -44,10 +44,14 @@
     [self.indicator startAnimating];
     
     double delayInSeconds = 2.0;
+    
+    __weak typeof(self) weakSelf = self;
+    
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, delayInSeconds * NSEC_PER_SEC);
     dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-        [self.indicator stopAnimating];
-        [self configureViewWithWidth:width andHeight:0];
+        __strong typeof(self) strongSelf = weakSelf;
+        [strongSelf.indicator stopAnimating];
+        [strongSelf configureViewWithWidth:width andHeight:0];
     });
 }
 

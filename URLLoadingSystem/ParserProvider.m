@@ -23,7 +23,7 @@
 }
 
 
-- (id <Parser>)getParser{
+- (id <Parser>)getParser {
     NSString *format = [[NSUserDefaults standardUserDefaults] objectForKey:[formatArgumentName copy]];
     
     if ([format isEqualToString:@"json"]){

@@ -58,13 +58,15 @@
         __strong typeof(self) strongSelf = weakSelf;
         
         //error = [[NSError alloc] init];
-        if (error){
+        if (error) {
             NSURLCache *cache = strongSelf.defaultSession.configuration.URLCache;
             NSCachedURLResponse *cachedResponce = [cache cachedResponseForRequest:request];
             
-            if (cachedResponce){
+            if (cachedResponce) {
+                __weak id<Parser> weakParser = parser;
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [parser parse:cachedResponce.data];
+                    __strong id<Parser> strongParser = weakParser;
+                    [strongParser parse:cachedResponce.data];
                 });
                 succcessBlock(cachedResponce.data);
             }

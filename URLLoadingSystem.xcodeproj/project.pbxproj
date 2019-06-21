@@ -63,7 +63,6 @@
 		A00C308122B77588005DEFA2 /* NSUserDefaults.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaults.m; sourceTree = "<group>"; };
 		A00C308322B7CF0F005DEFA2 /* CellSizeProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CellSizeProvider.h; sourceTree = "<group>"; };
 		A00C308422B7CF0F005DEFA2 /* CellSizeProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CellSizeProvider.m; sourceTree = "<group>"; };
-		A00C308622B7DD81005DEFA2 /* GalleriesListViewProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GalleriesListViewProtocol.h; sourceTree = "<group>"; };
 		A00C308822B8BEED005DEFA2 /* AlertManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlertManager.h; sourceTree = "<group>"; };
 		A00C308922B8BEED005DEFA2 /* AlertManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AlertManager.m; sourceTree = "<group>"; };
 		A00C308D22B8CDC5005DEFA2 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
@@ -175,14 +174,6 @@
 			name = AlertManager;
 			sourceTree = "<group>";
 		};
-		A00C30BF22B8EA33005DEFA2 /* GalleriesViewProtocol */ = {
-			isa = PBXGroup;
-			children = (
-				A00C308622B7DD81005DEFA2 /* GalleriesListViewProtocol.h */,
-			);
-			name = GalleriesViewProtocol;
-			sourceTree = "<group>";
-		};
 		A0109EF8228BFF280055F946 /* Parsers */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,7 +196,6 @@
 		A02798152296C499002B42FE /* GalleriesListViewController */ = {
 			isa = PBXGroup;
 			children = (
-				A00C30BF22B8EA33005DEFA2 /* GalleriesViewProtocol */,
 				A03E2D452289C7CB00CD9DF6 /* GalleryCell */,
 				A055BEDF228019ED00400256 /* GalleriesListViewController.h */,
 				A055BEE0228019ED00400256 /* GalleriesListViewController.m */,

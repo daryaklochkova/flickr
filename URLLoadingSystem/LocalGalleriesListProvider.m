@@ -9,10 +9,11 @@
 #import "LocalGalleriesListProvider.h"
 #import "NSUserDefaults.h"
 
+const NSNotificationName GalleriesInfoWasChanged = @"GalleriesInfoWasChanged";
+
 @interface LocalGalleriesListProvider()
 @property (strong, nonatomic) NSUserDefaults *userDefaults;
 @end
-
 
 @implementation LocalGalleriesListProvider
 
@@ -37,6 +38,13 @@
     }
 }
 
+- (void)sendGalleriesInfoWasChangedNotification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:GalleriesInfoWasChanged
+                                                            object:nil];
+    });
+}
+
 - (void)saveGallery:(Gallery *)gallery {
     NSDictionary *galleryInfo = @{
                                   galleryIDArgumentName:gallery.galleryID,
@@ -46,7 +54,9 @@
                                   @"photos":[NSMutableArray array]
                                   };
     
-    [self.userDefaults saveGalleryInfoInUserDefaults:galleryInfo.mutableCopy];
+    [self.userDefaults saveGalleryInfo:galleryInfo.mutableCopy];
+    
+    [self sendGalleriesInfoWasChangedNotification];
 }
 
 - (NSString *)getNextGalleryId {
@@ -79,6 +89,8 @@
                        forKey:@"photos"];
     
     [self.userDefaults resaveInfoForGallery:gallery.galleryID newInfo:galleryInfo];
+    
+    [self sendGalleriesInfoWasChangedNotification];
 }
 
 - (void)deleteGalleries:(NSSet<NSString *> *)galleryIDs inFolder:(NSString *)path {
@@ -96,6 +108,8 @@
             NSLog(@"%@", error);
         }
     }
+    
+    [self sendGalleriesInfoWasChangedNotification];
 }
 
 @end

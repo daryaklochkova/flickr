@@ -99,7 +99,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
                                                                 object:nil];
         });
         
-        [self getPrimaryPhotosFor:strongSelf.galleries];
+        [strongSelf getPrimaryPhotosFor:strongSelf.galleries];
     };
     
     return block;
@@ -115,19 +115,23 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     }
 }
 
-- (void)getPrimaryPhotosFor:(NSArray<Gallery *> *)galleries{
+- (void)getPrimaryPhotosFor:(NSArray<Gallery *> *)galleries {
     
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         for (NSInteger i = 0; i < galleries.count; i++) {
             Gallery *gallery = [galleries objectAtIndex:i];
-            [self getPrimaryPhotoFor:gallery galleryIndex:i];
+            [weakSelf getPrimaryPhotoFor:gallery galleryIndex:i];
         }
     });
 }
 
 - (void)getPrimaryPhotoFor:(Gallery *) gallery galleryIndex:(NSInteger)index {
-    NSDictionary *dictionary = @{locationKey:[gallery getLocalPathForPrimaryPhoto], galleryIndex:[NSNumber numberWithInteger:index]};
+    NSDictionary *dictionary = @{
+                                 locationKey:[gallery getLocalPathForPrimaryPhoto],
+                                 galleryIndex:[NSNumber numberWithInteger:index]
+                                 };
     
     NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:PrimaryPhotoDownloadComplite object:dictionary];
     
@@ -158,6 +162,18 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 - (void)deleteGallery:(NSSet<NSString *> *)galleryIDs {
     [self.dataProvider deleteGalleries:galleryIDs inFolder:self.owner.userFolder];    
     [self updateContent];
+}
+
+- (NSInteger)getIndexForGallery:(NSString *)galleryID {
+    for (int i = 0; i < self.galleries.count; i++) {
+        Gallery *gallery = [self.galleries objectAtIndex:i];
+        
+        if ([gallery.galleryID isEqualToString:galleryID]) {
+            return i;
+        }
+    }
+    
+    return -1;
 }
 
 @end

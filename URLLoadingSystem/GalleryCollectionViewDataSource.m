@@ -12,6 +12,8 @@
 #import "PhotoCollectionViewCell.h"
 #import "UICollectionView.h"
 
+typedef void(^returnImageBlock)(UIImage *image);
+
 @interface GalleryCollectionViewDataSource()
 @property (strong, nonatomic) Gallery *gallery;
 @property (strong, nonatomic) NSString *cellIdentifier;
@@ -51,10 +53,27 @@
         
         Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
         
-        [self setPhoto:photo toCell:photoCell];
+        [self loadPhotoFromCashe:photo completionHandler:^(UIImage *image) {
+            [self setImage:image toCell:photoCell];
+        }];
     }
     
     return cell;
+}
+
+- (void)loadPhotoFromCashe:(Photo *)photo completionHandler:(returnImageBlock)completionHandler {
+    NSString *filePath = [self.gallery getLocalPathForPhoto:photo];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        @autoreleasepool {
+            UIImage *image = [UIImage imageWithContentsOfFile:filePath];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completionHandler(image);
+            });
+        }
+    });
 }
 
 
@@ -67,44 +86,40 @@
     if (cell) {
         Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
         if ([cell conformsToProtocol:@protocol(PhotoCell)]) {
-            [self setPhoto:photo toCell:(id <PhotoCell>)cell];
+            [self loadPhotoFromCashe:photo completionHandler:^(UIImage *image) {
+                [self setImage:image toCell:(id<PhotoCell>)cell];
+            }];
         }
     }
 }
 
-- (BOOL)setPhoto:(Photo *)photo toCell:(id <PhotoCell>)cell {
-    NSString *filePath = [self.gallery getLocalPathForPhoto:photo];
-    @autoreleasepool {
-        UIImage *image = [UIImage imageWithContentsOfFile:filePath];
-        if (image) {
-            [cell setImageToImageView:image];
-            return YES;
-        }
+- (BOOL)setImage:(UIImage *)image toCell:(id <PhotoCell>)cell {
+    if (image) {
+        [cell setImageToImageView:image];
+        return YES;
     }
     
     NSLog(@"%@ image doesn't exist", NSStringFromSelector(_cmd));
     [cell startActivityIndicator];
     return NO;
-
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     
-    UICollectionReusableView *supplementaryElement = nil;
-    
     if (kind == UICollectionElementKindSectionFooter) {
-        supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+        UICollectionReusableView *supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"Footer" forIndexPath:indexPath];
+        
+        return supplementaryElement;
     }
-    
-    if (kind == UICollectionElementKindSectionHeader) {
-        supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"GalleryHeader" forIndexPath:indexPath];
+    else {
+        UICollectionReusableView *supplementaryElement = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"GalleryHeader" forIndexPath:indexPath];
         
         GalleryHeaderCollectionReusableView *header = (GalleryHeaderCollectionReusableView *)supplementaryElement;
         
         header.titleTextField.text = self.gallery.title;
+        
+        return supplementaryElement;
     }
-    
-    return supplementaryElement;
 }
 
 @end

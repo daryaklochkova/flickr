@@ -29,8 +29,8 @@
     
 }
 
-- (void)getAdditionalPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler{
-    if ([self continuationExist]){
+- (void)getAdditionalPhotosForGallery:(NSString *)galleryID use:(ReturnResult) completionHandler {
+    if ([self continuationExist]) {
         ReturnResultWithContinuation returnBlock = [self createReturnResultWithContinuationWith:completionHandler];
         self.parser.responseParser = [[GetPhotosResponseParser alloc] initWith:returnBlock];
         [self sendRequest:[self GetRequestFields:galleryID]];
@@ -41,16 +41,16 @@
 }
 
 - (void)savePhotos:(nonnull NSArray *)images forGalleryID:(nonnull NSString *)gallery byPath:(nonnull NSString *)path {
-    
+    //flickr.galleries.addPhoto
 }
 
 
 - (void)savePrimaryPhoto:(id)image forGalleryID:(nonnull NSString *)galleryID byPath:(nonnull NSString *)path {
-    
+    //flickr.galleries.editPhotos
 }
 
 - (void)deletePhotos:(nonnull NSSet<NSString *> *)deletedPhotoNames inGallery:(nonnull NSString *)galleryID byGalleryPath:(nonnull NSString *)path {
-    
+    //flickr.galleries.removePhoto
 }
 
 - (NSDictionary *)GetRequestFields:(NSString *)galleryID {

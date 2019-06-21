@@ -10,6 +10,8 @@
 #import "GalleriesListProviderProtocol.h"
 #import "Gallery.h"
 
+extern const NSNotificationName GalleriesInfoWasChanged;
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LocalGalleriesListProvider : NSObject <GalleriesListProviderProtocol>
