@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Gallery.h"
 #import "GalleriesListProvider.h"
-#import "User.h"
+
+@class User;
 
 NS_ASSUME_NONNULL_BEGIN
 

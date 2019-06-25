@@ -34,7 +34,7 @@
 - (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
     
     if ([elementName isEqualToString:@"photos"]){
-        self.continuation = [attributeDict objectForKey:@"continuation"];
+        self.continuation = attributeDict[@"continuation"];
     }
     
     if ([elementName isEqualToString:@"photo"]){

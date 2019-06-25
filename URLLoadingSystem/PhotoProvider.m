@@ -9,6 +9,7 @@
 #import "PhotoProvider.h"
 #import "ParserProvider.h"
 #import "GetPhotosResponseParser.h"
+#import "DataProviderNetwork.h"
 
 
 @implementation PhotoProvider

@@ -30,8 +30,8 @@ const NSNotificationName dataParsingFailed = @"dataParsingFailed";
                                         attributes:(NSDictionary *)attributeDict {
     
     if ([elementName isEqualToString:@"err"]) {
-        NSString *message = [attributeDict objectForKey:@"msg"];
-        NSString *code = [attributeDict objectForKey:@"code"];
+        NSString *message = attributeDict[@"msg"];
+        NSString *code = attributeDict[@"code"];
         
         NSError *error = [NSError errorWithDomain:@"" code:[code intValue] userInfo:@{NSUnderlyingErrorKey:message}];
         [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{errorKey:error}];

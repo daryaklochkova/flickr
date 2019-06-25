@@ -7,7 +7,8 @@
 //
 
 #import "Gallery.h"
-
+#import "Photo.h"
+#import "User.h"
 
 @interface Gallery()
 @property (assign, nonatomic) BOOL isUpdateCanceld;
@@ -28,12 +29,12 @@ NSString * const photoIndex = @"photoIndex";
     self = [super init];
     
     if (self) {
-        _galleryID = [dictionary objectForKey:galleryIDArgumentName];
+        _galleryID = dictionary[galleryIDArgumentName];
         _folderPath = [self createGalleryFolder:user.userFolder];
         _owner = user;
         self.currentPage = 0;
-        self.title = [dictionary objectForKey:titleArgumentName];
-        self.galleryDescription = [dictionary objectForKey:descriptionArgumentName];
+        self.title = dictionary[titleArgumentName];
+        self.galleryDescription = dictionary[descriptionArgumentName];
         self.primaryPhoto = [[Photo alloc] initPrimaryPhotoWithDictionary:dictionary];
         self.isUpdateCanceld = NO;
         self.mutablePhotos = [NSMutableArray array];
@@ -53,18 +54,18 @@ NSString * const photoIndex = @"photoIndex";
 #pragma mark - Navigation
 
 - (Photo *)nextPhoto {
-    Photo *selectedPhoto = [self.photos objectAtIndex:[self nextPhotoIndex]];
+    Photo *selectedPhoto = self.photos[self.nextPhotoIndex];
     return selectedPhoto;
 }
 
 
 - (Photo *)previousPhoto {
-    Photo *selectedPhoto = [self.photos objectAtIndex:[self previousPhotoIndex]];
+    Photo *selectedPhoto = self.photos[self.previousPhotoIndex];
     return selectedPhoto;
 }
 
 - (Photo *)currentPhoto {
-    Photo *selectedPhoto = [self.photos objectAtIndex:self.selectedImageIndex];
+    Photo *selectedPhoto = self.photos[self.selectedImageIndex];
     return selectedPhoto;
 }
 
@@ -126,7 +127,7 @@ NSString * const photoIndex = @"photoIndex";
 - (void)reloadContent {
     //[self cancelGetData];
     
-    @synchronized (self) {
+    @synchronized (self.mutablePhotos) {
         self.isUpdateCanceld = NO;
         self.mutablePhotos = [NSMutableArray array];
     }
@@ -147,7 +148,7 @@ NSString * const photoIndex = @"photoIndex";
     NSMutableSet<NSString *> *deletedPhotosNames = [NSMutableSet set];
     
     for (NSNumber *index in indexes) {
-        Photo *deletedPhoto = [self.photos objectAtIndex:index.integerValue];
+        Photo *deletedPhoto = self.photos[index.integerValue];
         NSString *deletedName = deletedPhoto.name;
         [deletedPhotosNames addObject:deletedName];
     }
@@ -172,7 +173,7 @@ NSString * const photoIndex = @"photoIndex";
     __weak typeof(self) weakSelf = self;
     ReturnResult block = ^(NSArray * _Nullable result) {
         __strong typeof(self) strongSelf = weakSelf;
-        @synchronized (strongSelf) {
+        @synchronized (strongSelf.mutablePhotos) {
             [strongSelf.mutablePhotos addObjectsFromArray:result];
             strongSelf.photos = strongSelf.mutablePhotos;
         }
@@ -184,7 +185,7 @@ NSString * const photoIndex = @"photoIndex";
 
 
 - (void)cancelGetData {
-    @synchronized (self) {
+    @synchronized (self.mutablePhotos) {
         self.isUpdateCanceld = YES;
     }
     
@@ -196,23 +197,28 @@ NSString * const photoIndex = @"photoIndex";
 }
 
 
+- (NSNotification *)compliteDownloadNotificationAtPosition:(NSInteger)index forPhoto:(Photo *)photo {
+    NSDictionary *dictionary = @{locationKey:[self getLocalPathForPhoto:photo], photoIndex:[NSNumber numberWithInteger:index]};
+    
+    NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:fileDownloadComplite object:dictionary];
+    return fileDownloadCompliteNotification;
+}
+
 - (void)elementsParsed:(NSArray<Photo *> *)photos {
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [[NSNotificationCenter defaultCenter] postNotificationName:PhotosInformationReceived object:nil];
     });
     
-    for (NSInteger i = 0; i < photos.count; i++) {
-        if (!self.isUpdateCanceld){
-            Photo * photo = [photos objectAtIndex:i];
-            
-            NSDictionary *dictionary = @{locationKey:[self getLocalPathForPhoto:photo], photoIndex:[NSNumber numberWithInteger:i]};
-            
-            NSNotification *fileDownloadCompliteNotification = [NSNotification notificationWithName:fileDownloadComplite object:dictionary];
-            
-            [self getPhoto:photo sucsessNotification:fileDownloadCompliteNotification];
+    __weak typeof(self) weakSelf = self;
+    [photos enumerateObjectsWithOptions:NSEnumerationConcurrent usingBlock:^(Photo * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        __strong typeof(self) strongSelf = weakSelf;
+        if (!strongSelf.isUpdateCanceld) {
+            NSNotification * fileDownloadCompliteNotification = [strongSelf compliteDownloadNotificationAtPosition:idx forPhoto:obj];            
+            [strongSelf getPhoto:obj sucsessNotification:fileDownloadCompliteNotification];
         }
-    }
+    }];
 }
 
 

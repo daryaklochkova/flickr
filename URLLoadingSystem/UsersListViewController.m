@@ -46,7 +46,7 @@
     if ([destinationVC isKindOfClass:[GalleriesListViewController class]]){
         GalleriesListViewController *galleriesListVC = (GalleriesListViewController *)destinationVC;
         NSInteger index = [self.selectedRow indexAtPosition:1];
-        galleriesListVC.owner = [self.usersList objectAtIndex:index];
+        galleriesListVC.owner = self.usersList[index];
     }
 }
 
@@ -61,7 +61,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell"];
     
     NSInteger index = [indexPath indexAtPosition:1];
-    cell.textLabel.text = [self.usersList objectAtIndex:index].userName;
+    cell.textLabel.text = self.usersList[index].userName;
 
     return cell;
 }

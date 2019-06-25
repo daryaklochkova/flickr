@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "Gallery.h"
+
+@class Gallery;
 
 NS_ASSUME_NONNULL_BEGIN
 

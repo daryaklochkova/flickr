@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "User.h"
-#import "ListOfGalleries.h"
-#import "Gallery.h"
+
+@class Gallery;
+@class User;
+@class ListOfGalleries;
 
 NS_ASSUME_NONNULL_BEGIN
 

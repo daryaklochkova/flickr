@@ -7,7 +7,7 @@
 //
 
 #import "NetworkManager.h"
-
+#import "Constants.h"
 
 @implementation NetworkManager
 
@@ -63,10 +63,8 @@
             NSCachedURLResponse *cachedResponce = [cache cachedResponseForRequest:request];
             
             if (cachedResponce) {
-                __weak id<Parser> weakParser = parser;
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    __strong id<Parser> strongParser = weakParser;
-                    [strongParser parse:cachedResponce.data];
+                    [parser parse:cachedResponce.data];
                 });
                 succcessBlock(cachedResponce.data);
             }
@@ -108,18 +106,18 @@
     return task;
 }
 
-- (void)cancelDownloadTasksWithUrl:(NSURL *)url{ //NSOperationQueue?
+- (void)cancelDownloadTasksWithUrl:(NSURL *)url {
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         
         for (NSURLSessionDownloadTask *downloadTask in downloadTasks) {
-            if ([downloadTask.originalRequest.URL isEqual:url]){
+            if ([downloadTask.originalRequest.URL isEqual:url]) {
                 [downloadTask cancel];
             }
         }
     }];
 }
 
-- (void)cancelDataTasksWithUrl:(NSURL *)url{
+- (void)cancelDataTasksWithUrl:(NSURL *)url {
     [self.defaultSession getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         
         for (NSURLSessionDataTask *task in dataTasks) {
@@ -138,12 +136,12 @@
     [queryItems addObject:apiKeyItem];
     
     for (NSString *key in requestFields) {
-        NSString *value = [requestFields objectForKey:key];
+        NSString *value = requestFields[key];
         NSURLQueryItem *item = [NSURLQueryItem queryItemWithName:key value:value];
         [queryItems addObject:item];
     }
     
-    NSString *format = [requestFields objectForKey:[formatArgumentName copy]];
+    NSString *format = requestFields[[formatArgumentName copy]];
     if ([format isEqualToString:@"json"]) {
         NSURLQueryItem *item = [NSURLQueryItem queryItemWithName:@"nojsoncallback" value:@"1"];
         [queryItems addObject:item];

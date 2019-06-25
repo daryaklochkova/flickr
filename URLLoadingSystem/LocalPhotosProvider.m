@@ -8,6 +8,7 @@
 
 #import "LocalPhotosProvider.h"
 #import "NSUserDefaults.h"
+#import "Photo.h"
 
 const NSNotificationName PhotosInGalleryWasChanged = @"PhotosInGalleryWasChanged";
 const NSString *changedGalleryKey = @"PhotosInGalleryWasChangedKey";
@@ -67,14 +68,14 @@ sucsessNotification:(nonnull NSNotification *)notification {
     NSDictionary *targetInfo = [self.userDefaults getInfoForGallery:galleryID];
     NSMutableDictionary *mutableInfo = targetInfo.mutableCopy;
     
-    NSArray *photos = [targetInfo objectForKey:@"photos"];
+    NSArray *photos = targetInfo[@"photos"];
     
     NSString *lastPhotoName = [photos lastObject];
     int lastNumber = [[lastPhotoName componentsSeparatedByString:@"_"][1] intValue];
     NSMutableArray *matablePhotos = [NSMutableArray arrayWithArray:photos];
     
     for (int i = 0; i < images.count; i++) {
-        UIImage *image = [images objectAtIndex:i];
+        UIImage *image = images[i];
         NSString *fileName = [NSString stringWithFormat:@"%@_%ld", galleryID, (long)(i + lastNumber + 1)];
         [self saveImage:image named:fileName byPath:path];
         [matablePhotos addObject:fileName];

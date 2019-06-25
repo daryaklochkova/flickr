@@ -11,6 +11,7 @@
 #import "UIScrollView.h"
 #import "PhotoCollectionViewCell.h"
 #import "MainPhotoCollectionViewCell.h"
+#import "Gallery.h"
 
 @interface PhotoViewController () <UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityIndicator;

@@ -8,7 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "ResponseParser.h"
-#import "Gallery.h"
+
+@class Gallery;
 
 extern const NSNotificationName _Nullable GalleriesInfoWasChanged;
 

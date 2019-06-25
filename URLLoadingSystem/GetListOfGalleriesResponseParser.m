@@ -35,7 +35,7 @@
 
 - (void)foundCharacters:(NSString *)string {
     if ([self.currentElement isEqualToString:@"title"]) {
-        NSString *title = [self.currentGalleryDictionary objectForKey:@"title"];
+        NSString *title = self.currentGalleryDictionary[@"title"];
         if (!title) {
             title = [NSString string];
         }
@@ -45,7 +45,7 @@
     }
     
     if ([self.currentElement isEqualToString:@"description"]) {
-        NSString *description = [self.currentGalleryDictionary objectForKey:@"description"];
+        NSString *description = self.currentGalleryDictionary[@"description"];
         if (!description) {
             description = [NSString string];
         }
@@ -61,11 +61,11 @@
 - (void)didStartElement:(NSString *)elementName attributes:(NSDictionary *)attributeDict{
     
     if ([elementName isEqualToString:@"galleries"]){
-        self.continuation = [attributeDict objectForKey:@"continuation"];
+        self.continuation = attributeDict[@"continuation"];
         
-        NSDictionary *galleries = [attributeDict objectForKey:@"galleries"];
+        NSDictionary *galleries = attributeDict[@"galleries"];
         if (galleries) {
-            self.continuation = [galleries objectForKey:@"continuation"];
+            self.continuation = galleries[@"continuation"];
         }
     }
     

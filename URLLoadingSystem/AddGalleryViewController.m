@@ -13,6 +13,9 @@
 #import "GalleryPhotosViewController.h"
 #import "AlertManager.h"
 #import "WorkModes.h"
+#import "User.h"
+#import "ListOfGalleries.h"
+#import "Gallery.h"
 
 @interface AddGalleryViewController ()
 @property (weak, nonatomic) IBOutlet UITextView *descriptionTextView;
@@ -89,37 +92,38 @@
 #pragma mark - Keyboard notifications
 
 - (void)keyboardWillShow:(NSNotification*)notification {
-    NSDictionary *info = [notification userInfo];
-    CGRect keyboardFrame = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    static NSInteger spaceToKeyboard = 5;
     
     CGRect fieldFrame;
     if ([self.descriptionTextView isFirstResponder]) {
-        fieldFrame = [self.descriptionTextView convertRect:self.descriptionTextView.frame toView:self.view];
+        fieldFrame = [self.descriptionTextView.superview convertRect:self.descriptionTextView.frame toView:self.view];
     }
     else if ([self.galleryTitleTextField isFirstResponder]) {
-        fieldFrame = [self.galleryTitleTextField convertRect:self.galleryTitleTextField.frame toView:self.view];
+        fieldFrame = [self.galleryTitleTextField.superview convertRect:self.galleryTitleTextField.frame toView:self.view];
     }
     else {
         return;
     }
  
-    fieldFrame.size.height += 5;
+    fieldFrame.size.height += spaceToKeyboard;
+    
+    NSDictionary *info = [notification userInfo];
+    CGRect keyboardFrame = [info[UIKeyboardFrameEndUserInfoKey] CGRectValue];
     
     if (CGRectIntersectsRect(fieldFrame, keyboardFrame)) {
         CGSize keyboardSize = keyboardFrame.size;
-        CGFloat distanceToBottom = (self.view.frame.size.height - fieldFrame.size.height - fieldFrame.origin.y - 5);
-        CGFloat diff = keyboardSize.height - distanceToBottom;
-        UIEdgeInsets contentInsets = UIEdgeInsetsMake(-diff, 0.0, 0.0, 0.0);
-        self.scrollView.contentInset = contentInsets;
-        self.scrollView.scrollIndicatorInsets = contentInsets;
+        CGFloat distanceToBottom = (self.view.frame.size.height - fieldFrame.size.height - fieldFrame.origin.y + spaceToKeyboard);
+        CGFloat diff = keyboardSize.height - distanceToBottom + spaceToKeyboard;
+        CGPoint point = CGPointMake(self.scrollView.contentOffset.x, self.scrollView.contentOffset.y + diff);
+        [self.scrollView setContentOffset:point animated:YES];
     }
 }
 
 
 - (void)keyboardWillHide:(NSNotification*)notification {
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
+//    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
+//    self.scrollView.contentInset = contentInsets;
+//    self.scrollView.scrollIndicatorInsets = contentInsets;
 }
 
 #pragma mark - UITextFieldDelegate

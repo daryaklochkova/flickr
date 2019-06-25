@@ -16,6 +16,10 @@
 #import "PhotoCollectionViewCell.h"
 #import "AlertManager.h"
 #import "LocalPhotosProvider.h"
+#import "Gallery.h"
+#import "PhotoViewController.h"
+#import "JSONParser.h"
+
 
 @interface GalleryPhotosViewController()
 

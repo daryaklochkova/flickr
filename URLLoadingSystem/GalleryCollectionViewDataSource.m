@@ -11,6 +11,7 @@
 #import "GalleryHeaderCollectionReusableView.h"
 #import "PhotoCollectionViewCell.h"
 #import "UICollectionView.h"
+#import "Gallery.h"
 
 typedef void(^returnImageBlock)(UIImage *image);
 
@@ -51,10 +52,12 @@ typedef void(^returnImageBlock)(UIImage *image);
         CGSize cellSize = [collectionView getCellSizeAtIndexPath:indexPath];
         [photoCell configureViewWithSize:cellSize];
         
-        Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
+        NSInteger index = [indexPath indexAtPosition:1];
+        Photo *photo = self.gallery.photos[index];
         
+        __weak typeof(self) weakSelf = self;
         [self loadPhotoFromCashe:photo completionHandler:^(UIImage *image) {
-            [self setImage:image toCell:photoCell];
+            [weakSelf setImage:image toCell:photoCell];
         }];
     }
     
@@ -66,13 +69,11 @@ typedef void(^returnImageBlock)(UIImage *image);
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        @autoreleasepool {
             UIImage *image = [UIImage imageWithContentsOfFile:filePath];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(image);
             });
-        }
     });
 }
 
@@ -84,10 +85,13 @@ typedef void(^returnImageBlock)(UIImage *image);
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     
     if (cell) {
-        Photo *photo = [self.gallery.photos objectAtIndex:[indexPath indexAtPosition:1]];
+        NSInteger index = [indexPath indexAtPosition:1];
+        Photo *photo = self.gallery.photos[index];
+        
         if ([cell conformsToProtocol:@protocol(PhotoCell)]) {
+            __weak typeof(self) weakSelf = self;
             [self loadPhotoFromCashe:photo completionHandler:^(UIImage *image) {
-                [self setImage:image toCell:(id<PhotoCell>)cell];
+                [weakSelf setImage:image toCell:(id<PhotoCell>)cell];
             }];
         }
     }

@@ -23,7 +23,7 @@
 - (NSString *)createUserFolder:(NSSearchPathDirectory) baseDirectory {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(baseDirectory, NSUserDomainMask, YES);
     
-    NSString *directory = [paths objectAtIndex:0];
+    NSString *directory = paths[0];
     NSString *userDir = [directory stringByAppendingPathComponent:self.userID];
     
     NSError *error = nil;

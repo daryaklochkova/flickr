@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GalleriesListProviderProtocol.h"
-#import "Gallery.h"
+
 
 extern const NSNotificationName GalleriesInfoWasChanged;
 

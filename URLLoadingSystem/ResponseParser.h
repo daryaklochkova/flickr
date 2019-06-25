@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Constants.h"
-#import "Photo.h"
 
+@class Photo;
 
 typedef void(^ReturnResult)(NSArray * _Nullable result);
 typedef void(^ReturnGalleriesResult)(NSArray * _Nullable result);

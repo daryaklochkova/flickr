@@ -21,10 +21,10 @@
     }
     else {
         
-        NSString *status = [jsonDictionary objectForKey:@"stat"];
+        NSString *status = jsonDictionary[@"stat"];
         if ([status isEqualToString:@"fail"]){
-            NSString *message = [jsonDictionary objectForKey:@"message"];
-            NSString *code = [jsonDictionary objectForKey:@"code"];
+            NSString *message = jsonDictionary[@"message"];
+            NSString *code = jsonDictionary[@"code"];
             
             NSError *error = [NSError errorWithDomain:@"" code:[code intValue] userInfo:@{NSUnderlyingErrorKey:message}];
             [[NSNotificationCenter defaultCenter] postNotificationName:dataParsingFailed object:@{errorKey:error}];
@@ -38,7 +38,7 @@
 - (void)parseDictionary:(NSDictionary *)dictionary{
     
     for (NSString *key in dictionary) {
-        id obj = [dictionary objectForKey:key];
+        id obj = dictionary[key];
         if ([obj isKindOfClass:[NSArray class]]){
             for (id elem in obj) {
                 [self.responseParser didStartElement:key attributes:elem];

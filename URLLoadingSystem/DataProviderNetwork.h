@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NetworkManager.h"
 #import "ParserProtocol.h"
-#import "Photo.h"
 
+
+@class Photo;
+@class NetworkManager;
 
 NS_ASSUME_NONNULL_BEGIN
 

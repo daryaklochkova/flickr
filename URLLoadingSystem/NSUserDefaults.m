@@ -19,7 +19,7 @@
 - (NSDictionary *)getInfoForGallery:(NSString * _Nullable)galleryID {
     NSArray *localGalleriesInfo = [self getLocalGalleriesInfo];
     for (NSDictionary *galleryInfo in localGalleriesInfo) {
-        NSString *tmpGalleryID = [galleryInfo objectForKey:galleryIDArgumentName];
+        NSString *tmpGalleryID = galleryInfo[galleryIDArgumentName];
         if ([tmpGalleryID isEqualToString:galleryID]) {
             return galleryInfo;
         }
@@ -34,7 +34,7 @@
     NSMutableArray *newLocalGalleriesInfo = [NSMutableArray array];
     
     for (NSDictionary *galleryInfo in localGalleriesInfo) {
-        NSString *tmpGalleryID = [galleryInfo objectForKey:galleryIDArgumentName];
+        NSString *tmpGalleryID = galleryInfo[galleryIDArgumentName];
         if ([tmpGalleryID isEqualToString:galleryID]) {
             [newLocalGalleriesInfo addObject:newGalleryInfo];
         }
@@ -73,7 +73,7 @@
     NSMutableArray *newLocalGalleriesInfo = [NSMutableArray array];
     
     for (NSDictionary *galleryInfo in localGalleriesInfo) {
-        NSString *tmpGalleryID = [galleryInfo objectForKey:galleryIDArgumentName];
+        NSString *tmpGalleryID = galleryInfo[galleryIDArgumentName];
         if (![tmpGalleryID isEqualToString:galleryID]) {
             [newLocalGalleriesInfo addObject:galleryInfo];
         }

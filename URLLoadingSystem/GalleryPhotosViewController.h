@@ -8,10 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "Gallery.h"
-#import "PhotoViewController.h"
-#import "JSONParser.h"
 #import "WorkModes.h"
+
+@class Gallery;
 
 NS_ASSUME_NONNULL_BEGIN
 

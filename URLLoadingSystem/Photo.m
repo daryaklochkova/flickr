@@ -14,17 +14,17 @@
     self = [super init];
     
     if (self){
-        _photoID = [dictionary objectForKey:@"id"];
-        _owner = [dictionary objectForKey:@"owner"];
-        _secret = [dictionary objectForKey:@"secret"];
-        _server = [dictionary objectForKey:@"server"];
-        _farm = [dictionary objectForKey:@"farm"];
-        _title = [dictionary objectForKey:@"title"];
-        _isPublic = [dictionary objectForKey:@"ispublic"];
-        _isFriend = [dictionary objectForKey:@"isfriend"];
-        _isFamily = [dictionary objectForKey:@"isfamily"];
-        _isPrimary = [dictionary objectForKey:@"is_primary"];
-        _hasComment = [dictionary objectForKey:@"has_comment"];
+        _photoID = dictionary[@"id"];
+        _owner = dictionary[@"owner"];
+        _secret = dictionary[@"secret"];
+        _server = dictionary[@"server"];
+        _farm = dictionary[@"farm"];
+        _title = dictionary[@"title"];
+        _isPublic = dictionary[@"ispublic"];
+        _isFriend = dictionary[@"isfriend"];
+        _isFamily = dictionary[@"isfamily"];
+        _isPrimary = dictionary[@"is_primary"];
+        _hasComment = dictionary[@"has_comment"];
         _remoteURL = [self getPhotoURL];
         
         if (self.farm) {
@@ -41,11 +41,11 @@
     self = [super init];
     
     if (self){
-        _photoID = [dictionary objectForKey:@"primary_photo_id"];
-        _owner = [dictionary objectForKey:@"owner"];
-        _secret = [dictionary objectForKey:@"primary_photo_secret"];
-        _server = [dictionary objectForKey:@"primary_photo_server"];
-        _farm = [dictionary objectForKey:@"primary_photo_farm"];
+        _photoID = dictionary[@"primary_photo_id"];
+        _owner = dictionary[@"owner"];
+        _secret = dictionary[@"primary_photo_secret"];
+        _server = dictionary[@"primary_photo_server"];
+        _farm = dictionary[@"primary_photo_farm"];
         _remoteURL = [self getPhotoURL];
         
         if (self.farm) {

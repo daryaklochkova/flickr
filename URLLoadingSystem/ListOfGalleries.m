@@ -9,6 +9,7 @@
 #import "ListOfGalleries.h"
 #import "LocalPhotosProvider.h"
 #import "PermissionManager.h"
+#import "User.h"
 
 NSNotificationName const PrimaryPhotoDownloadComplite = @"primaryPhotoDownloadComplite";
 NSString *const galleryIndex = @"galleryIndex";
@@ -85,8 +86,8 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 }
 
 - (ReturnResult)handleRequestResult {
-    __weak typeof(self) weakSelf = self;
     
+    __weak typeof(self) weakSelf = self;
     ReturnResult block = ^(NSArray * _Nullable result) {
         __strong typeof(self) strongSelf = weakSelf;
         
@@ -119,11 +120,12 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
     
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        __strong typeof(self) strongSelf = weakSelf;
         
-        for (NSInteger i = 0; i < galleries.count; i++) {
-            Gallery *gallery = [galleries objectAtIndex:i];
-            [weakSelf getPrimaryPhotoFor:gallery galleryIndex:i];
-        }
+        [galleries enumerateObjectsUsingBlock:^(Gallery * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [strongSelf getPrimaryPhotoFor:obj galleryIndex:idx];
+        }];
+        
     });
 }
 
@@ -152,7 +154,7 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 }
 
 - (Gallery *)getGalleryAtIndex:(NSInteger) index{
-    return [self.galleries objectAtIndex:index];
+    return self.galleries[index];
 }
 
 - (NSArray<Gallery *> *)getGalleries{
@@ -165,15 +167,17 @@ NSNotificationName const ListOfGalleriesSuccessfulRecieved = @"ListOfGalleriesRe
 }
 
 - (NSInteger)getIndexForGallery:(NSString *)galleryID {
-    for (int i = 0; i < self.galleries.count; i++) {
-        Gallery *gallery = [self.galleries objectAtIndex:i];
-        
-        if ([gallery.galleryID isEqualToString:galleryID]) {
-            return i;
-        }
-    }
+
+    __block NSInteger index = -1;
     
-    return -1;
+    [self.galleries enumerateObjectsUsingBlock:^(Gallery * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj.galleryID isEqualToString:galleryID]) {
+            index = idx;
+            *stop = YES;
+        }
+    }];
+    
+    return index;
 }
 
 @end

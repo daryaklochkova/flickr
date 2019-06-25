@@ -8,6 +8,8 @@
 
 #import "LocalGalleriesListProvider.h"
 #import "NSUserDefaults.h"
+#import "Gallery.h"
+#import "User.h"
 
 const NSNotificationName GalleriesInfoWasChanged = @"GalleriesInfoWasChanged";
 
@@ -81,11 +83,11 @@ const NSNotificationName GalleriesInfoWasChanged = @"GalleriesInfoWasChanged";
                                         gallery.owner.userID, [userIDArgumentName copy], nil];
     
     if ([info objectForKey:primaryPhotoIdArgumentName])
-        [galleryInfo setValue:[info objectForKey:primaryPhotoIdArgumentName]
+        [galleryInfo setValue:info[primaryPhotoIdArgumentName]
                        forKey:[primaryPhotoIdArgumentName copy]];
     
-    if ([info objectForKey:@"photos"])
-        [galleryInfo setValue:[info objectForKey:@"photos"]
+    if (info[@"photos"])
+        [galleryInfo setValue:info[@"photos"]
                        forKey:@"photos"];
     
     [self.userDefaults resaveInfoForGallery:gallery.galleryID newInfo:galleryInfo];

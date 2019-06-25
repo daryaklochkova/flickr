@@ -10,6 +10,7 @@
 #import "ParserProvider.h"
 #import "GetListOfGalleriesResponseParser.h"
 
+
 @interface GalleriesListProvider()
 @end
 

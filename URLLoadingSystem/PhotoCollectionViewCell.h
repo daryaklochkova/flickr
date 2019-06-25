@@ -12,12 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface PhotoCollectionViewCell : UICollectionViewCell <PhotoCell, SelectableCellProtocol>
 
-
-
 @end
-
 
 NS_ASSUME_NONNULL_END

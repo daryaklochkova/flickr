@@ -63,19 +63,17 @@
     
     for (NSIndexPath *indexPath in indexes) {
         NSUInteger index = [indexPath indexAtPosition:1];
-        PHAsset *asset = [self.assets objectAtIndex:index];
+        PHAsset *asset = self.assets[index];
         
         CGSize size = CGSizeMake(asset.pixelWidth, asset.pixelWidth);
         
-        @autoreleasepool {
-            [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
-                __strong typeof(self) strongSelf = weakSelf;
-                
-                @synchronized(strongSelf) {
-                    [strongSelf.selectedImages addObject:result];
-                }
-            }];
-        }
+        [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeDefault options:imageOptions resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+            __strong typeof(self) strongSelf = weakSelf;
+            
+            @synchronized(strongSelf) {
+                [strongSelf.selectedImages addObject:result];
+            }
+        }];
     }
 }
 
@@ -115,7 +113,7 @@
     [cell configureViewWithSize:cellSize];
     
     NSUInteger index = [indexPath indexAtPosition:1];
-    PHAsset *asset = [self.assets objectAtIndex:index];
+    PHAsset *asset = self.assets[index];
     
     [self.cachingManager requestImageForAsset:asset targetSize:cellSize contentMode:PHImageContentModeDefault options:[[PHImageRequestOptions alloc] init] resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         cell.imageView.image = result;
@@ -175,16 +173,16 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *image = info[UIImagePickerControllerEditedImage];
     
+    __weak typeof(self) weakSelf = self;
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         [PHAssetChangeRequest creationRequestForAssetFromImage:image];
     } completionHandler:^(BOOL success, NSError * _Nullable error) {
+        __strong typeof(self) strongSelf = weakSelf;
         if (error) {
             NSLog (@"%@", error);
         } else {
             
-            __weak typeof(self) weakSelf = self;
             dispatch_async(dispatch_get_main_queue(), ^{
-                __strong typeof(self) strongSelf = weakSelf;
                 [strongSelf.photosCollectionView moveAllSelectedIndexes:1];
                 [strongSelf fetchAssetsFromPhotoLibrary];
                 [strongSelf.photosCollectionView reloadData];
@@ -193,8 +191,10 @@
     }];
     
     [picker dismissViewControllerAnimated:YES completion:NULL];
-
+    
 }
+
+#pragma mark -Navigation
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     [picker dismissViewControllerAnimated:YES completion:NULL];

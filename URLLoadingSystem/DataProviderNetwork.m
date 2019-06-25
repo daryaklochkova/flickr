@@ -7,6 +7,8 @@
 //
 
 #import "DataProviderNetwork.h"
+#import "NetworkManager.h"
+#import "Photo.h"
 
 const NSNotificationName dataFetchError = @"dataFetchError";
 const NSNotificationName downloadFileError = @"downloadFileError";
@@ -28,7 +30,7 @@ const NSNotificationName downloadFileError = @"downloadFileError";
     return self;
 }
 
-- (void)sendRequest:(NSDictionary *) requestFields{
+- (void)sendRequest:(NSDictionary *)requestFields {
     
     failBlock failBlock = ^(NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{

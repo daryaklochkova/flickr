@@ -70,6 +70,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self.listOfGalleriesCollectionView.collectionViewLayout invalidateLayout];
     
     if (self.workMode == editMode) {
         [self editingDone:self.editItem];

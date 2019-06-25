@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import "Photo.h"
 #import "PhotoProvider.h"
-#import "User.h"
+
+@class User;
+@class Photo;
+
 
 NS_ASSUME_NONNULL_BEGIN
 

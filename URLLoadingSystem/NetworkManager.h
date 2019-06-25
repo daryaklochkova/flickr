@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "ParserProtocol.h"
-#import "Constants.h"
 
 typedef void(^successDataTaskBlock)(NSData * _Nullable responseData);
 typedef void(^successDownloadTaskBlock)(NSURL * _Nullable location);
